@@ -22,6 +22,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <undertow.version>1.0.9.Final</undertow.version>
     <slf4j.version>1.7.7</slf4j.version>
+    <myfaces.version>2.2.3</myfaces.version>
+    <jstl.version>1.2</jstl.version>
+    <juel.version>2.2.7</juel.version>
   </properties>
 
   <build>
@@ -62,6 +65,8 @@
   <modules>
     <module>core</module>
     <module>server</module>
+    <module>module-api</module>
+    <module>module-myfaces</module>
     <module>showcase</module>
   </modules>
 
@@ -78,6 +83,16 @@
         <artifactId>backset-server</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-myfaces</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>io.undertow</groupId>
@@ -88,6 +103,39 @@
         <groupId>io.undertow</groupId>
         <artifactId>undertow-servlet</artifactId>
         <version>${undertow.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.myfaces.core</groupId>
+        <artifactId>myfaces-api</artifactId>
+        <version>${myfaces.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.myfaces.core</groupId>
+        <artifactId>myfaces-impl</artifactId>
+        <version>${myfaces.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>de.odysseus.juel</groupId>
+        <artifactId>juel-api</artifactId>
+        <version>${juel.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.odysseus.juel</groupId>
+        <artifactId>juel-impl</artifactId>
+        <version>${juel.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.odysseus.juel</groupId>
+        <artifactId>juel-spi</artifactId>
+        <version>${juel.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+        <version>${jstl.version}</version>
       </dependency>
 
       <dependency>
