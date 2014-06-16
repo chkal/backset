@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.chkal.backset.core.annotation.ReflectionsAnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.api.ModuleContext;
@@ -39,7 +40,8 @@ public class Backset {
 
   public void start() {
 
-    ModuleContext moduleContext = new ModuleContext();
+    ReflectionsAnnotationDatabase annotationDatabase = new ReflectionsAnnotationDatabase();
+    ModuleContext moduleContext = new ModuleContext(annotationDatabase);
 
     for (Module module : moduleProvider.getModules(classLoader)) {
       log.info("Starting module: {}", module.getClass().getName());

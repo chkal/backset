@@ -7,7 +7,11 @@ public class MyFacesModule implements Module {
 
   @Override
   public void init(ModuleContext context) {
+
     context.register(new MyFacesDeploymentEnricher());
+
+    MyFacesAnnotationProvider.init(context.getAnnotationDatabase());
+
   }
 
   @Override

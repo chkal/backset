@@ -25,6 +25,7 @@
     <myfaces.version>2.2.3</myfaces.version>
     <jstl.version>1.2</jstl.version>
     <juel.version>2.2.7</juel.version>
+    <reflections.version>0.9.9-RC1</reflections.version>
   </properties>
 
   <build>
@@ -147,6 +148,11 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.reflections</groupId>
+        <artifactId>reflections</artifactId>
+        <version>${reflections.version}</version>
       </dependency>
 
     </dependencies>
