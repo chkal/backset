@@ -33,7 +33,7 @@ public class ReflectionsAnnotationDatabase implements AnnotationDatabase {
 
   }
 
-  public Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotationType) {
+  public Set<Class<?>> getTypes(Class<? extends Annotation> annotationType) {
     return reflections.getTypesAnnotatedWith(annotationType);
   }
 

@@ -39,7 +39,7 @@ public class MyFacesAnnotationProvider extends AnnotationProvider {
 
   public static void init(AnnotationDatabase annotationDatabase) {
     for (Class<? extends Annotation> clazz : TYPES) {
-      typeMap.put(clazz, annotationDatabase.getTypesAnnotatedWith(clazz));
+      typeMap.put(clazz, annotationDatabase.getTypes(clazz));
     }
   }
 

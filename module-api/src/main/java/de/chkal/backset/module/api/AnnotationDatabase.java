@@ -5,6 +5,6 @@ import java.util.Set;
 
 public interface AnnotationDatabase {
 
-  Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotationType);
+  Set<Class<?>> getTypes(Class<? extends Annotation> annotation);
 
 }
