@@ -46,6 +46,12 @@
       <artifactId>jstl</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-test-harness</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
 </project>
