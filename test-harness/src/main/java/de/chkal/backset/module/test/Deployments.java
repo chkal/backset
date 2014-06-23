@@ -38,7 +38,9 @@ public class Deployments {
     JavaArchive archive = ShrinkWrap.create(JavaArchive.class)
         .addPackages(true, "de.chkal.backset.module.myfaces")
         .addAsServiceProvider("de.chkal.backset.module.api.Module",
-            "de.chkal.backset.module.myfaces.MyFacesModule");
+            "de.chkal.backset.module.myfaces.MyFacesModule")
+        .addAsServiceProvider("org.apache.myfaces.spi.AnnotationProvider",
+            "de.chkal.backset.module.myfaces.MyFacesAnnotationProvider");
 
     JavaArchive[] dependencies = Maven.resolver()
         .loadPomFromFile("pom.xml")
