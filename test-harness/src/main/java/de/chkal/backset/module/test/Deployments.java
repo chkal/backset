@@ -61,4 +61,34 @@ public class Deployments {
 
   }
 
+  public static Archive<?> getBacksetOpenWebBeans() {
+
+    JavaArchive archive = ShrinkWrap.create(JavaArchive.class)
+        .addPackages(true, "de.chkal.backset.module.owb")
+        .addAsServiceProvider("de.chkal.backset.module.api.Module",
+            "de.chkal.backset.module.owb.OpenWebBeansModule");
+
+    JavaArchive[] dependencies = Maven.resolver()
+        .loadPomFromFile("pom.xml")
+        .resolve(
+            "javax.enterprise:cdi-api",
+            "org.apache.openwebbeans:openwebbeans-spi",
+            "org.apache.openwebbeans:openwebbeans-impl",
+            "org.apache.openwebbeans:openwebbeans-web",
+            "org.apache.openwebbeans:openwebbeans-el22",
+            "de.odysseus.juel:juel-api",
+            "de.odysseus.juel:juel-impl",
+            "de.odysseus.juel:juel-spi"
+        )
+        .withTransitivity()
+        .as(JavaArchive.class);
+
+    for (JavaArchive dependency : dependencies) {
+      archive.merge(dependency);
+    }
+
+    return archive;
+
+  }
+
 }

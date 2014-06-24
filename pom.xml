@@ -30,6 +30,8 @@
     <assertj.version>1.6.1</assertj.version>
     <arquillian.version>1.1.4.Final</arquillian.version>
     <httpclient.version>4.3.4</httpclient.version>
+    <owb.version>1.2.6</owb.version>
+    <cdi.version>1.2</cdi.version>
   </properties>
 
   <build>
@@ -80,6 +82,7 @@
     <module>server</module>
     <module>module-api</module>
     <module>module-myfaces</module>
+    <module>module-owb</module>
     <module>showcase</module>
   </modules>
 
@@ -110,6 +113,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-myfaces</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-owb</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -203,6 +211,33 @@
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${httpclient.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <version>${cdi.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.openwebbeans</groupId>
+        <artifactId>openwebbeans-spi</artifactId>
+        <version>${owb.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.openwebbeans</groupId>
+        <artifactId>openwebbeans-impl</artifactId>
+        <version>${owb.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.openwebbeans</groupId>
+        <artifactId>openwebbeans-web</artifactId>
+        <version>${owb.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.openwebbeans</groupId>
+        <artifactId>openwebbeans-el22</artifactId>
+        <version>${owb.version}</version>
       </dependency>
 
     </dependencies>
