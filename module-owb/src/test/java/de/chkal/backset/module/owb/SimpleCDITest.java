@@ -19,8 +19,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.chkal.backset.module.test.Deployments;
-import de.chkal.backset.module.test.merge.ArchiveMerger;
+import de.chkal.backset.module.test.BacksetBundleBuilder;
 
 @RunWith(Arquillian.class)
 @Ignore
@@ -31,10 +30,9 @@ public class SimpleCDITest {
 
     JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar");
 
-    return ArchiveMerger.create(archive)
-        .merge(Deployments.getBacksetBase())
-        .merge(Deployments.getBacksetOpenWebBeans())
-        .getResult();
+    return BacksetBundleBuilder.create(archive)
+        .withOpenWebBeansModule()
+        .build();
 
   }
 

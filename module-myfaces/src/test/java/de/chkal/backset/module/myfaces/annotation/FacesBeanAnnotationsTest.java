@@ -19,8 +19,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.chkal.backset.module.test.Deployments;
-import de.chkal.backset.module.test.merge.ArchiveMerger;
+import de.chkal.backset.module.test.BacksetBundleBuilder;
 
 @RunWith(Arquillian.class)
 public class FacesBeanAnnotationsTest {
@@ -34,10 +33,9 @@ public class FacesBeanAnnotationsTest {
             new StringAsset("<html>#{simpleFacesBean.value}</html>"),
             "webapp/index.xhtml");
 
-    return ArchiveMerger.create(archive)
-        .merge(Deployments.getBacksetBase())
-        .merge(Deployments.getBacksetMyFaces())
-        .getResult();
+    return BacksetBundleBuilder.create(archive)
+        .withMyFacesModule()
+        .build();
 
   }
 
