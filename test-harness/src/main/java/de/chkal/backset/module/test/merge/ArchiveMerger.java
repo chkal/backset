@@ -26,6 +26,20 @@ public class ArchiveMerger {
     return new ArchiveMerger(base);
   }
 
+  public ArchiveMerger merge(Iterable<Archive<?>> archives) {
+    for (Archive<?> archive : archives) {
+      merge(archive);
+    }
+    return this;
+  }
+
+  public ArchiveMerger merge(Archive<?>[] archives) {
+    for (Archive<?> archive : archives) {
+      merge(archive);
+    }
+    return this;
+  }
+
   public ArchiveMerger merge(Archive<?> other) {
 
     Set<ArchivePath> paths = new HashSet<>();
