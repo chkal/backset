@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.chkal.backset.module.test.Deployments;
+import de.chkal.backset.module.test.merge.ArchiveMerger;
 
 @RunWith(Arquillian.class)
 @Ignore
@@ -27,9 +28,14 @@ public class SimpleCDITest {
 
   @Deployment(testable = false)
   public static JavaArchive createDeployment() {
-    return ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
+
+    JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar");
+
+    return ArchiveMerger.create(archive)
         .merge(Deployments.getBacksetBase())
-        .merge(Deployments.getBacksetOpenWebBeans());
+        .merge(Deployments.getBacksetOpenWebBeans())
+        .getResult();
+
   }
 
   @ArquillianResource

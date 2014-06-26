@@ -20,18 +20,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.chkal.backset.module.test.Deployments;
+import de.chkal.backset.module.test.merge.ArchiveMerger;
 
 @RunWith(Arquillian.class)
 public class ExpessionLanguageInViewTest {
 
   @Deployment(testable = false)
   public static JavaArchive createDeployment() {
-    return ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
-        .merge(Deployments.getBacksetBase())
-        .merge(Deployments.getBacksetMyFaces())
+
+    JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
         .addAsResource(
             new StringAsset("<html>1 + 2 = #{1+2}</html>"),
             "webapp/index.xhtml");
+
+    return ArchiveMerger.create(archive)
+        .merge(Deployments.getBacksetBase())
+        .merge(Deployments.getBacksetMyFaces())
+        .getResult();
+
   }
 
   @ArquillianResource

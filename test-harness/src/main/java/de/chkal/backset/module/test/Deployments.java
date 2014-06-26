@@ -5,6 +5,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
+import de.chkal.backset.module.test.merge.ArchiveMerger;
+
 public class Deployments {
 
   public static Archive<?> getBacksetBase() {
@@ -25,11 +27,7 @@ public class Deployments {
         .withTransitivity()
         .as(JavaArchive.class);
 
-    for (JavaArchive dependency : dependencies) {
-      archive.merge(dependency);
-    }
-
-    return archive;
+    return ArchiveMerger.create(archive).merge(dependencies).getResult();
 
   }
 
@@ -53,11 +51,7 @@ public class Deployments {
         .withTransitivity()
         .as(JavaArchive.class);
 
-    for (JavaArchive dependency : dependencies) {
-      archive.merge(dependency);
-    }
-
-    return archive;
+    return ArchiveMerger.create(archive).merge(dependencies).getResult();
 
   }
 
@@ -83,11 +77,35 @@ public class Deployments {
         .withTransitivity()
         .as(JavaArchive.class);
 
-    for (JavaArchive dependency : dependencies) {
-      archive.merge(dependency);
-    }
+    return ArchiveMerger.create(archive).merge(dependencies).getResult();
 
-    return archive;
+  }
+
+  public static Archive<?> getBacksetWeld() {
+
+    JavaArchive archive = ShrinkWrap.create(JavaArchive.class)
+        .addPackages(true, "de.chkal.backset.module.weld")
+        .addAsServiceProvider("de.chkal.backset.module.api.Module",
+            "de.chkal.backset.module.weld.WeldModule")
+        .addAsServiceProvider("org.jboss.weld.environment.Container",
+            "de.chkal.backset.module.weld.BacksetContainer");
+
+    JavaArchive[] dependencies = Maven.resolver()
+        .loadPomFromFile("pom.xml")
+        .resolve(
+            "javax.enterprise:cdi-api",
+            "org.jboss.weld:weld-core",
+            "org.jboss.weld.servlet:weld-servlet-core",
+            "javax.servlet.jsp:javax.servlet.jsp-api",
+            "io.undertow.jastow:jastow",
+            "de.odysseus.juel:juel-api",
+            "de.odysseus.juel:juel-impl",
+            "de.odysseus.juel:juel-spi"
+        )
+        .withTransitivity()
+        .as(JavaArchive.class);
+
+    return ArchiveMerger.create(archive).merge(dependencies).getResult();
 
   }
 

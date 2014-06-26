@@ -20,20 +20,26 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.chkal.backset.module.test.Deployments;
+import de.chkal.backset.module.test.merge.ArchiveMerger;
 
 @RunWith(Arquillian.class)
 public class FacesConfigFragmentTest {
 
   @Deployment(testable = false)
   public static JavaArchive createDeployment() {
-    return ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
-        .merge(Deployments.getBacksetBase())
-        .merge(Deployments.getBacksetMyFaces())
+
+    JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
         .addAsResource("fragment-faces-config.xml", "META-INF/faces-config.xml")
         .addAsResource("fragment-messages.properties", "Messages.properties")
         .addAsResource(
             new StringAsset("<html>#{msg['some-message']}</html>"),
             "webapp/index.xhtml");
+
+    return ArchiveMerger.create(archive)
+        .merge(Deployments.getBacksetBase())
+        .merge(Deployments.getBacksetMyFaces())
+        .getResult();
+
   }
 
   @ArquillianResource
