@@ -16,6 +16,7 @@
   <modules>
     <module>servlet</module>
     <module>jsf</module>
+    <module>fullstack</module>
   </modules>
 
 </project>
