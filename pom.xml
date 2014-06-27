@@ -32,6 +32,8 @@
     <httpclient.version>4.3.4</httpclient.version>
     <owb.version>1.2.6</owb.version>
     <cdi.version>1.2</cdi.version>
+    <weld.version>2.2.2.Final</weld.version>
+    <jastow.version>1.0.0.Final</jastow.version>
   </properties>
 
   <build>
@@ -82,6 +84,7 @@
     <module>server</module>
     <module>module-api</module>
     <module>module-myfaces</module>
+    <module>module-weld</module>
     <module>module-owb</module>
     <module>showcase</module>
   </modules>
@@ -118,6 +121,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-owb</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-weld</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -239,6 +247,30 @@
         <artifactId>openwebbeans-el22</artifactId>
         <version>${owb.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.jboss.weld.servlet</groupId>
+        <artifactId>weld-servlet-core</artifactId>
+        <version>${weld.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.weld</groupId>
+        <artifactId>weld-core</artifactId>
+        <version>${weld.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>javax.servlet.jsp-api</artifactId>
+        <version>2.3.2-b01</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.undertow.jastow</groupId>
+        <artifactId>jastow</artifactId>
+        <version>${jastow.version}</version>
+      </dependency>
+
 
     </dependencies>
   </dependencyManagement>
