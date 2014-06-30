@@ -5,5 +5,7 @@ public interface ModuleContext {
   void register(DeploymentEnricher deploymentEnricher);
 
   AnnotationDatabase getAnnotationDatabase();
+  
+  ConfigManager getConfigManager();
 
 }

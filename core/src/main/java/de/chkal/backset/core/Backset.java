@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.core.annotation.ReflectionsAnnotationDatabase;
+import de.chkal.backset.core.config.DefaultConfigManager;
+import de.chkal.backset.core.config.DefaultConfigManagerBuilder;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.Module;
 
@@ -39,8 +41,13 @@ public class Backset {
 
   public void start() {
 
+    DefaultConfigManager configManager = new DefaultConfigManagerBuilder()
+        .addClasspathConfig("backset.yml")
+        .build();
+
     ReflectionsAnnotationDatabase annotationDatabase = new ReflectionsAnnotationDatabase();
-    DefaultModuleContext moduleContext = new DefaultModuleContext(annotationDatabase);
+    DefaultModuleContext moduleContext =
+        new DefaultModuleContext(annotationDatabase, configManager);
 
     for (Module module : moduleProvider.getModules(classLoader)) {
       log.info("Starting module: {}", module.getClass().getName());
