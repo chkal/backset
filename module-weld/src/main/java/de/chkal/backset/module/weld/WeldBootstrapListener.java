@@ -1,6 +1,7 @@
 package de.chkal.backset.module.weld;
 
-import javax.servlet.ServletContext;
+import java.util.Set;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -8,9 +9,10 @@ import org.jboss.weld.bootstrap.WeldBootstrap;
 import org.jboss.weld.bootstrap.api.Bootstrap;
 import org.jboss.weld.bootstrap.api.Environments;
 import org.jboss.weld.environment.servlet.WeldServletLifecycle;
-import org.jboss.weld.environment.servlet.deployment.ServletDeployment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.chkal.backset.module.api.AnnotationDatabase;
 
 /**
  * Basically something like {@link WeldServletLifecycle}
@@ -19,18 +21,21 @@ public class WeldBootstrapListener implements ServletContextListener {
 
   private final Logger log = LoggerFactory.getLogger(WeldBootstrapListener.class);
 
+  public static AnnotationDatabase annotationDatabase = null;
+
   private Bootstrap bootstrap;
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
 
-    ServletContext context = event.getServletContext();
-
     log.info("Starting up Weld...");
 
     bootstrap = new WeldBootstrap();
 
-    ServletDeployment deployment = new ServletDeployment(context, bootstrap, null);
+    Set<String> beanClasses = annotationDatabase.getTypeNamesByPackage("de.chkal.backset");
+
+    BacksetDeploymentArchive archive = new BacksetDeploymentArchive(beanClasses);
+    BacksetDeployment deployment = new BacksetDeployment(bootstrap, archive);
 
     bootstrap.startContainer(Environments.SERVLET, deployment);
     bootstrap.startInitialization();

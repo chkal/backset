@@ -8,7 +8,8 @@ public class WeldModule implements Module {
   @Override
   public void init(ModuleContext context) {
 
-    System.out.println("====================");
+    WeldBootstrapListener.annotationDatabase = context.getAnnotationDatabase();
+
     context.register(new WeldDeploymentEnricher());
 
   }

@@ -24,7 +24,6 @@ import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.test.BacksetBundleBuilder;
 
 @RunWith(Arquillian.class)
-@Ignore
 public class SimpleCDITest {
 
   @Deployment(testable = false)

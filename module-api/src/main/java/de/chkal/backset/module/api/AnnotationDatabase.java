@@ -7,4 +7,6 @@ public interface AnnotationDatabase {
 
   Set<Class<?>> getTypes(Class<? extends Annotation> annotation);
 
+  Set<String> getTypeNamesByPackage(String packageName);
+
 }
