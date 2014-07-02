@@ -45,9 +45,8 @@ public class ReflectionsAnnotationDatabase implements AnnotationDatabase {
 
     Set<String> result = new HashSet<>();
 
-    Set<String> xxx = reflections.getStore().getSubTypesOf(Object.class.getName());
-    System.out.println("--- total classes: " + xxx.size());
-    for (String type : xxx) {
+    Set<String> types = reflections.getStore().getSubTypesOf(Object.class.getName());
+    for (String type : types) {
 
       if (type.startsWith(packageName)) {
         result.add(type);
