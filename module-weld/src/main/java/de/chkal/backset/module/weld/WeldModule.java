@@ -9,6 +9,8 @@ public class WeldModule implements Module {
   public void init(ModuleContext context) {
 
     WeldBootstrapListener.annotationDatabase = context.getAnnotationDatabase();
+    WeldBootstrapListener.weldConfig = 
+        context.getConfigManager().getConfig("weld", WeldConfig.class);
 
     context.register(new WeldDeploymentEnricher());
 

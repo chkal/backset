@@ -32,7 +32,9 @@ public class BacksetBundleBuilder {
         "io.undertow:undertow-core",
         "io.undertow:undertow-servlet",
         "org.slf4j:slf4j-simple",
-        "org.reflections:reflections"
+        "org.reflections:reflections",
+        "com.fasterxml.jackson.core:jackson-databind",
+        "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
         ));
 
   }

@@ -16,7 +16,6 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -31,6 +30,7 @@ public class SimpleCDITest {
 
     JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
         .addAsResource(EmptyAsset.INSTANCE, "META-INF/beans.xml")
+        .addAsResource("backset.yml")
         .addClass(SimpleCDIServlet.class)
         .addClass(SimpleCDIModule.class)
         .addClass(SimpleCDIDeploymentEnricher.class)
