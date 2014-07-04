@@ -13,7 +13,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 
-import de.chkal.backset.module.test.merge.SimpleArchiveMerger;
+import de.chkal.backset.module.test.merge.ShadePluginArchiveMerger;
 
 public class BacksetBundleBuilder {
 
@@ -132,7 +132,7 @@ public class BacksetBundleBuilder {
         .withTransitivity()
         .as(JavaArchive.class);
 
-    return SimpleArchiveMerger.create(application)
+    return ShadePluginArchiveMerger.create(application)
         .merge(backset)
         .merge(other)
         .getResult();
