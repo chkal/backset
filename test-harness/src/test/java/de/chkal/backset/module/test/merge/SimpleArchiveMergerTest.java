@@ -12,7 +12,7 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 
-public class ArchiveMergerTest {
+public class SimpleArchiveMergerTest {
 
   @Test
   public void mergeDifferentFilesIntoOneArchive() {
@@ -23,7 +23,7 @@ public class ArchiveMergerTest {
     JavaArchive second = ShrinkWrap.create(JavaArchive.class);
     second.add(new StringAsset("bar"), "second.txt");
 
-    JavaArchive result = ArchiveMerger.create(first).merge(second).getResult();
+    JavaArchive result = SimpleArchiveMerger.create(first).merge(second).getResult();
 
     assertThat(result.getContent()).hasSize(2);
 
@@ -41,7 +41,7 @@ public class ArchiveMergerTest {
     JavaArchive second = ShrinkWrap.create(JavaArchive.class);
     second.add(new StringAsset("bar"), "second.txt");
 
-    JavaArchive result = ArchiveMerger.create(first).merge(second).getResult();
+    JavaArchive result = SimpleArchiveMerger.create(first).merge(second).getResult();
 
     assertThat(result.getContent()).hasSize(2);
 
@@ -59,7 +59,7 @@ public class ArchiveMergerTest {
     JavaArchive second = ShrinkWrap.create(JavaArchive.class);
     second.add(new StringAsset("bar"), "directory/bar.txt");
 
-    JavaArchive result = ArchiveMerger.create(first).merge(second).getResult();
+    JavaArchive result = SimpleArchiveMerger.create(first).merge(second).getResult();
 
     assertThat(result.getContent()).hasSize(3);
 
@@ -77,7 +77,7 @@ public class ArchiveMergerTest {
     JavaArchive second = ShrinkWrap.create(JavaArchive.class);
     second.add(new StringAsset("SecondImpl"), "META-INF/services/MyInterface");
 
-    JavaArchive result = ArchiveMerger.create(first).merge(second).getResult();
+    JavaArchive result = SimpleArchiveMerger.create(first).merge(second).getResult();
 
     assertThat(getAsString(result, "META-INF/services/MyInterface"))
         .contains("FirstImpl")

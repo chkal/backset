@@ -14,33 +14,33 @@ import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-public class ArchiveMerger {
+public class SimpleArchiveMerger {
 
   private JavaArchive base;
 
-  private ArchiveMerger(JavaArchive base) {
+  private SimpleArchiveMerger(JavaArchive base) {
     this.base = base;
   }
 
-  public static ArchiveMerger create(JavaArchive base) {
-    return new ArchiveMerger(base);
+  public static SimpleArchiveMerger create(JavaArchive base) {
+    return new SimpleArchiveMerger(base);
   }
 
-  public ArchiveMerger merge(Iterable<Archive<?>> archives) {
+  public SimpleArchiveMerger merge(Iterable<Archive<?>> archives) {
     for (Archive<?> archive : archives) {
       merge(archive);
     }
     return this;
   }
 
-  public ArchiveMerger merge(Archive<?>[] archives) {
+  public SimpleArchiveMerger merge(Archive<?>[] archives) {
     for (Archive<?> archive : archives) {
       merge(archive);
     }
     return this;
   }
 
-  public ArchiveMerger merge(Archive<?> other) {
+  public SimpleArchiveMerger merge(Archive<?> other) {
 
     Set<ArchivePath> paths = new HashSet<>();
     paths.addAll(base.getContent().keySet());
