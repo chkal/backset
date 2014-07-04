@@ -22,7 +22,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <undertow.version>1.0.9.Final</undertow.version>
     <slf4j.version>1.7.7</slf4j.version>
-    <myfaces.version>2.2.3</myfaces.version>
+    <myfaces.version>2.2.4</myfaces.version>
     <jstl.version>1.2</jstl.version>
     <juel.version>2.2.7</juel.version>
     <reflections.version>0.9.9-RC1</reflections.version>
