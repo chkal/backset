@@ -2,11 +2,16 @@ package de.chkal.backset.module.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 
 import de.chkal.backset.module.test.merge.ArchiveMerger;
 
@@ -17,6 +22,8 @@ public class BacksetBundleBuilder {
   private final JavaArchive backset;
 
   private final List<String> dependencies = new ArrayList<>();
+
+  private final Multimap<String, String> serviceProviders = LinkedListMultimap.create();
 
   private BacksetBundleBuilder(JavaArchive archive) {
 
@@ -45,12 +52,12 @@ public class BacksetBundleBuilder {
 
   public BacksetBundleBuilder withMyFacesModule() {
 
-    backset
-        .addPackages(true, "de.chkal.backset.module.myfaces")
-        .addAsServiceProvider("de.chkal.backset.module.api.Module",
-            "de.chkal.backset.module.myfaces.MyFacesModule")
-        .addAsServiceProvider("org.apache.myfaces.spi.AnnotationProvider",
-            "de.chkal.backset.module.myfaces.MyFacesAnnotationProvider");
+    backset.addPackages(true, "de.chkal.backset.module.myfaces");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.myfaces.MyFacesModule");
+    serviceProviders.put("org.apache.myfaces.spi.AnnotationProvider",
+        "de.chkal.backset.module.myfaces.MyFacesAnnotationProvider");
 
     dependencies.addAll(Arrays.asList(
         "org.apache.myfaces.core:myfaces-impl",
@@ -65,10 +72,10 @@ public class BacksetBundleBuilder {
 
   public BacksetBundleBuilder withOpenWebBeansModule() {
 
-    backset
-        .addPackages(true, "de.chkal.backset.module.owb")
-        .addAsServiceProvider("de.chkal.backset.module.api.Module",
-            "de.chkal.backset.module.owb.OpenWebBeansModule");
+    backset.addPackages(true, "de.chkal.backset.module.owb");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.owb.OpenWebBeansModule");
 
     dependencies.addAll(Arrays.asList(
         "javax.enterprise:cdi-api",
@@ -87,12 +94,14 @@ public class BacksetBundleBuilder {
 
   public BacksetBundleBuilder withWeldModule() {
 
-    backset
-        .addPackages(true, "de.chkal.backset.module.weld")
-        .addAsServiceProvider("de.chkal.backset.module.api.Module",
-            "de.chkal.backset.module.weld.WeldModule")
-        .addAsServiceProvider("org.jboss.weld.environment.Container",
-            "de.chkal.backset.module.weld.BacksetContainer");
+    backset.addPackages(true, "de.chkal.backset.module.weld");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.weld.WeldModule");
+    serviceProviders.put("org.jboss.weld.environment.Container",
+        "de.chkal.backset.module.weld.BacksetContainer");
+    serviceProviders.put("javax.faces.application.ApplicationFactory",
+        "org.jboss.weld.environment.servlet.jsf.WeldApplicationFactory");
 
     dependencies.addAll(Arrays.asList(
         "javax.enterprise:cdi-api",
@@ -110,6 +119,12 @@ public class BacksetBundleBuilder {
   }
 
   public JavaArchive build() {
+
+    for (Entry<String, Collection<String>> entry : serviceProviders.asMap().entrySet()) {
+      String iface = entry.getKey();
+      String[] impls = entry.getValue().toArray(new String[0]);
+      backset.addAsServiceProvider(iface, impls);
+    }
 
     JavaArchive[] other = Maven.resolver()
         .loadPomFromFile("pom.xml")

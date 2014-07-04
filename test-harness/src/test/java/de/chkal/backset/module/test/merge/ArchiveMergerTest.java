@@ -33,21 +33,38 @@ public class ArchiveMergerTest {
   }
 
   @Test
-  public void mergeByOverwriting() {
+  public void mergeDirectories() {
 
     JavaArchive first = ShrinkWrap.create(JavaArchive.class);
-    first.add(new StringAsset("foo"), "data.txt");
+    first.add(new StringAsset("foo"), "first.txt");
 
     JavaArchive second = ShrinkWrap.create(JavaArchive.class);
-    second.add(new StringAsset("bar"), "data.txt");
+    second.add(new StringAsset("bar"), "second.txt");
 
     JavaArchive result = ArchiveMerger.create(first).merge(second).getResult();
 
-    assertThat(result.getContent()).hasSize(1);
+    assertThat(result.getContent()).hasSize(2);
 
-    assertThat(getAsString(result, "data.txt"))
-        .contains("bar")
-        .doesNotContain("foo");
+    assertThat(getAsString(result, "first.txt")).isEqualTo("foo");
+    assertThat(getAsString(result, "second.txt")).isEqualTo("bar");
+
+  }
+  
+  @Test
+  public void mergeByOverwriting() {
+
+    JavaArchive first = ShrinkWrap.create(JavaArchive.class);
+    first.add(new StringAsset("foo"), "directory/foo.txt");
+
+    JavaArchive second = ShrinkWrap.create(JavaArchive.class);
+    second.add(new StringAsset("bar"), "directory/bar.txt");
+
+    JavaArchive result = ArchiveMerger.create(first).merge(second).getResult();
+
+    assertThat(result.getContent()).hasSize(3);
+
+    assertThat(getAsString(result, "directory/foo.txt")).contains("foo");
+    assertThat(getAsString(result, "directory/bar.txt")).contains("bar");
 
   }
 
