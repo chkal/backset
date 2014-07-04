@@ -15,8 +15,6 @@ public class SimpleCDIServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    System.out.println("--> "+CDI.current().getBeanManager());
-    
     SimpleCDIBean bean = CDI.current().select(SimpleCDIBean.class).get();
 
     resp.getOutputStream().println(bean.getMessage());
