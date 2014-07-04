@@ -35,6 +35,7 @@
     <weld.version>2.2.2.Final</weld.version>
     <jastow.version>1.0.0.Final</jastow.version>
     <jackson.version>2.4.1</jackson.version>
+    <shade.version>2.3</shade.version>
   </properties>
 
   <build>
@@ -286,6 +287,12 @@
         <groupId>com.fasterxml.jackson.dataformat</groupId>
         <artifactId>jackson-dataformat-yaml</artifactId>
         <version>${jackson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${shade.version}</version>
       </dependency>
 
     </dependencies>

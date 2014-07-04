@@ -55,6 +55,11 @@
       <artifactId>httpclient</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>
