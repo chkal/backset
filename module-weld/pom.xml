@@ -61,6 +61,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- just for testing -->
+    <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-module-myfaces</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
 </project>
