@@ -91,8 +91,16 @@ public class ShadePluginArchiveMerger {
 
     } catch (MojoExecutionException | IOException e) {
       throw new IllegalStateException("Failed", e);
+    } finally {
+      deleteTempFiles();
     }
 
+  }
+
+  private void deleteTempFiles() {
+    for (File file : tempFiles) {
+      file.delete();
+    }
   }
 
   private List<ResourceTransformer> getDefaultResourceTransformers() {
