@@ -14,6 +14,10 @@ import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
+/**
+ * @deprecated Use {@link ShadePluginArchiveMerger} instead
+ */
+@Deprecated
 public class SimpleArchiveMerger {
 
   private JavaArchive base;
