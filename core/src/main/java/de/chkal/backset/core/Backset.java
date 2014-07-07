@@ -13,8 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.core.annotation.ReflectionsAnnotationDatabase;
-import de.chkal.backset.core.config.DefaultConfigManager;
-import de.chkal.backset.core.config.DefaultConfigManagerBuilder;
+import de.chkal.backset.module.api.ConfigManager;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.Module;
 
@@ -30,6 +29,8 @@ public class Backset {
 
   private final ModuleProvider moduleProvider;
 
+  private final ConfigManager configManager;
+
   public static Builder builder() {
     return new Builder();
   }
@@ -37,13 +38,10 @@ public class Backset {
   public Backset(Builder builder) {
     this.classpathPrefix = builder.classpathPrefix;
     this.moduleProvider = builder.moduleProvider;
+    this.configManager = builder.configManager;
   }
 
   public void start() {
-
-    DefaultConfigManager configManager = new DefaultConfigManagerBuilder()
-        .addClasspathConfig("backset.yml")
-        .build();
 
     ReflectionsAnnotationDatabase annotationDatabase = new ReflectionsAnnotationDatabase();
     DefaultModuleContext moduleContext =
@@ -97,20 +95,30 @@ public class Backset {
 
     private ModuleProvider moduleProvider = new ServiceLoaderModuleProvider();
 
+    private ConfigManager configManager = null;
+
     private Builder() {
     }
 
-    protected Builder classpathPrefix(String classpathPrefix) {
+    public Builder classpathPrefix(String classpathPrefix) {
       this.classpathPrefix = classpathPrefix;
       return this;
     }
 
-    protected Builder moduleProvider(ModuleProvider moduleProvider) {
+    public Builder moduleProvider(ModuleProvider moduleProvider) {
       this.moduleProvider = moduleProvider;
       return this;
     }
 
+    public Builder configManager(ConfigManager configManager) {
+      this.configManager = configManager;
+      return this;
+    }
+
     public Backset build() {
+      if (configManager == null) {
+        throw new IllegalStateException("ConfigManager is required");
+      }
       return new Backset(this);
     }
 
