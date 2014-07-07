@@ -1,7 +1,11 @@
 package de.chkal.backset.core.config;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.google.common.io.Closeables;
 
 public class DefaultConfigManagerBuilder {
 
@@ -12,6 +16,26 @@ public class DefaultConfigManagerBuilder {
   public DefaultConfigManagerBuilder() {
     classLoader = Thread.currentThread().getContextClassLoader();
     configManager = new DefaultConfigManager();
+  }
+
+  public DefaultConfigManagerBuilder addConfigFile(File file) {
+
+    if (file.exists() && file.isFile() && file.canRead()) {
+
+      FileInputStream stream = null;
+      try {
+        
+        stream = new FileInputStream(file);
+        configManager.addConfig(stream);
+        return this;
+
+      } catch (IOException e) {
+        Closeables.closeQuietly(stream);
+      }
+
+    }
+    throw new IllegalArgumentException("Cannot read config file: " + file.getAbsolutePath());
+
   }
 
   public DefaultConfigManagerBuilder addClasspathConfig(String resource) {

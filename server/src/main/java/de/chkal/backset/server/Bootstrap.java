@@ -1,5 +1,7 @@
 package de.chkal.backset.server;
 
+import java.io.File;
+
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import de.chkal.backset.core.Backset;
@@ -16,9 +18,7 @@ public class Bootstrap {
     SLF4JBridgeHandler.removeHandlersForRootLogger();
     SLF4JBridgeHandler.install();
 
-    DefaultConfigManager configManager = new DefaultConfigManagerBuilder()
-        .addClasspathConfig("backset.yml")
-        .build();
+    DefaultConfigManager configManager = buildConfigManager(args);
 
     configureLogging(configManager);
 
@@ -27,6 +27,20 @@ public class Bootstrap {
         .moduleProvider(new ServiceLoaderModuleProvider())
         .build();
     backset.start();
+
+  }
+
+  private static DefaultConfigManager buildConfigManager(String[] args) {
+
+    DefaultConfigManagerBuilder configManagerBuilder = new DefaultConfigManagerBuilder();
+
+    if (args.length > 0) {
+      configManagerBuilder.addConfigFile(new File(args[0]));
+    }
+
+    configManagerBuilder.addClasspathConfig("backset.yml");
+
+    return configManagerBuilder.build();
 
   }
 
