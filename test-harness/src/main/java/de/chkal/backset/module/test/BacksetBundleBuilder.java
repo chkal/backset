@@ -38,7 +38,9 @@ public class BacksetBundleBuilder {
     dependencies.addAll(Arrays.asList(
         "io.undertow:undertow-core",
         "io.undertow:undertow-servlet",
-        "org.slf4j:slf4j-simple",
+        "org.slf4j:slf4j-api",
+        "org.slf4j:jul-to-slf4j",
+        "ch.qos.logback:logback-classic",
         "org.reflections:reflections",
         "com.fasterxml.jackson.core:jackson-databind",
         "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
