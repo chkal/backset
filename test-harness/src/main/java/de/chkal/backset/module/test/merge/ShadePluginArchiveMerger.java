@@ -71,7 +71,7 @@ public class ShadePluginArchiveMerger {
         files.add(asFile(archive));
       }
 
-      File uberJar = createTempFile();
+      File uberJar = createTempFile("ueberjar");
 
       ShadeRequest request = new ShadeRequest();
       request.setUberJar(uberJar);
@@ -112,14 +112,14 @@ public class ShadePluginArchiveMerger {
   }
 
   private File asFile(Archive<?> archive) {
-    File file = createTempFile();
+    File file = createTempFile(archive.getName());
     archive.as(ZipExporter.class).exportTo(file);
     return file;
   }
 
-  private File createTempFile() {
+  private File createTempFile(String suffix) {
     String tmpDir = System.getProperty("java.io.tmpdir");
-    String jarFile = UUID.randomUUID().toString() + ".jar";
+    String jarFile = UUID.randomUUID().toString() + "." + suffix + ".jar";
     File file = Paths.get(tmpDir, jarFile).toFile();
     tempFiles.add(file);
     return file;
