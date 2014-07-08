@@ -46,7 +46,7 @@ public class Bootstrap {
 
   private static void configureLogging(ConfigManager configManager) {
 
-    LoggingConfig loggingConfig = configManager.getConfig(LoggingConfig.NAME, LoggingConfig.class);
+    LoggingConfig loggingConfig = configManager.getConfig(LoggingConfig.class);
 
     LoggingConfigurator configurator = new LoggingConfigurator();
     if (loggingConfig != null) {

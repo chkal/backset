@@ -14,7 +14,7 @@ public class ConfigManagerTest {
   @Test
   public void shouldReturnNullForUnknownConfig() {
 
-    FoobarConfig config = configManager.getConfig("foobar", FoobarConfig.class);
+    FoobarConfig config = configManager.getConfig(FoobarConfig.class);
     assertThat(config).isNull();
 
   }
@@ -27,7 +27,7 @@ public class ConfigManagerTest {
         "  item: Candy\n" +
         "  count: 5"));
 
-    FoobarConfig config = configManager.getConfig("foobar", FoobarConfig.class);
+    FoobarConfig config = configManager.getConfig(FoobarConfig.class);
     assertThat(config).isNotNull();
     assertThat(config.getItem()).isEqualTo("Candy");
     assertThat(config.getCount()).isEqualTo(5);
@@ -38,11 +38,11 @@ public class ConfigManagerTest {
   public void shouldNotReturnConfigWithOtherName() throws IOException {
 
     configManager.addConfig(new StringReader("" +
-        "foobar:\n" +
+        "other:\n" +
         "  item: Candy\n" +
         "  count: 5"));
 
-    FoobarConfig config = configManager.getConfig("other", FoobarConfig.class);
+    FoobarConfig config = configManager.getConfig(FoobarConfig.class);
     assertThat(config).isNull();
 
   }

@@ -32,13 +32,15 @@ public class DefaultConfigManager implements ConfigManager {
     return this;
   }
 
-  public <T> T getConfig(String name, Class<T> type) {
+  public <T> T getConfig(Class<T> type) {
+
+    String section = getSectionName(type);
 
     try {
 
       for (JsonNode configTree : configTrees) {
 
-        JsonNode subtree = configTree.get(name);
+        JsonNode subtree = configTree.get(section);
         if (subtree != null) {
           return mapper.readValue(mapper.writeValueAsString(subtree), type);
         }
@@ -49,6 +51,16 @@ public class DefaultConfigManager implements ConfigManager {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+
+  }
+
+  private String getSectionName(Class<?> type) {
+
+    Section annotation = type.getAnnotation(Section.class);
+    if (annotation != null) {
+      return annotation.value().trim();
+    }
+    throw new IllegalStateException("There is no @Section annotation on: " + type.getName());
 
   }
 

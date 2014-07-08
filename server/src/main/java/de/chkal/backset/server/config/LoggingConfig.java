@@ -3,9 +3,10 @@ package de.chkal.backset.server.config;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoggingConfig {
+import de.chkal.backset.core.config.Section;
 
-  public static final String NAME = "logging";
+@Section("logging")
+public class LoggingConfig {
 
   private String level = "INFO";
 

@@ -1,5 +1,6 @@
 package de.chkal.backset.core.config;
 
+@Section("foobar")
 public class FoobarConfig {
   
   private String item;
