@@ -10,7 +10,7 @@ public class MyFacesModule implements Module {
 
     context.register(new MyFacesDeploymentEnricher());
 
-    MyFacesAnnotationProvider.init(context.getAnnotationDatabase());
+    BacksetAnnotationProvider.init(context.getAnnotationDatabase());
 
   }
 

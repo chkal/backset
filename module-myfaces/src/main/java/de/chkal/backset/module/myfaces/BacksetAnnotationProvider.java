@@ -23,7 +23,7 @@ import org.apache.myfaces.spi.AnnotationProvider;
 
 import de.chkal.backset.module.api.AnnotationDatabase;
 
-public class MyFacesAnnotationProvider extends AnnotationProvider {
+public class BacksetAnnotationProvider extends AnnotationProvider {
 
   private final static Iterable<Class<? extends Annotation>> TYPES = Arrays.asList(
       ManagedBean.class,

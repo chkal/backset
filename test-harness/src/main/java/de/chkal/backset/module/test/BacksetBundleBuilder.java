@@ -59,7 +59,7 @@ public class BacksetBundleBuilder {
     serviceProviders.put("de.chkal.backset.module.api.Module",
         "de.chkal.backset.module.myfaces.MyFacesModule");
     serviceProviders.put("org.apache.myfaces.spi.AnnotationProvider",
-        "de.chkal.backset.module.myfaces.MyFacesAnnotationProvider");
+        "de.chkal.backset.module.myfaces.BacksetAnnotationProvider");
 
     dependencies.addAll(Arrays.asList(
         "org.apache.myfaces.core:myfaces-impl",
