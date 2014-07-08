@@ -1,4 +1,4 @@
-package de.chkal.backset.module.weld.basic;
+package de.chkal.backset.test.weld.basic;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

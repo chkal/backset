@@ -1,4 +1,4 @@
-package de.chkal.backset.module.weld.basic;
+package de.chkal.backset.test.weld.basic;
 
 import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.api.ModuleContext;

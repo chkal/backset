@@ -1,4 +1,4 @@
-package de.chkal.backset.module.weld.jsf.simple;
+package de.chkal.backset.test.weld.basic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,28 +16,29 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.test.BacksetBundleBuilder;
 
 @RunWith(Arquillian.class)
-@Ignore
-public class SimpleWeldFacesTest {
+public class SimpleCDITest {
 
   @Deployment(testable = false)
   public static JavaArchive createDeployment() {
 
     JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
         .addAsResource(EmptyAsset.INSTANCE, "META-INF/beans.xml")
-        .addAsResource("jsf/simple.xhtml", "webapp/index.xhtml")
-        .addClass(SimpleWeldFacesBean.class)
-        .addAsResource("backset.yml");
+        .addAsResource("backset.yml")
+        .addClass(SimpleCDIServlet.class)
+        .addClass(SimpleCDIModule.class)
+        .addClass(SimpleCDIDeploymentEnricher.class)
+        .addClass(SimpleCDIBean.class)
+        .addAsServiceProvider(Module.class, SimpleCDIModule.class);
 
     return BacksetBundleBuilder.create(archive)
         .withWeldModule()
-        .withMyFacesModule()
         .build();
 
   }
@@ -48,7 +49,7 @@ public class SimpleWeldFacesTest {
   @Test
   public void weldShouldFindManagedBean() throws IOException {
 
-    String url = baseUrl.toString() + "/index.jsf";
+    String url = baseUrl.toString() + "/cdi";
 
     CloseableHttpClient client = HttpClientBuilder.create().build();
     HttpGet get = new HttpGet(url);
@@ -57,7 +58,7 @@ public class SimpleWeldFacesTest {
     assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
 
     String content = EntityUtils.toString(response.getEntity());
-    assertThat(content).contains("Message: I'm a CDI bean");
+    assertThat(content).contains("I'm a CDI bean");
 
   }
 

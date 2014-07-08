@@ -1,4 +1,4 @@
-package de.chkal.backset.module.weld.jsf.simple;
+package de.chkal.backset.test.weld.jsf.simple;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
