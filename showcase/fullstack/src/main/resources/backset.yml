@@ -1,3 +1,9 @@
+logging:
+  level: INFO
+  loggers:
+    de.chkal.backset: DEBUG
+    org.apache.myfaces: DEBUG
+    org.jboss.weld: DEBUG
 weld:
   packages:
     - de.chkal.backset.showcase.fullstack

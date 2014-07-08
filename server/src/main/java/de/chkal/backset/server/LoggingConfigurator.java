@@ -23,6 +23,8 @@ public class LoggingConfigurator {
 
     LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
+    context.reset();
+
     LevelChangePropagator levelChangePropagator = new LevelChangePropagator();
     levelChangePropagator.setResetJUL(true);
     levelChangePropagator.setContext(context);
