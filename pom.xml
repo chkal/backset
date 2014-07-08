@@ -259,13 +259,18 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.weld.servlet</groupId>
-        <artifactId>weld-servlet-core</artifactId>
+        <groupId>org.jboss.weld</groupId>
+        <artifactId>weld-core-impl</artifactId>
         <version>${weld.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.weld</groupId>
-        <artifactId>weld-core</artifactId>
+        <artifactId>weld-core-jsf</artifactId>
+        <version>${weld.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.weld.servlet</groupId>
+        <artifactId>weld-servlet-core</artifactId>
         <version>${weld.version}</version>
       </dependency>
 

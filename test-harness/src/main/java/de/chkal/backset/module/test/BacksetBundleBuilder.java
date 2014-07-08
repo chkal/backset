@@ -107,7 +107,8 @@ public class BacksetBundleBuilder {
 
     dependencies.addAll(Arrays.asList(
         "javax.enterprise:cdi-api",
-        "org.jboss.weld:weld-core",
+        "org.jboss.weld:weld-core-impl",
+        "org.jboss.weld:weld-core-jsf",
         "org.jboss.weld.servlet:weld-servlet-core",
         "javax.servlet.jsp:javax.servlet.jsp-api",
         "io.undertow.jastow:jastow",
