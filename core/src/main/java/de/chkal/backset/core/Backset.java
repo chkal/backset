@@ -71,16 +71,64 @@ public class Backset {
       manager.deploy();
       HttpHandler servletHandler = manager.start();
 
-      server = Undertow.builder()
-          .addHttpListener(8080, "localhost")
-          .setHandler(servletHandler)
-          .build();
+      UndertowConfig undertowConfig = configManager.getConfig(UndertowConfig.class);
+
+      Undertow.Builder undertowBuilder = Undertow.builder();
+      undertowBuilder.setHandler(servletHandler);
+      configure(undertowBuilder, undertowConfig);
+      server = undertowBuilder.build();
 
       server.start();
       log.info("Backset started!");
 
     } catch (ServletException e) {
       throw new IllegalStateException(e);
+    }
+
+  }
+
+  private void configure(Undertow.Builder builder, UndertowConfig config) {
+
+    if (config != null && config.getIoThreads() > 0) {
+      builder.setIoThreads(config.getIoThreads());
+    }
+
+    if (config != null && config.getWorkerThreads() > 0) {
+      builder.setWorkerThreads(config.getWorkerThreads());
+    }
+
+    if (config != null && !config.getConnectors().isEmpty()) {
+      for (UndertowConnectorConfig connector : config.getConnectors()) {
+        addConnector(builder, connector);
+      }
+    }
+
+    // fallback if no connectors are configured
+    else {
+      builder.addHttpListener(8080, "localhost");
+    }
+
+  }
+
+  private void addConnector(Undertow.Builder builder, UndertowConnectorConfig connector) {
+
+    String host = "localhost";
+    if (connector.getHost() != null && connector.getHost().trim().length() > 0) {
+      host = connector.getHost().trim();
+    }
+
+    if (connector.getType() != null && "http".equalsIgnoreCase(connector.getType().trim())) {
+      int port = connector.getPort() > 0 ? connector.getPort() : 8080;
+      builder.addHttpListener(port, host);
+    }
+
+    else if (connector.getType() != null && "ajp".equalsIgnoreCase(connector.getType().trim())) {
+      int port = connector.getPort() > 0 ? connector.getPort() : 8009;
+      builder.addAjpListener(port, host);
+    }
+
+    else {
+      throw new IllegalStateException("Unsupported connector type: " + connector.getType());
     }
 
   }
