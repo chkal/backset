@@ -58,6 +58,10 @@ public class WeldBootstrapListener implements ServletContextListener {
     bootstrap.validateBeans();
     bootstrap.endInitialization();
 
+    // this is required for the JSF integration
+    event.getServletContext().setAttribute(
+        WeldServletLifecycle.BEAN_MANAGER_ATTRIBUTE_NAME, bootstrap.getManager(archive));
+
   }
 
   @Override
