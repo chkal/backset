@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -20,6 +21,8 @@ public class BacksetBundleBuilder {
   private final JavaArchive application;
 
   private final JavaArchive backset;
+
+  private final List<Archive<?>> archives = new ArrayList<>();
 
   private final List<String> dependencies = new ArrayList<>();
 
@@ -50,6 +53,13 @@ public class BacksetBundleBuilder {
 
   public static BacksetBundleBuilder create(JavaArchive archive) {
     return new BacksetBundleBuilder(archive);
+  }
+
+  public BacksetBundleBuilder withArchives(JavaArchive... list) {
+    for (JavaArchive dep : list) {
+      this.archives.add(dep);
+    }
+    return this;
   }
 
   public BacksetBundleBuilder withMyFacesModule() {
@@ -129,15 +139,16 @@ public class BacksetBundleBuilder {
       backset.addAsServiceProvider(iface, impls);
     }
 
-    JavaArchive[] other = Maven.resolver()
+    JavaArchive[] artifacts = Maven.resolver()
         .loadPomFromFile("pom.xml")
         .resolve(dependencies)
         .withTransitivity()
         .as(JavaArchive.class);
 
     return ShadePluginArchiveMerger.create(application)
+        .merge(archives)
         .merge(backset)
-        .merge(other)
+        .merge(artifacts)
         .getResult();
 
   }
