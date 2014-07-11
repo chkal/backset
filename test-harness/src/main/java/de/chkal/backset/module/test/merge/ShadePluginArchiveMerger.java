@@ -24,6 +24,8 @@ import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
+import de.chkal.backset.maven.shade.DefaultRelocationsTransformer;
+
 public class ShadePluginArchiveMerger {
 
   private JavaArchive base;
@@ -107,7 +109,9 @@ public class ShadePluginArchiveMerger {
 
     ResourceTransformer servicesTransformer = new ServicesResourceTransformer();
 
-    return Arrays.asList(servicesTransformer);
+    ResourceTransformer relocationTransformer = new DefaultRelocationsTransformer();
+
+    return Arrays.asList(servicesTransformer, relocationTransformer);
 
   }
 

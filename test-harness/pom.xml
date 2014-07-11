@@ -55,6 +55,11 @@
       <artifactId>maven-shade-plugin</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-maven-tools</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>

@@ -16,14 +16,12 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.chkal.backset.module.test.BacksetBundleBuilder;
 
 @RunWith(Arquillian.class)
-@Ignore
 public class MultipleFragmentsTest {
 
   @Deployment(testable = false)
