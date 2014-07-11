@@ -15,8 +15,8 @@
   <dependencies>
 
     <dependency>
-      <groupId>de.chkal.backset</groupId>
-      <artifactId>backset-server</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <dependency>

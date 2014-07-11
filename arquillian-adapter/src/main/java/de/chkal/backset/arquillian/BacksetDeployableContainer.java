@@ -24,8 +24,6 @@ import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.chkal.backset.server.Bootstrap;
-
 public class BacksetDeployableContainer implements DeployableContainer<BacksetContainerConfiguration> {
 
   private final Logger log = LoggerFactory.getLogger(BacksetDeployableContainer.class);
@@ -69,7 +67,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
     cmd.add(getJavaBinary());
     cmd.add("-cp");
     cmd.add(archiveFile.getAbsolutePath());
-    cmd.add(Bootstrap.class.getName());
+    cmd.add("de.chkal.backset.server.Bootstrap");
     log.info("Executing: " + cmd.toString());
 
     try {
