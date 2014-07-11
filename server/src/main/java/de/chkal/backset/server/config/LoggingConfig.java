@@ -3,7 +3,7 @@ package de.chkal.backset.server.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.chkal.backset.core.config.Section;
+import de.chkal.backset.module.api.Section;
 
 @Section("logging")
 public class LoggingConfig {

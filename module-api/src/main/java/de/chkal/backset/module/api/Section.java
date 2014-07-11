@@ -1,4 +1,4 @@
-package de.chkal.backset.core.config;
+package de.chkal.backset.module.api;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

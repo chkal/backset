@@ -3,7 +3,7 @@ package de.chkal.backset.module.weld;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.chkal.backset.core.config.Section;
+import de.chkal.backset.module.api.Section;
 
 @Section("weld")
 public class WeldConfig {
