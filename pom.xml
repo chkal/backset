@@ -83,6 +83,7 @@
   <modules>
     <module>core</module>
     <module>arquillian-adapter</module>
+    <module>maven-tools</module>
     <module>test-harness</module>
     <module>server</module>
     <module>module-api</module>
@@ -134,6 +135,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-arquillian-adapter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-maven-tools</artifactId>
         <version>${project.version}</version>
       </dependency>
 
