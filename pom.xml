@@ -87,6 +87,7 @@
     <module>test-harness</module>
     <module>server</module>
     <module>module-api</module>
+    <module>module-servlet</module>
     <module>module-myfaces</module>
     <module>module-weld</module>
     <module>module-owb</module>
@@ -115,6 +116,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-servlet</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

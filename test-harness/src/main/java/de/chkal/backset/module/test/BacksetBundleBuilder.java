@@ -62,6 +62,17 @@ public class BacksetBundleBuilder {
     return this;
   }
 
+  public BacksetBundleBuilder withServletModule() {
+
+    backset.addPackages(true, "de.chkal.backset.module.servlet");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.servlet.ServletModule");
+
+    return this;
+
+  }
+
   public BacksetBundleBuilder withMyFacesModule() {
 
     backset.addPackages(true, "de.chkal.backset.module.myfaces");
