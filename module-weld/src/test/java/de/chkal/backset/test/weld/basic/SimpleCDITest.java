@@ -19,7 +19,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.test.BacksetBundleBuilder;
 
 @RunWith(Arquillian.class)
@@ -32,12 +31,10 @@ public class SimpleCDITest {
         .addAsResource(EmptyAsset.INSTANCE, "META-INF/beans.xml")
         .addAsResource("backset.yml")
         .addClass(SimpleCDIServlet.class)
-        .addClass(SimpleCDIModule.class)
-        .addClass(SimpleCDIDeploymentEnricher.class)
-        .addClass(SimpleCDIBean.class)
-        .addAsServiceProvider(Module.class, SimpleCDIModule.class);
+        .addClass(SimpleCDIBean.class);
 
     return BacksetBundleBuilder.create(archive)
+        .withServletModule()
         .withWeldModule()
         .build();
 

@@ -73,6 +73,11 @@
     <!-- just for testing -->
     <dependency>
       <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-module-servlet</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.chkal.backset</groupId>
       <artifactId>backset-module-myfaces</artifactId>
       <scope>test</scope>
     </dependency>
