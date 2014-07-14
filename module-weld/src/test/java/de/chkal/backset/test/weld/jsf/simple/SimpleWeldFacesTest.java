@@ -5,11 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.net.URL;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -20,6 +15,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.chkal.backset.module.test.BacksetBundleBuilder;
+import de.chkal.backset.module.test.http.Request;
+import de.chkal.backset.module.test.http.Response;
 
 @RunWith(Arquillian.class)
 public class SimpleWeldFacesTest {
@@ -44,18 +41,12 @@ public class SimpleWeldFacesTest {
   private URL baseUrl;
 
   @Test
-  public void weldShouldFindManagedBean() throws IOException {
+  public void elExpressionsInJsfViewsShouldResolveCdiBeans() throws IOException {
 
-    String url = baseUrl.toString() + "/index.jsf";
+    Response response = Request.get(baseUrl, "/index.jsf").execute();
 
-    CloseableHttpClient client = HttpClientBuilder.create().build();
-    HttpGet get = new HttpGet(url);
-    CloseableHttpResponse response = client.execute(get);
-
-    assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
-
-    String content = EntityUtils.toString(response.getEntity());
-    assertThat(content).contains("Message: I'm a CDI bean");
+    assertThat(response.getStatusCode()).isEqualTo(200);
+    assertThat(response.getContent()).contains("Message: I'm a CDI bean");
 
   }
 
