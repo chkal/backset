@@ -5,11 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.net.URL;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -19,6 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.chkal.backset.module.test.BacksetBundleBuilder;
+import de.chkal.backset.module.test.http.Request;
+import de.chkal.backset.module.test.http.Response;
 
 @RunWith(Arquillian.class)
 public class AnnotationBasedRegistrationTest {
@@ -43,48 +40,30 @@ public class AnnotationBasedRegistrationTest {
   @Test
   public void shouldFindAnnotatedServlets() throws IOException {
 
-    String url = baseUrl.toString() + "/test";
+    Response response = Request.get(baseUrl, "/test").execute();
 
-    CloseableHttpClient client = HttpClientBuilder.create().build();
-    HttpGet get = new HttpGet(url);
-    CloseableHttpResponse response = client.execute(get);
-
-    assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
-
-    String content = EntityUtils.toString(response.getEntity());
-    assertThat(content).contains("AnnotatedHttpServlet is active");
+    assertThat(response.getStatusCode()).isEqualTo(200);
+    assertThat(response.getContent()).contains("AnnotatedHttpServlet is active");
 
   }
 
   @Test
   public void shouldFindAnnotatedFilters() throws IOException {
 
-    String url = baseUrl.toString() + "/test";
+    Response response = Request.get(baseUrl, "/test").execute();
 
-    CloseableHttpClient client = HttpClientBuilder.create().build();
-    HttpGet get = new HttpGet(url);
-    CloseableHttpResponse response = client.execute(get);
-
-    assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
-
-    String content = EntityUtils.toString(response.getEntity());
-    assertThat(content).contains("AnnotatedFilter is active");
+    assertThat(response.getStatusCode()).isEqualTo(200);
+    assertThat(response.getContent()).contains("AnnotatedFilter is active");
 
   }
 
   @Test
   public void shouldFindAnnotatedListeners() throws IOException {
 
-    String url = baseUrl.toString() + "/test";
+    Response response = Request.get(baseUrl, "/test").execute();
 
-    CloseableHttpClient client = HttpClientBuilder.create().build();
-    HttpGet get = new HttpGet(url);
-    CloseableHttpResponse response = client.execute(get);
-
-    assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
-
-    String content = EntityUtils.toString(response.getEntity());
-    assertThat(content).contains("AnnotatedRequestListener is active");
+    assertThat(response.getStatusCode()).isEqualTo(200);
+    assertThat(response.getContent()).contains("AnnotatedRequestListener is active");
 
   }
 
