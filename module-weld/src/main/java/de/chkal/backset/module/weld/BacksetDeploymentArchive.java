@@ -1,8 +1,10 @@
 package de.chkal.backset.module.weld;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.jboss.weld.bootstrap.api.ServiceRegistry;
@@ -24,9 +26,17 @@ public class BacksetDeploymentArchive implements BeanDeploymentArchive {
 
     serviceRegistry = new SimpleServiceRegistry();
 
-    BeansXmlParser beansXmlParser = new BeansXmlParser();
-    beansXml = beansXmlParser.parse(Collections.<URL> emptyList());
+    beansXml = new BeansXmlParser().parse(getBeansXmlFiles());
 
+  }
+
+  private List<URL> getBeansXmlFiles() {
+    List<URL> beanXmls = new ArrayList<>();
+    URL resource = Thread.currentThread().getContextClassLoader().getResource("META-INF/beans.xml");
+    if (resource != null) {
+      beanXmls.add(resource);
+    }
+    return beanXmls;
   }
 
   @Override
