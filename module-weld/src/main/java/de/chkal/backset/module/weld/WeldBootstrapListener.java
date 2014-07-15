@@ -1,8 +1,5 @@
 package de.chkal.backset.module.weld;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -35,21 +32,9 @@ public class WeldBootstrapListener implements ServletContextListener {
 
     bootstrap = new WeldBootstrap();
 
-    Set<String> beanClasses = new HashSet<>();
-    if (weldConfig != null && weldConfig.getPackages() != null) {
-      for (String packageName : weldConfig.getPackages()) {
-        Set<String> types = annotationDatabase.getTypeNamesByPackage(packageName);
-        log.info("Found {} types in package: {}", types.size(), packageName);
-        beanClasses.addAll(types);
-      }
-    }
+    DeploymentDefinition definition = new DeploymentDefinition(weldConfig, annotationDatabase);
 
-    if (beanClasses.isEmpty()) {
-      log.warn("No bean classes found! "
-          + "You should tell the Weld module which packages contain your CDI beans");
-    }
-
-    BacksetDeploymentArchive archive = new BacksetDeploymentArchive(beanClasses);
+    BacksetDeploymentArchive archive = new BacksetDeploymentArchive(definition);
     BacksetDeployment deployment = new BacksetDeployment(bootstrap, archive);
 
     bootstrap.startContainer(Environments.SERVLET, deployment);
