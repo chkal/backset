@@ -29,6 +29,11 @@
     </dependency>
 
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>de.odysseus.juel</groupId>
       <artifactId>juel-api</artifactId>
     </dependency>
