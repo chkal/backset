@@ -41,7 +41,7 @@ public class AlternativeTest {
   private URL baseUrl;
 
   @Test
-  public void weldShouldFindManagedBean() throws IOException {
+  public void weldActivateAlternativesViaBeansXml() throws IOException {
 
     Response response = Request.get(baseUrl, "/alternative").execute();
 
