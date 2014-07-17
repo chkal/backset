@@ -62,6 +62,11 @@ public class BacksetBundleBuilder {
     return this;
   }
 
+  public BacksetBundleBuilder withMavenDependency(String coords) {
+    dependencies.add(coords);
+    return this;
+  }
+
   public BacksetBundleBuilder withServletModule() {
 
     backset.addPackages(true, "de.chkal.backset.module.servlet");
@@ -138,6 +143,21 @@ public class BacksetBundleBuilder {
         "de.odysseus.juel:juel-api",
         "de.odysseus.juel:juel-impl",
         "de.odysseus.juel:juel-spi"
+        ));
+
+    return this;
+
+  }
+
+  public BacksetBundleBuilder withBoneCPModule() {
+
+    backset.addPackages(true, "de.chkal.backset.module.bonecp");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.bonecp.BoneCPModule");
+
+    dependencies.addAll(Arrays.asList(
+        "com.jolbox:bonecp"
         ));
 
     return this;

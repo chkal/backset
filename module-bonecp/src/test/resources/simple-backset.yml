@@ -1,0 +1,11 @@
+logging:
+  level: INFO
+  loggers:
+    de.chkal.backset: DEBUG
+bonecp:
+  datasources:
+    - name: 'SimpleDataSource'
+      driverClass: 'org.h2.Driver'
+      jdbcUrl: 'jdbc:h2:mem:simple-test'
+      username: 'sa'
+      password: ''

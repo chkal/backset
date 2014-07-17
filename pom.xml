@@ -37,6 +37,8 @@
     <jackson.version>2.4.1</jackson.version>
     <shade.version>2.3</shade.version>
     <logback.version>1.1.2</logback.version>
+    <bonecp.version>0.8.0.RELEASE</bonecp.version>
+    <h2.version>1.4.180</h2.version>
   </properties>
 
   <build>
@@ -87,6 +89,7 @@
     <module>test-harness</module>
     <module>server</module>
     <module>module-api</module>
+    <module>module-bonecp</module>
     <module>module-servlet</module>
     <module>module-myfaces</module>
     <module>module-weld</module>
@@ -121,6 +124,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-bonecp</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -351,6 +359,18 @@
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>${logback.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.jolbox</groupId>
+        <artifactId>bonecp</artifactId>
+        <version>${bonecp.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${h2.version}</version>
       </dependency>
 
     </dependencies>
