@@ -164,6 +164,21 @@ public class BacksetBundleBuilder {
 
   }
 
+  public BacksetBundleBuilder withJNDIModule() {
+
+    backset.addPackages(true, "de.chkal.backset.module.jndi");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.jndi.JNDIModule");
+
+    dependencies.addAll(Arrays.asList(
+        "org.glassfish.main.web:web-naming"
+        ));
+
+    return this;
+
+  }
+
   public JavaArchive build() {
 
     for (Entry<String, Collection<String>> entry : serviceProviders.asMap().entrySet()) {

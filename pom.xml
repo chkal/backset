@@ -39,6 +39,7 @@
     <logback.version>1.1.2</logback.version>
     <bonecp.version>0.8.0.RELEASE</bonecp.version>
     <h2.version>1.4.180</h2.version>
+    <glassfishnaming.version>4.0</glassfishnaming.version>
   </properties>
 
   <build>
@@ -89,6 +90,7 @@
     <module>test-harness</module>
     <module>server</module>
     <module>module-api</module>
+    <module>module-jndi</module>
     <module>module-bonecp</module>
     <module>module-servlet</module>
     <module>module-myfaces</module>
@@ -129,6 +131,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-bonecp</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-jndi</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -371,6 +378,12 @@
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
         <version>${h2.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish.main.web</groupId>
+        <artifactId>web-naming</artifactId>
+        <version>${glassfishnaming.version}</version>
       </dependency>
 
     </dependencies>
