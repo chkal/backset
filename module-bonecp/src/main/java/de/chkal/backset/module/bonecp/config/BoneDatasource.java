@@ -3,6 +3,7 @@ package de.chkal.backset.module.bonecp.config;
 public class BoneDatasource {
 
   private String name;
+  private String jndiName;
   private String driverClass;
   private String jdbcUrl;
   private String username;
@@ -46,6 +47,14 @@ public class BoneDatasource {
 
   public void setDriverClass(String driverClass) {
     this.driverClass = driverClass;
+  }
+
+  public String getJndiName() {
+    return jndiName;
+  }
+
+  public void setJndiName(String jndiName) {
+    this.jndiName = jndiName;
   }
 
 }

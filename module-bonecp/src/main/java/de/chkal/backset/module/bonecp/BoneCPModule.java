@@ -2,6 +2,9 @@ package de.chkal.backset.module.bonecp;
 
 import java.util.UUID;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +34,27 @@ public class BoneCPModule implements Module {
         BoneCPDataSource dataSource = createDataSource(boneDatasource);
         DataSources.add(dataSource.getPoolName(), dataSource);
 
+        if (boneDatasource.getJndiName() != null) {
+          bindToJndi(boneDatasource.getJndiName(), dataSource);
+        }
+
         log.info("Database connection pool created: {}", dataSource.getPoolName());
 
       }
 
+    }
+
+  }
+
+  private void bindToJndi(String jndiName, BoneCPDataSource dataSource) {
+
+    try {
+
+      InitialContext initialContext = new InitialContext();
+      initialContext.bind(jndiName, dataSource);
+
+    } catch (NamingException e) {
+      throw new IllegalStateException("Failed to bind DataSource to JNDI", e);
     }
 
   }
