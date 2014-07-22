@@ -1,0 +1,18 @@
+
+logging:
+  level: INFO
+  loggers:
+    de.chkal.backset: DEBUG
+
+weld:
+  packages:
+    - de.chkal.backset.showcase.todo
+
+bonecp:
+  datasources:
+    - jndiName: 'java:/comp/env/TodoDataSource'
+      driverClass: 'org.h2.Driver'
+      jdbcUrl: 'jdbc:h2:mem:todo'
+      username: 'sa'
+      password: ''
+    

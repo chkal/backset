@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+.todo-item-table {
+  margin-top: 20px;
+}
+
+.todo-item-table th.done {
+  width: 4em;
+  text-align: center;
+}
+
+.todo-item-table td.done {
+  width: 4em;
+  text-align: center;
+}

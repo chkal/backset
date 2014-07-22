@@ -17,6 +17,7 @@
     <module>servlet</module>
     <module>jsf</module>
     <module>fullstack</module>
+    <module>todo</module>
   </modules>
 
 </project>

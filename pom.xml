@@ -40,6 +40,7 @@
     <bonecp.version>0.8.0.RELEASE</bonecp.version>
     <h2.version>1.4.180</h2.version>
     <glassfishnaming.version>4.0</glassfishnaming.version>
+    <hibernate.version>4.2.15.Final</hibernate.version>
   </properties>
 
   <build>
@@ -384,6 +385,12 @@
         <groupId>org.glassfish.main.web</groupId>
         <artifactId>web-naming</artifactId>
         <version>${glassfishnaming.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${hibernate.version}</version>
       </dependency>
 
     </dependencies>
