@@ -1,4 +1,8 @@
 
+undertow:
+  contextParams:
+    javax.faces.PROJECT_STAGE: 'Development'
+
 logging:
   level: INFO
   loggers:

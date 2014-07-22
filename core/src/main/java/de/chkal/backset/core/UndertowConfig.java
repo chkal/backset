@@ -1,7 +1,9 @@
 package de.chkal.backset.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.chkal.backset.module.api.Section;
 
@@ -13,6 +15,8 @@ public class UndertowConfig {
   private int workerThreads;
 
   private List<UndertowConnectorConfig> connectors = new ArrayList<>();
+
+  private Map<String, String> contextParams = new HashMap<>();
 
   public int getIoThreads() {
     return ioThreads;
@@ -36,6 +40,14 @@ public class UndertowConfig {
 
   public void setConnectors(List<UndertowConnectorConfig> connectors) {
     this.connectors = connectors;
+  }
+
+  public Map<String, String> getContextParams() {
+    return contextParams;
+  }
+
+  public void setContextParams(Map<String, String> contextParams) {
+    this.contextParams = contextParams;
   }
 
 }

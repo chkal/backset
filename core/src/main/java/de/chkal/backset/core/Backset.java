@@ -7,6 +7,8 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 
+import java.util.Map.Entry;
+
 import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
@@ -67,11 +69,17 @@ public class Backset {
         enricher.enrich(servletBuilder);
       }
 
+      UndertowConfig undertowConfig = configManager.getConfig(UndertowConfig.class);
+
+      if (undertowConfig != null && undertowConfig.getContextParams() != null) {
+        for (Entry<String, String> entry : undertowConfig.getContextParams().entrySet()) {
+          servletBuilder.addInitParameter(entry.getKey(), entry.getValue());
+        }
+      }
+
       DeploymentManager manager = Servlets.defaultContainer().addDeployment(servletBuilder);
       manager.deploy();
       HttpHandler servletHandler = manager.start();
-
-      UndertowConfig undertowConfig = configManager.getConfig(UndertowConfig.class);
 
       Undertow.Builder undertowBuilder = Undertow.builder();
       undertowBuilder.setHandler(servletHandler);
