@@ -6,7 +6,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import de.chkal.backset.core.Backset;
 import de.chkal.backset.core.ServiceLoaderModuleProvider;
-import de.chkal.backset.core.config.DefaultConfigManager;
+import de.chkal.backset.core.Singletons;
 import de.chkal.backset.core.config.DefaultConfigManagerBuilder;
 import de.chkal.backset.module.api.ConfigManager;
 import de.chkal.backset.server.config.LoggingConfig;
@@ -18,7 +18,8 @@ public class Bootstrap {
     SLF4JBridgeHandler.removeHandlersForRootLogger();
     SLF4JBridgeHandler.install();
 
-    DefaultConfigManager configManager = buildConfigManager(args);
+    ConfigManager configManager = buildConfigManager(args);
+    Singletons.register(ConfigManager.class, configManager);
 
     configureLogging(configManager);
 
@@ -30,7 +31,7 @@ public class Bootstrap {
 
   }
 
-  private static DefaultConfigManager buildConfigManager(String[] args) {
+  private static ConfigManager buildConfigManager(String[] args) {
 
     DefaultConfigManagerBuilder configManagerBuilder = new DefaultConfigManagerBuilder();
 
