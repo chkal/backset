@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.module.api.AnnotationDatabase;
+import de.chkal.backset.module.weld.support.BacksetProducer;
 
 public class DeploymentDefinition {
 
@@ -40,6 +41,9 @@ public class DeploymentDefinition {
       log.warn("No bean classes found! "
           + "You should tell the Weld module which packages contain your CDI beans");
     }
+
+    // add some custom backset classes here
+    beanClasses.add(BacksetProducer.class.getName());
 
     return beanClasses;
 
