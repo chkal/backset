@@ -50,6 +50,11 @@
       <artifactId>logback-classic</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>commons-daemon</groupId>
+      <artifactId>commons-daemon</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>

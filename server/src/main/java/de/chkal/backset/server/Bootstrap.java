@@ -2,6 +2,9 @@ package de.chkal.backset.server;
 
 import java.io.File;
 
+import org.apache.commons.daemon.Daemon;
+import org.apache.commons.daemon.DaemonContext;
+import org.apache.commons.daemon.DaemonInitException;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import de.chkal.backset.core.Backset;
@@ -11,9 +14,26 @@ import de.chkal.backset.module.api.ConfigManager;
 import de.chkal.backset.module.api.Singletons;
 import de.chkal.backset.server.config.LoggingConfig;
 
-public class Bootstrap {
+public class Bootstrap implements Daemon {
 
-  public static void main(String[] args) {
+  private Backset backset;
+  private String[] args;
+
+  public static void main(String[] args) throws Exception {
+
+    Bootstrap bootstrap = new Bootstrap();
+    bootstrap.init(new SimpleDaemonContext(args));
+    bootstrap.start();
+
+  }
+
+  @Override
+  public void init(DaemonContext context) throws DaemonInitException, Exception {
+    this.args = context.getArguments();
+  }
+
+  @Override
+  public void start() throws Exception {
 
     SLF4JBridgeHandler.removeHandlersForRootLogger();
     SLF4JBridgeHandler.install();
@@ -23,7 +43,7 @@ public class Bootstrap {
 
     configureLogging(configManager);
 
-    Backset backset = Backset.builder()
+    backset = Backset.builder()
         .configManager(configManager)
         .moduleProvider(new ServiceLoaderModuleProvider())
         .build();
@@ -31,7 +51,19 @@ public class Bootstrap {
 
   }
 
-  private static ConfigManager buildConfigManager(String[] args) {
+  @Override
+  public void stop() throws Exception {
+
+    backset.stop();
+
+  }
+
+  @Override
+  public void destroy() {
+
+  }
+
+  private ConfigManager buildConfigManager(String[] args) {
 
     DefaultConfigManagerBuilder configManagerBuilder = new DefaultConfigManagerBuilder();
 
@@ -45,7 +77,7 @@ public class Bootstrap {
 
   }
 
-  private static void configureLogging(ConfigManager configManager) {
+  private void configureLogging(ConfigManager configManager) {
 
     LoggingConfig loggingConfig = configManager.getConfig(LoggingConfig.class);
 
@@ -57,4 +89,5 @@ public class Bootstrap {
     configurator.configure();
 
   }
+
 }

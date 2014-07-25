@@ -8,6 +8,7 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import javax.servlet.ServletException;
 
@@ -33,6 +34,8 @@ public class Backset {
 
   private final ConfigManager configManager;
 
+  private final Stack<Module> startedModules = new Stack<>();
+
   public static Builder builder() {
     return new Builder();
   }
@@ -50,8 +53,9 @@ public class Backset {
         new DefaultModuleContext(annotationDatabase, configManager);
 
     for (Module module : moduleProvider.getModules(classLoader)) {
-      log.info("Starting module: {}", module.getClass().getName());
+      log.debug("Starting module: {}", module.getClass().getName());
       module.init(moduleContext);
+      startedModules.push(module);
     }
 
     try {
@@ -142,7 +146,17 @@ public class Backset {
   }
 
   public void stop() {
+
+    while (startedModules.size() > 0) {
+      Module module = startedModules.pop();
+      log.debug("Stopping module: {}", module.getClass().getName());
+      module.destroy();
+    }
+
+    log.info("Stopping Undertow...");
     server.stop();
+    log.info("Shutdown complete!");
+
   }
 
   public static class Builder {

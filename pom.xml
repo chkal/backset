@@ -41,6 +41,7 @@
     <h2.version>1.4.180</h2.version>
     <glassfishnaming.version>4.0</glassfishnaming.version>
     <hibernate.version>4.2.15.Final</hibernate.version>
+    <daemon.version>1.0.15</daemon.version>
   </properties>
 
   <build>
@@ -391,6 +392,12 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <version>${hibernate.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-daemon</groupId>
+        <artifactId>commons-daemon</artifactId>
+        <version>${daemon.version}</version>
       </dependency>
 
     </dependencies>
