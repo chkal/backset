@@ -6,9 +6,9 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import de.chkal.backset.core.Backset;
 import de.chkal.backset.core.ServiceLoaderModuleProvider;
-import de.chkal.backset.core.Singletons;
 import de.chkal.backset.core.config.DefaultConfigManagerBuilder;
 import de.chkal.backset.module.api.ConfigManager;
+import de.chkal.backset.module.api.Singletons;
 import de.chkal.backset.server.config.LoggingConfig;
 
 public class Bootstrap {

@@ -1,4 +1,4 @@
-package de.chkal.backset.core;
+package de.chkal.backset.module.api;
 
 import java.util.HashMap;
 import java.util.Map;
