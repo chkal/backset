@@ -46,7 +46,8 @@ public class BacksetBundleBuilder {
         "ch.qos.logback:logback-classic",
         "org.reflections:reflections",
         "com.fasterxml.jackson.core:jackson-databind",
-        "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
+        "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
+        "commons-daemon:commons-daemon"
         ));
 
   }
