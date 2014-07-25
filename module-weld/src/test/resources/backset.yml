@@ -1,6 +1,6 @@
 weld:
   packages:
-    - de.chkal.backset
+    - de.chkal.backset.test.weld
 logging:
   level: INFO
   loggers:
