@@ -12,5 +12,22 @@
       de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherTest$SomeListener
     </listener-class>
   </listener>
+  
+  <servlet>
+    <servlet-name>SomeServlet</servlet-name>
+    <servlet-class>
+      de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherTest$SomeServlet
+    </servlet-class>
+    <async-supported>true</async-supported>
+    <load-on-startup>5</load-on-startup>
+    <init-param>
+      <param-name>foo</param-name>
+      <param-value>bar</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SomeServlet</servlet-name>
+    <url-pattern>*.test</url-pattern>
+  </servlet-mapping>
 
 </web-app>

@@ -2,10 +2,13 @@ package de.chkal.backset.module.servlet.xml;
 
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.servlet.api.ServletInfo;
 
 import java.io.InputStream;
 import java.util.EventListener;
+import java.util.UUID;
 
+import javax.servlet.Servlet;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -17,6 +20,9 @@ import org.slf4j.LoggerFactory;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.servlet.xml.types.ListenerType;
 import de.chkal.backset.module.servlet.xml.types.ParamValueType;
+import de.chkal.backset.module.servlet.xml.types.ServletMappingType;
+import de.chkal.backset.module.servlet.xml.types.ServletType;
+import de.chkal.backset.module.servlet.xml.types.UrlPatternType;
 import de.chkal.backset.module.servlet.xml.types.WebAppType;
 
 public class DescriptorDeploymentEnricher implements DeploymentEnricher {
@@ -83,7 +89,67 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
         processListener(deployment, (ListenerType) jaxbElement.getValue());
       }
 
+      // <servlet>
+      if (jaxbElement.getDeclaredType().equals(ServletType.class)) {
+        processServlet(deployment, (ServletType) jaxbElement.getValue());
+      }
+
+      // <servlet-mapping>
+      if (jaxbElement.getDeclaredType().equals(ServletMappingType.class)) {
+        processServletMapping(deployment, (ServletMappingType) jaxbElement.getValue());
+      }
+
     }
+
+  }
+
+  private void processServletMapping(DeploymentInfo deployment, ServletMappingType value) {
+
+    if (value.getServletName() != null && value.getServletName().getValue() != null) {
+
+      String servletName = value.getServletName().getValue();
+
+      ServletInfo servletInfo = deployment.getServlets().get(servletName);
+      if (servletInfo != null) {
+        if (value.getUrlPattern() != null) {
+          for (UrlPatternType urlPatternType : value.getUrlPattern()) {
+            servletInfo.addMapping(urlPatternType.getValue().trim());
+          }
+        }
+      }
+
+    }
+
+  }
+
+  private void processServlet(DeploymentInfo deployment, ServletType value) {
+
+    String servletName = UUID.randomUUID().toString();
+    if (value.getServletName() != null && value.getServletName().getValue() != null) {
+      servletName = value.getServletName().getValue().trim();
+    }
+
+    Class<Servlet> servletClazz = loadClass(
+        value.getServletClass().getValue().trim(), Servlet.class);
+    ServletInfo servletInfo = new ServletInfo(servletName, servletClazz);
+
+    servletInfo.setAsyncSupported(
+        value.getAsyncSupported() != null && value.getAsyncSupported().isValue());
+
+    if (value.getLoadOnStartup() != null) {
+      servletInfo.setLoadOnStartup(Integer.valueOf(value.getLoadOnStartup()));
+    }
+
+    if (value.getInitParam() != null) {
+      for (ParamValueType param : value.getInitParam()) {
+        if (param.getParamName() != null && param.getParamValue() != null) {
+          servletInfo.addInitParam(
+              param.getParamName().getValue(), param.getParamValue().getValue());
+        }
+      }
+    }
+
+    deployment.addServlet(servletInfo);
 
   }
 
