@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-fragment_3_1.xsd"
+  version="3.1">
+
+  <listener>
+    <listener-class>de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherFragmentTest$SomeListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>SomeServlet</servlet-name>
+    <servlet-class>de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherFragmentTest$SomeServlet</servlet-class>
+    <async-supported>true</async-supported>
+    <load-on-startup>5</load-on-startup>
+    <init-param>
+      <param-name>foo</param-name>
+      <param-value>bar</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SomeServlet</servlet-name>
+    <url-pattern>*.test</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>SomeFilter</filter-name>
+    <filter-class>de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherFragmentTest$SomeFilter</filter-class>
+    <async-supported>true</async-supported>
+    <init-param>
+      <param-name>foo</param-name>
+      <param-value>bar</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>SomeFilter</filter-name>
+    <url-pattern>*.filter</url-pattern>
+    <servlet-name>SomeServlet</servlet-name>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+</web-fragment>

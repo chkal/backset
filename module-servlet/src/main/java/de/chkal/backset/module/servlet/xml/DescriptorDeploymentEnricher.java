@@ -33,6 +33,7 @@ import de.chkal.backset.module.servlet.xml.types.ServletNameType;
 import de.chkal.backset.module.servlet.xml.types.ServletType;
 import de.chkal.backset.module.servlet.xml.types.UrlPatternType;
 import de.chkal.backset.module.servlet.xml.types.WebAppType;
+import de.chkal.backset.module.servlet.xml.types.WebFragmentType;
 
 public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
@@ -62,6 +63,24 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
       processWebXml(deployment, webXmlStream);
     }
 
+    for (int i = 0; i < 1000; i++) {
+
+      StringBuilder resourceName = new StringBuilder("META-INF/web-fragment.xml");
+      if (i > 0) {
+        resourceName.append(".").append(i);
+      }
+
+      InputStream fragmentStream = classLoader.getResourceAsStream(resourceName.toString());
+
+      if (fragmentStream != null) {
+        log.info("Found relocated web-fragment.xml file: " + resourceName.toString());
+        processWebFragmentXml(deployment, fragmentStream);
+      } else {
+        break;
+      }
+
+    }
+
   }
 
   protected void processWebXml(DeploymentInfo deployment, InputStream stream) {
@@ -84,42 +103,72 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
   }
 
+  protected void processWebFragmentXml(DeploymentInfo deployment, InputStream stream) {
+
+    try {
+
+      Unmarshaller unmarshaller = context.createUnmarshaller();
+      JAXBElement<?> webappElement = (JAXBElement<?>) unmarshaller.unmarshal(stream);
+
+      if (webappElement.getDeclaredType().equals(WebFragmentType.class)) {
+
+        WebFragmentType webapp = (WebFragmentType) webappElement.getValue();
+        processWebFragment(deployment, webapp);
+
+      }
+
+    } catch (JAXBException e) {
+      log.warn("Failed to parse descriptor", e);
+    }
+
+  }
+
   private void processWebApp(DeploymentInfo deployment, WebAppType webapp) {
 
     for (JAXBElement<?> jaxbElement : webapp.getModuleNameOrDescriptionAndDisplayName()) {
-
-      // <context-param>
-      if (jaxbElement.getDeclaredType().equals(ParamValueType.class)) {
-        processContextParam(deployment, (ParamValueType) jaxbElement.getValue());
-      }
-
-      // <listener>
-      if (jaxbElement.getDeclaredType().equals(ListenerType.class)) {
-        processListener(deployment, (ListenerType) jaxbElement.getValue());
-      }
-
-      // <servlet>
-      if (jaxbElement.getDeclaredType().equals(ServletType.class)) {
-        processServlet(deployment, (ServletType) jaxbElement.getValue());
-      }
-
-      // <servlet-mapping>
-      if (jaxbElement.getDeclaredType().equals(ServletMappingType.class)) {
-        processServletMapping(deployment, (ServletMappingType) jaxbElement.getValue());
-      }
-
-      // <filter>
-      if (jaxbElement.getDeclaredType().equals(FilterType.class)) {
-        processFilter(deployment, (FilterType) jaxbElement.getValue());
-      }
-
-      // <filter-mapping>
-      if (jaxbElement.getDeclaredType().equals(FilterMappingType.class)) {
-        processFilterMapping(deployment, (FilterMappingType) jaxbElement.getValue());
-      }
-
+      processRootChildElement(deployment, jaxbElement);
     }
 
+  }
+
+  private void processWebFragment(DeploymentInfo deployment, WebFragmentType webapp) {
+
+    for (JAXBElement<?> jaxbElement : webapp.getNameOrDescriptionAndDisplayName()) {
+      processRootChildElement(deployment, jaxbElement);
+    }
+
+  }
+
+  private void processRootChildElement(DeploymentInfo deployment, JAXBElement<?> jaxbElement) {
+    // <context-param>
+    if (jaxbElement.getDeclaredType().equals(ParamValueType.class)) {
+      processContextParam(deployment, (ParamValueType) jaxbElement.getValue());
+    }
+
+    // <listener>
+    if (jaxbElement.getDeclaredType().equals(ListenerType.class)) {
+      processListener(deployment, (ListenerType) jaxbElement.getValue());
+    }
+
+    // <servlet>
+    if (jaxbElement.getDeclaredType().equals(ServletType.class)) {
+      processServlet(deployment, (ServletType) jaxbElement.getValue());
+    }
+
+    // <servlet-mapping>
+    if (jaxbElement.getDeclaredType().equals(ServletMappingType.class)) {
+      processServletMapping(deployment, (ServletMappingType) jaxbElement.getValue());
+    }
+
+    // <filter>
+    if (jaxbElement.getDeclaredType().equals(FilterType.class)) {
+      processFilter(deployment, (FilterType) jaxbElement.getValue());
+    }
+
+    // <filter-mapping>
+    if (jaxbElement.getDeclaredType().equals(FilterMappingType.class)) {
+      processFilterMapping(deployment, (FilterMappingType) jaxbElement.getValue());
+    }
   }
 
   private void processFilterMapping(DeploymentInfo deployment, FilterMappingType value) {
