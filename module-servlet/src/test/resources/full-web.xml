@@ -8,16 +8,12 @@
   </context-param>
 
   <listener>
-    <listener-class>
-      de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherTest$SomeListener
-    </listener-class>
+    <listener-class>de.chkal.backset.module.servlet.xml.SomeListener</listener-class>
   </listener>
-  
+
   <servlet>
     <servlet-name>SomeServlet</servlet-name>
-    <servlet-class>
-      de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherTest$SomeServlet
-    </servlet-class>
+    <servlet-class>de.chkal.backset.module.servlet.xml.SomeServlet</servlet-class>
     <async-supported>true</async-supported>
     <load-on-startup>5</load-on-startup>
     <init-param>
@@ -32,9 +28,7 @@
 
   <filter>
     <filter-name>SomeFilter</filter-name>
-    <filter-class>
-      de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherTest$SomeFilter
-    </filter-class>
+    <filter-class>de.chkal.backset.module.servlet.xml.SomeFilter</filter-class>
     <async-supported>true</async-supported>
     <init-param>
       <param-name>foo</param-name>

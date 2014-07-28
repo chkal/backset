@@ -7,24 +7,14 @@ import io.undertow.servlet.api.FilterMappingInfo;
 import io.undertow.servlet.api.FilterMappingInfo.MappingType;
 import io.undertow.servlet.api.ServletInfo;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class DescriptorDeploymentEnricherTest {
+public class WebXmlParsingTest {
 
   private DeploymentInfo deployment;
 
@@ -107,43 +97,6 @@ public class DescriptorDeploymentEnricherTest {
     assertThat(second.getDispatcher()).isEqualTo(DispatcherType.ERROR);
     assertThat(second.getMappingType()).isEqualTo(MappingType.SERVLET);
     assertThat(second.getMapping()).isEqualTo("SomeServlet");
-
-  }
-
-  public static class SomeListener implements ServletContextListener {
-
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
-
-  }
-
-  public static class SomeServlet extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
-
-    // nothing
-
-  }
-
-  public static class SomeFilter implements Filter {
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
-    }
-
-    @Override
-    public void destroy() {
-    }
 
   }
 

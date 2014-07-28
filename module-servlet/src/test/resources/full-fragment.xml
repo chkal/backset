@@ -4,12 +4,12 @@
   version="3.1">
 
   <listener>
-    <listener-class>de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherFragmentTest$SomeListener</listener-class>
+    <listener-class>de.chkal.backset.module.servlet.xml.SomeListener</listener-class>
   </listener>
 
   <servlet>
     <servlet-name>SomeServlet</servlet-name>
-    <servlet-class>de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherFragmentTest$SomeServlet</servlet-class>
+    <servlet-class>de.chkal.backset.module.servlet.xml.SomeServlet</servlet-class>
     <async-supported>true</async-supported>
     <load-on-startup>5</load-on-startup>
     <init-param>
@@ -24,7 +24,7 @@
 
   <filter>
     <filter-name>SomeFilter</filter-name>
-    <filter-class>de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherFragmentTest$SomeFilter</filter-class>
+    <filter-class>de.chkal.backset.module.servlet.xml.SomeFilter</filter-class>
     <async-supported>true</async-supported>
     <init-param>
       <param-name>foo</param-name>
