@@ -2,12 +2,17 @@ package de.chkal.backset.module.servlet.xml;
 
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.servlet.api.FilterInfo;
 import io.undertow.servlet.api.ServletInfo;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EventListener;
+import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -18,9 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.servlet.xml.types.DispatcherType;
+import de.chkal.backset.module.servlet.xml.types.FilterMappingType;
+import de.chkal.backset.module.servlet.xml.types.FilterType;
 import de.chkal.backset.module.servlet.xml.types.ListenerType;
 import de.chkal.backset.module.servlet.xml.types.ParamValueType;
 import de.chkal.backset.module.servlet.xml.types.ServletMappingType;
+import de.chkal.backset.module.servlet.xml.types.ServletNameType;
 import de.chkal.backset.module.servlet.xml.types.ServletType;
 import de.chkal.backset.module.servlet.xml.types.UrlPatternType;
 import de.chkal.backset.module.servlet.xml.types.WebAppType;
@@ -99,7 +108,85 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
         processServletMapping(deployment, (ServletMappingType) jaxbElement.getValue());
       }
 
+      // <filter>
+      if (jaxbElement.getDeclaredType().equals(FilterType.class)) {
+        processFilter(deployment, (FilterType) jaxbElement.getValue());
+      }
+
+      // <filter-mapping>
+      if (jaxbElement.getDeclaredType().equals(FilterMappingType.class)) {
+        processFilterMapping(deployment, (FilterMappingType) jaxbElement.getValue());
+      }
+
     }
+
+  }
+
+  private void processFilterMapping(DeploymentInfo deployment, FilterMappingType value) {
+
+    String filterName = value.getFilterName().getValue();
+
+    List<javax.servlet.DispatcherType> dispatcherTypes = getDispatcherTypes(value.getDispatcher());
+
+    for (Object object : value.getUrlPatternOrServletName()) {
+
+      if (object instanceof UrlPatternType) {
+        for (javax.servlet.DispatcherType dispatcherType : dispatcherTypes) {
+          deployment.addFilterUrlMapping(
+              filterName, ((UrlPatternType) object).getValue(), dispatcherType);
+        }
+      }
+
+      if (object instanceof ServletNameType) {
+        for (javax.servlet.DispatcherType dispatcherType : dispatcherTypes) {
+          deployment.addFilterServletNameMapping(
+              filterName, ((ServletNameType) object).getValue(), dispatcherType);
+        }
+      }
+
+    }
+
+  }
+
+  private List<javax.servlet.DispatcherType> getDispatcherTypes(List<DispatcherType> dispatcher) {
+
+    if (dispatcher == null || dispatcher.isEmpty()) {
+      return Arrays.asList(javax.servlet.DispatcherType.REQUEST);
+    }
+
+    List<javax.servlet.DispatcherType> result = new ArrayList<>();
+    for (DispatcherType dispatcherType : dispatcher) {
+      result.add(javax.servlet.DispatcherType.valueOf(
+          dispatcherType.getValue().trim().toUpperCase()));
+    }
+    return result;
+
+  }
+
+  private void processFilter(DeploymentInfo deployment, FilterType value) {
+
+    String servletName = UUID.randomUUID().toString();
+    if (value.getFilterName() != null && value.getFilterName().getValue() != null) {
+      servletName = value.getFilterName().getValue().trim();
+    }
+
+    Class<Filter> filterClazz = loadClass(
+        value.getFilterClass().getValue().trim(), Filter.class);
+    FilterInfo filterInfo = new FilterInfo(servletName, filterClazz);
+
+    filterInfo.setAsyncSupported(
+        value.getAsyncSupported() != null && value.getAsyncSupported().isValue());
+
+    if (value.getInitParam() != null) {
+      for (ParamValueType param : value.getInitParam()) {
+        if (param.getParamName() != null && param.getParamValue() != null) {
+          filterInfo.addInitParam(
+              param.getParamName().getValue(), param.getParamValue().getValue());
+        }
+      }
+    }
+
+    deployment.addFilter(filterInfo);
 
   }
 

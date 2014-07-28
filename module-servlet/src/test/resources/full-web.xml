@@ -30,4 +30,22 @@
     <url-pattern>*.test</url-pattern>
   </servlet-mapping>
 
+  <filter>
+    <filter-name>SomeFilter</filter-name>
+    <filter-class>
+      de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricherTest$SomeFilter
+    </filter-class>
+    <async-supported>true</async-supported>
+    <init-param>
+      <param-name>foo</param-name>
+      <param-value>bar</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>SomeFilter</filter-name>
+    <url-pattern>*.filter</url-pattern>
+    <servlet-name>SomeServlet</servlet-name>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
 </web-app>
