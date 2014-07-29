@@ -21,9 +21,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.sax.SAXSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.servlet.xml.types.DispatcherType;
@@ -108,8 +113,7 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
     try {
 
-      Unmarshaller unmarshaller = context.createUnmarshaller();
-      JAXBElement<?> webappElement = (JAXBElement<?>) unmarshaller.unmarshal(stream);
+      JAXBElement<?> webappElement = parseStream(stream);
 
       if (webappElement.getDeclaredType().equals(WebAppType.class)) {
 
@@ -118,9 +122,23 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
       }
 
-    } catch (JAXBException e) {
+    } catch (JAXBException | SAXException e) {
       log.warn("Failed to parse descriptor", e);
     }
+
+  }
+
+  private JAXBElement<?> parseStream(InputStream stream) throws JAXBException, SAXException {
+
+    XMLReader reader = XMLReaderFactory.createXMLReader();
+
+    NamespaceFilter filter = new NamespaceFilter();
+    filter.setParent(reader);
+
+    SAXSource source = new SAXSource(filter, new InputSource(stream));
+
+    Unmarshaller unmarshaller = context.createUnmarshaller();
+    return (JAXBElement<?>) unmarshaller.unmarshal(source);
 
   }
 
@@ -128,8 +146,7 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
     try {
 
-      Unmarshaller unmarshaller = context.createUnmarshaller();
-      JAXBElement<?> webappElement = (JAXBElement<?>) unmarshaller.unmarshal(stream);
+      JAXBElement<?> webappElement = parseStream(stream);
 
       if (webappElement.getDeclaredType().equals(WebFragmentType.class)) {
 
@@ -138,7 +155,7 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
       }
 
-    } catch (JAXBException e) {
+    } catch (JAXBException | SAXException e) {
       log.warn("Failed to parse descriptor", e);
     }
 
