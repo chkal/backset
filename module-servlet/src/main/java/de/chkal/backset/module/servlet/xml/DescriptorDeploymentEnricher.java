@@ -5,9 +5,12 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.FilterInfo;
 import io.undertow.servlet.api.ServletInfo;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.List;
 import java.util.UUID;
@@ -58,22 +61,40 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
   @Override
   public void enrich(DeploymentInfo deployment) {
 
+    /*
+     * web.xml
+     */
     InputStream webXmlStream = classLoader.getResourceAsStream("webapp/WEB-INF/web.xml");
     if (webXmlStream != null) {
+      log.info("Processing standard web.xml file...");
       processWebXml(deployment, webXmlStream);
     }
 
-    for (int i = 0; i < 1000; i++) {
-
-      StringBuilder resourceName = new StringBuilder("META-INF/web-fragment.xml");
-      if (i > 0) {
-        resourceName.append(".").append(i);
+    /*
+     * unrelocated web-fragment.xml
+     */
+    try {
+      Enumeration<URL> fragmentResources = classLoader.getResources("META-INF/web-fragment.xml");
+      while (fragmentResources.hasMoreElements()) {
+        URL fragment = fragmentResources.nextElement();
+        log.info("Processing web-fragment.xml file: {}", fragment.toString());
+        processWebFragmentXml(deployment, fragment.openStream());
       }
+    } catch (IOException e) {
+      log.warn("Failed to process web fragments", e);
+    }
+
+    /*
+     * relocated web-fragment.xml
+     */
+    for (int i = 1; i < 1000; i++) {
+
+      String resourceName = "META-INF/web-fragment.xml." + i;
 
       InputStream fragmentStream = classLoader.getResourceAsStream(resourceName.toString());
 
       if (fragmentStream != null) {
-        log.info("Found relocated web-fragment.xml file: " + resourceName.toString());
+        log.info("Processing relocated web-fragment.xml file: {}", resourceName.toString());
         processWebFragmentXml(deployment, fragmentStream);
       } else {
         break;
