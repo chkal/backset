@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-fragment_3_1.xsd"
+  version="3.1">
+
+  <servlet>
+    <servlet-name>FirstFragmentXmlServlet</servlet-name>
+    <servlet-class>de.chkal.backset.test.servlet.fragment.FragmentXmlServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FirstFragmentXmlServlet</servlet-name>
+    <url-pattern>/fragment1/FragmentXmlServlet</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>FirstFragmentXmlFilter</filter-name>
+    <filter-class>de.chkal.backset.test.servlet.fragment.FragmentXmlFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>FirstFragmentXmlFilter</filter-name>
+    <url-pattern>/fragment1/FragmentXmlFilter</url-pattern>
+  </filter-mapping>
+
+</web-fragment>
