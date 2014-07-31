@@ -9,11 +9,16 @@ import javax.servlet.Servlet;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.ModuleContext;
 
 public class WebServletDeploymentEnricher implements DeploymentEnricher {
+
+  private final Logger log = LoggerFactory.getLogger(WebListenerDeploymentEnricher.class);
 
   private final AnnotationDatabase annotationDatabase;
 
@@ -36,6 +41,7 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
 
         WebServlet annotation = clazz.getAnnotation(WebServlet.class);
         if (annotation != null) {
+          log.debug("Registering servlet: {}", clazz.getName());
           deployment.addServlet(createServletInfo((Class<? extends Servlet>) clazz, annotation));
         }
 

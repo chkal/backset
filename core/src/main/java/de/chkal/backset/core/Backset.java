@@ -70,6 +70,7 @@ public class Backset {
           .setDeploymentName("deployment.war");
 
       for (DeploymentEnricher enricher : moduleContext.getDeploymentEnrichers()) {
+        log.debug("Executing deployment enricher: {}", enricher.getClass().getName());
         enricher.enrich(servletBuilder);
       }
 

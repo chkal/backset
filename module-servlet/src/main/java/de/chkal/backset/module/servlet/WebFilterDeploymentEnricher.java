@@ -10,11 +10,16 @@ import javax.servlet.Filter;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.ModuleContext;
 
 public class WebFilterDeploymentEnricher implements DeploymentEnricher {
+
+  private final Logger log = LoggerFactory.getLogger(WebListenerDeploymentEnricher.class);
 
   private final AnnotationDatabase annotationDatabase;
 
@@ -38,6 +43,7 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
         WebFilter annotation = clazz.getAnnotation(WebFilter.class);
         if (annotation != null) {
 
+          log.debug("Registering filter: {}", clazz.getName());
           FilterInfo filterInfo = createFilterInfo((Class<? extends Filter>) clazz, annotation);
 
           deployment.addFilter(filterInfo);
