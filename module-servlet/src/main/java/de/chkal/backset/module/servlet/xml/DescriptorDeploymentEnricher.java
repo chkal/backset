@@ -64,6 +64,11 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
   }
 
   @Override
+  public int getPriority() {
+    return 1000;
+  }
+  
+  @Override
   public void enrich(DeploymentInfo deployment) {
 
     /*

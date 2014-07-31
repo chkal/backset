@@ -10,6 +10,11 @@ import de.chkal.backset.module.api.DeploymentEnricher;
 public class WeldDeploymentEnricher implements DeploymentEnricher {
 
   @Override
+  public int getPriority() {
+    return 100;
+  }
+  
+  @Override
   public void enrich(DeploymentInfo deployment) {
 
     deployment

@@ -8,6 +8,7 @@ import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.ConfigManager;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.ModuleContext;
+import de.chkal.backset.module.api.OrderedComparator;
 
 public class DefaultModuleContext implements ModuleContext {
 
@@ -23,6 +24,7 @@ public class DefaultModuleContext implements ModuleContext {
   @Override
   public void register(DeploymentEnricher deploymentEnricher) {
     this.deploymentEnrichers.add(deploymentEnricher);
+    Collections.sort(this.deploymentEnrichers, OrderedComparator.INSTANCE);
   }
 
   public List<DeploymentEnricher> getDeploymentEnrichers() {

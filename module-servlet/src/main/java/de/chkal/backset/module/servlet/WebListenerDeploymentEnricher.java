@@ -20,6 +20,11 @@ public class WebListenerDeploymentEnricher implements DeploymentEnricher {
   }
 
   @Override
+  public int getPriority() {
+    return 1010;
+  }
+  
+  @Override
   @SuppressWarnings("unchecked")
   public void enrich(DeploymentInfo deployment) {
 

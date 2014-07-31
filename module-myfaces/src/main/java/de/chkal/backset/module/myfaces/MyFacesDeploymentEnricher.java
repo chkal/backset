@@ -12,6 +12,11 @@ import de.chkal.backset.module.api.DeploymentEnricher;
 public class MyFacesDeploymentEnricher implements DeploymentEnricher {
 
   @Override
+  public int getPriority() {
+    return 200;
+  }
+  
+  @Override
   public void enrich(DeploymentInfo deployment) {
     deployment
         .addInitParameter(

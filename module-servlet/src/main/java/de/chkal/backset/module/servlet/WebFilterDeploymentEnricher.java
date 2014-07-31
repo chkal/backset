@@ -23,6 +23,11 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
   }
 
   @Override
+  public int getPriority() {
+    return 1020;
+  }
+  
+  @Override
   @SuppressWarnings("unchecked")
   public void enrich(DeploymentInfo deployment) {
 

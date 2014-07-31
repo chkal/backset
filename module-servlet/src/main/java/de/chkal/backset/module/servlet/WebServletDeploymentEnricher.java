@@ -22,6 +22,11 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
   }
 
   @Override
+  public int getPriority() {
+    return 1030;
+  }
+  
+  @Override
   @SuppressWarnings("unchecked")
   public void enrich(DeploymentInfo deployment) {
 

@@ -10,6 +10,11 @@ import de.chkal.backset.module.api.DeploymentEnricher;
 public class OpenWebBeansDeploymentEnricher implements DeploymentEnricher {
 
   @Override
+  public int getPriority() {
+    return 150;
+  }
+  
+  @Override
   public void enrich(DeploymentInfo deployment) {
     deployment
         .addListener(
