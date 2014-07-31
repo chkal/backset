@@ -6,6 +6,11 @@ import de.chkal.backset.module.api.ModuleContext;
 public class WeldModule implements Module {
 
   @Override
+  public int getPriority() {
+    return 100;
+  }
+  
+  @Override
   public void init(ModuleContext context) {
 
     WeldBootstrapListener.annotationDatabase = context.getAnnotationDatabase();

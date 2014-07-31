@@ -10,6 +10,11 @@ import de.chkal.backset.module.api.ModuleContext;
 public class JNDIModule implements Module {
 
   @Override
+  public int getPriority() {
+    return 10;
+  }
+
+  @Override
   public void init(ModuleContext context) {
 
     System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");

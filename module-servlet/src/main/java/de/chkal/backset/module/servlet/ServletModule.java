@@ -7,6 +7,11 @@ import de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricher;
 public class ServletModule implements Module {
 
   @Override
+  public int getPriority() {
+    return 1000;
+  }
+  
+  @Override
   public void init(ModuleContext context) {
 
     context.register(new DescriptorDeploymentEnricher());

@@ -21,6 +21,11 @@ public class BoneCPModule implements Module {
   private final Logger log = LoggerFactory.getLogger(BoneCPModule.class);
 
   @Override
+  public int getPriority() {
+    return 20;
+  }
+  
+  @Override
   public void init(ModuleContext context) {
 
     BoneConfig boneConfig = context.getConfigManager().getConfig(BoneConfig.class);

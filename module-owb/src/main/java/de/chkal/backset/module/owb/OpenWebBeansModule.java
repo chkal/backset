@@ -6,6 +6,11 @@ import de.chkal.backset.module.api.ModuleContext;
 public class OpenWebBeansModule implements Module {
 
   @Override
+  public int getPriority() {
+    return 110;
+  }
+  
+  @Override
   public void init(ModuleContext context) {
 
     context.register(new OpenWebBeansDeploymentEnricher());
