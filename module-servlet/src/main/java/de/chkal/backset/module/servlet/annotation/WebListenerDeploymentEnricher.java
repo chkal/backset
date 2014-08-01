@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.ModuleContext;
+import de.chkal.backset.module.servlet.ServletEnricherContext;
 
 public class WebListenerDeploymentEnricher implements DeploymentEnricher {
 
@@ -20,7 +21,10 @@ public class WebListenerDeploymentEnricher implements DeploymentEnricher {
 
   private final AnnotationDatabase annotationDatabase;
 
-  public WebListenerDeploymentEnricher(ModuleContext context) {
+  private final ServletEnricherContext enricherContext;
+
+  public WebListenerDeploymentEnricher(ModuleContext context, ServletEnricherContext enricherContext) {
+    this.enricherContext = enricherContext;
     this.annotationDatabase = context.getAnnotationDatabase();
   }
 
@@ -33,12 +37,16 @@ public class WebListenerDeploymentEnricher implements DeploymentEnricher {
   @SuppressWarnings("unchecked")
   public void enrich(DeploymentInfo deployment) {
 
-    for (Class<?> clazz : annotationDatabase.getTypes(WebListener.class)) {
+    if (!enricherContext.isMetadataComplete()) {
 
-      if (EventListener.class.isAssignableFrom(clazz)) {
+      for (Class<?> clazz : annotationDatabase.getTypes(WebListener.class)) {
 
-        log.debug("Registering listener: {}", clazz.getName());
-        deployment.addListener(new ListenerInfo((Class<? extends EventListener>) clazz));
+        if (EventListener.class.isAssignableFrom(clazz)) {
+
+          log.debug("Registering listener: {}", clazz.getName());
+          deployment.addListener(new ListenerInfo((Class<? extends EventListener>) clazz));
+
+        }
 
       }
 

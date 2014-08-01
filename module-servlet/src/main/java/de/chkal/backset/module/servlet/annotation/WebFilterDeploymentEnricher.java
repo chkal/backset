@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.ModuleContext;
+import de.chkal.backset.module.servlet.ServletEnricherContext;
 
 public class WebFilterDeploymentEnricher implements DeploymentEnricher {
 
@@ -23,7 +24,10 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
 
   private final AnnotationDatabase annotationDatabase;
 
-  public WebFilterDeploymentEnricher(ModuleContext context) {
+  private final ServletEnricherContext enricherContext;
+
+  public WebFilterDeploymentEnricher(ModuleContext context, ServletEnricherContext enricherContext) {
+    this.enricherContext = enricherContext;
     this.annotationDatabase = context.getAnnotationDatabase();
   }
 
@@ -31,39 +35,43 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
   public int getPriority() {
     return 1020;
   }
-  
+
   @Override
   @SuppressWarnings("unchecked")
   public void enrich(DeploymentInfo deployment) {
 
-    for (Class<?> clazz : annotationDatabase.getTypes(WebFilter.class)) {
+    if (!enricherContext.isMetadataComplete()) {
 
-      if (Filter.class.isAssignableFrom(clazz)) {
+      for (Class<?> clazz : annotationDatabase.getTypes(WebFilter.class)) {
 
-        WebFilter annotation = clazz.getAnnotation(WebFilter.class);
-        if (annotation != null) {
+        if (Filter.class.isAssignableFrom(clazz)) {
 
-          log.debug("Registering filter: {}", clazz.getName());
-          FilterInfo filterInfo = createFilterInfo((Class<? extends Filter>) clazz, annotation);
+          WebFilter annotation = clazz.getAnnotation(WebFilter.class);
+          if (annotation != null) {
 
-          deployment.addFilter(filterInfo);
+            log.debug("Registering filter: {}", clazz.getName());
+            FilterInfo filterInfo = createFilterInfo((Class<? extends Filter>) clazz, annotation);
 
-          for (String urlPattern : annotation.urlPatterns()) {
-            for (DispatcherType dispatcherType : annotation.dispatcherTypes()) {
-              deployment.addFilterUrlMapping(filterInfo.getName(), urlPattern, dispatcherType);
+            deployment.addFilter(filterInfo);
+
+            for (String urlPattern : annotation.urlPatterns()) {
+              for (DispatcherType dispatcherType : annotation.dispatcherTypes()) {
+                deployment.addFilterUrlMapping(filterInfo.getName(), urlPattern, dispatcherType);
+              }
             }
-          }
 
-          for (String urlPattern : annotation.value()) {
-            for (DispatcherType dispatcher : annotation.dispatcherTypes()) {
-              deployment.addFilterUrlMapping(filterInfo.getName(), urlPattern, dispatcher);
+            for (String urlPattern : annotation.value()) {
+              for (DispatcherType dispatcher : annotation.dispatcherTypes()) {
+                deployment.addFilterUrlMapping(filterInfo.getName(), urlPattern, dispatcher);
+              }
             }
-          }
 
-          for (String servletName : annotation.servletNames()) {
-            for (DispatcherType dispatcher : annotation.dispatcherTypes()) {
-              deployment.addFilterServletNameMapping(filterInfo.getName(), servletName, dispatcher);
+            for (String servletName : annotation.servletNames()) {
+              for (DispatcherType dispatcher : annotation.dispatcherTypes()) {
+                deployment.addFilterServletNameMapping(filterInfo.getName(), servletName, dispatcher);
+              }
             }
+
           }
 
         }

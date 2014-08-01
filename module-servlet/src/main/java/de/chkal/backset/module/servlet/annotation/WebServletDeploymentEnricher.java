@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
 import de.chkal.backset.module.api.ModuleContext;
+import de.chkal.backset.module.servlet.ServletEnricherContext;
 
 public class WebServletDeploymentEnricher implements DeploymentEnricher {
 
@@ -22,7 +23,10 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
 
   private final AnnotationDatabase annotationDatabase;
 
-  public WebServletDeploymentEnricher(ModuleContext context) {
+  private final ServletEnricherContext enricherContext;
+
+  public WebServletDeploymentEnricher(ModuleContext context, ServletEnricherContext enricherContext) {
+    this.enricherContext = enricherContext;
     this.annotationDatabase = context.getAnnotationDatabase();
   }
 
@@ -30,19 +34,23 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
   public int getPriority() {
     return 1030;
   }
-  
+
   @Override
   @SuppressWarnings("unchecked")
   public void enrich(DeploymentInfo deployment) {
 
-    for (Class<?> clazz : annotationDatabase.getTypes(WebServlet.class)) {
+    if (!enricherContext.isMetadataComplete()) {
 
-      if (Servlet.class.isAssignableFrom(clazz)) {
+      for (Class<?> clazz : annotationDatabase.getTypes(WebServlet.class)) {
 
-        WebServlet annotation = clazz.getAnnotation(WebServlet.class);
-        if (annotation != null) {
-          log.debug("Registering servlet: {}", clazz.getName());
-          deployment.addServlet(createServletInfo((Class<? extends Servlet>) clazz, annotation));
+        if (Servlet.class.isAssignableFrom(clazz)) {
+
+          WebServlet annotation = clazz.getAnnotation(WebServlet.class);
+          if (annotation != null) {
+            log.debug("Registering servlet: {}", clazz.getName());
+            deployment.addServlet(createServletInfo((Class<? extends Servlet>) clazz, annotation));
+          }
+
         }
 
       }

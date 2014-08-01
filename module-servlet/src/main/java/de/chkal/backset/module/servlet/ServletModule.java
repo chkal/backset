@@ -13,14 +13,17 @@ public class ServletModule implements Module {
   public int getPriority() {
     return 1000;
   }
-  
-  @Override
-  public void init(ModuleContext context) {
 
-    context.register(new DescriptorDeploymentEnricher());
-    context.register(new WebServletDeploymentEnricher(context));
-    context.register(new WebFilterDeploymentEnricher(context));
-    context.register(new WebListenerDeploymentEnricher(context));
+  @Override
+  public void init(ModuleContext moduleContext) {
+
+    ServletEnricherContext enricherContext = new ServletEnricherContext();
+
+    moduleContext.register(new DescriptorDeploymentEnricher(enricherContext));
+
+    moduleContext.register(new WebServletDeploymentEnricher(moduleContext, enricherContext));
+    moduleContext.register(new WebFilterDeploymentEnricher(moduleContext, enricherContext));
+    moduleContext.register(new WebListenerDeploymentEnricher(moduleContext, enricherContext));
 
   }
 

@@ -14,6 +14,8 @@ import javax.servlet.DispatcherType;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.chkal.backset.module.servlet.ServletEnricherContext;
+
 public class WebXmlParsingTest {
 
   private DeploymentInfo deployment;
@@ -23,7 +25,8 @@ public class WebXmlParsingTest {
 
     deployment = new DeploymentInfo();
 
-    DescriptorDeploymentEnricher enricher = new DescriptorDeploymentEnricher();
+    ServletEnricherContext enricherContext = new ServletEnricherContext();
+    DescriptorDeploymentEnricher enricher = new DescriptorDeploymentEnricher(enricherContext);
 
     InputStream webXml =
         Thread.currentThread().getContextClassLoader().getResourceAsStream("full-web.xml");

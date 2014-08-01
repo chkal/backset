@@ -31,6 +31,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.servlet.ServletEnricherContext;
 import de.chkal.backset.module.servlet.xml.types.DispatcherType;
 import de.chkal.backset.module.servlet.xml.types.FilterMappingType;
 import de.chkal.backset.module.servlet.xml.types.FilterType;
@@ -51,9 +52,12 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
 
   private final ClassLoader classLoader;
 
-  public DescriptorDeploymentEnricher() {
+  private final ServletEnricherContext enricherContext;
 
-    classLoader = Thread.currentThread().getContextClassLoader();
+  public DescriptorDeploymentEnricher(ServletEnricherContext enricherContext) {
+
+    this.enricherContext = enricherContext;
+    this.classLoader = Thread.currentThread().getContextClassLoader();
 
     try {
       context = JAXBContext.newInstance(WebAppType.class.getPackage().getName());
@@ -67,7 +71,7 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
   public int getPriority() {
     return 1000;
   }
-  
+
   @Override
   public void enrich(DeploymentInfo deployment) {
 
@@ -80,34 +84,38 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
       processWebXml(deployment, webXmlStream);
     }
 
-    /*
-     * unrelocated web-fragment.xml
-     */
-    try {
-      Enumeration<URL> fragmentResources = classLoader.getResources("META-INF/web-fragment.xml");
-      while (fragmentResources.hasMoreElements()) {
-        URL fragment = fragmentResources.nextElement();
-        log.info("Processing web-fragment.xml file: {}", fragment.toString());
-        processWebFragmentXml(deployment, fragment.openStream());
+    if (!enricherContext.isMetadataComplete()) {
+
+      /*
+       * unrelocated web-fragment.xml
+       */
+      try {
+        Enumeration<URL> fragmentResources = classLoader.getResources("META-INF/web-fragment.xml");
+        while (fragmentResources.hasMoreElements()) {
+          URL fragment = fragmentResources.nextElement();
+          log.info("Processing web-fragment.xml file: {}", fragment.toString());
+          processWebFragmentXml(deployment, fragment.openStream());
+        }
+      } catch (IOException e) {
+        log.warn("Failed to process web fragments", e);
       }
-    } catch (IOException e) {
-      log.warn("Failed to process web fragments", e);
-    }
 
-    /*
-     * relocated web-fragment.xml
-     */
-    for (int i = 1; i < 1000; i++) {
+      /*
+       * relocated web-fragment.xml
+       */
+      for (int i = 1; i < 1000; i++) {
 
-      String resourceName = "META-INF/web-fragment.xml." + i;
+        String resourceName = "META-INF/web-fragment.xml." + i;
 
-      InputStream fragmentStream = classLoader.getResourceAsStream(resourceName.toString());
+        InputStream fragmentStream = classLoader.getResourceAsStream(resourceName.toString());
 
-      if (fragmentStream != null) {
-        log.info("Processing relocated web-fragment.xml file: {}", resourceName.toString());
-        processWebFragmentXml(deployment, fragmentStream);
-      } else {
-        break;
+        if (fragmentStream != null) {
+          log.info("Processing relocated web-fragment.xml file: {}", resourceName.toString());
+          processWebFragmentXml(deployment, fragmentStream);
+        } else {
+          break;
+        }
+
       }
 
     }
@@ -167,6 +175,11 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
   }
 
   private void processWebApp(DeploymentInfo deployment, WebAppType webapp) {
+
+    Boolean metadataComplete = webapp.isMetadataComplete();
+    if (metadataComplete != null && metadataComplete.booleanValue() == true) {
+      enricherContext.setMetadataComplete(true);
+    }
 
     for (JAXBElement<?> jaxbElement : webapp.getModuleNameOrDescriptionAndDisplayName()) {
       processRootChildElement(deployment, jaxbElement);
