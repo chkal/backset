@@ -1,0 +1,12 @@
+
+logging:
+  level: INFO
+  loggers:
+    de.chkal.backset: DEBUG
+
+weld:
+  packages:
+    - de.chkal.backset.showcase.vraptor
+    - br.com.caelum.vraptor
+    - de.chkal.backset.module.vraptor
+

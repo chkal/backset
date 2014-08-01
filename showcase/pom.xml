@@ -16,6 +16,7 @@
   <modules>
     <module>servlet</module>
     <module>jsf</module>
+    <module>vraptor</module>
     <module>fullstack</module>
     <module>todo</module>
   </modules>
