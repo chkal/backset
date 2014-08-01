@@ -1,4 +1,4 @@
-package de.chkal.backset.module.servlet;
+package de.chkal.backset.module.servlet.annotation;
 
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.ServletInfo;

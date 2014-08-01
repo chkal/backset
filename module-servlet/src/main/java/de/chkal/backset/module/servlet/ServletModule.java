@@ -2,6 +2,9 @@ package de.chkal.backset.module.servlet;
 
 import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.api.ModuleContext;
+import de.chkal.backset.module.servlet.annotation.WebFilterDeploymentEnricher;
+import de.chkal.backset.module.servlet.annotation.WebListenerDeploymentEnricher;
+import de.chkal.backset.module.servlet.annotation.WebServletDeploymentEnricher;
 import de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricher;
 
 public class ServletModule implements Module {
