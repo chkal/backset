@@ -2,6 +2,8 @@ package de.chkal.backset.module.weld;
 
 import de.chkal.backset.module.api.Module;
 import de.chkal.backset.module.api.ModuleContext;
+import de.chkal.backset.module.weld.lifecycle.WeldInjectionProvider;
+import de.chkal.backset.module.weld.lifecycle.WeldLifecycleProvider;
 
 public class WeldModule implements Module {
 
@@ -9,15 +11,18 @@ public class WeldModule implements Module {
   public int getPriority() {
     return 100;
   }
-  
+
   @Override
   public void init(ModuleContext context) {
 
     WeldBootstrapListener.annotationDatabase = context.getAnnotationDatabase();
-    WeldBootstrapListener.weldConfig = 
+    WeldBootstrapListener.weldConfig =
         context.getConfigManager().getConfig(WeldConfig.class);
 
     context.register(new WeldDeploymentEnricher());
+
+    context.register(new WeldLifecycleProvider());
+    context.register(new WeldInjectionProvider());
 
   }
 

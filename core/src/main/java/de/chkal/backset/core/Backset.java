@@ -16,8 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.core.annotation.ReflectionsAnnotationDatabase;
+import de.chkal.backset.core.lifecycle.DefaultInstanceFactoryFactory;
 import de.chkal.backset.module.api.ConfigManager;
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 import de.chkal.backset.module.api.Module;
 
 public class Backset {
@@ -69,9 +71,11 @@ public class Backset {
           .setContextPath("/")
           .setDeploymentName("deployment.war");
 
+      InstanceFactoryFactory instanceFactoryFactory = new DefaultInstanceFactoryFactory(moduleContext);
+
       for (DeploymentEnricher enricher : moduleContext.getDeploymentEnrichers()) {
         log.debug("Executing deployment enricher: {}", enricher.getClass().getName());
-        enricher.enrich(servletBuilder);
+        enricher.enrich(servletBuilder, instanceFactoryFactory);
       }
 
       UndertowConfig undertowConfig = configManager.getConfig(UndertowConfig.class);

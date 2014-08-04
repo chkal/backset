@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 import de.chkal.backset.module.api.ModuleContext;
 import de.chkal.backset.module.servlet.ServletEnricherContext;
 
@@ -35,7 +36,7 @@ public class WebListenerDeploymentEnricher implements DeploymentEnricher {
 
   @Override
   @SuppressWarnings("unchecked")
-  public void enrich(DeploymentInfo deployment) {
+  public void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory) {
 
     if (!enricherContext.isMetadataComplete()) {
 
@@ -44,7 +45,8 @@ public class WebListenerDeploymentEnricher implements DeploymentEnricher {
         if (EventListener.class.isAssignableFrom(clazz)) {
 
           log.debug("Registering listener: {}", clazz.getName());
-          deployment.addListener(new ListenerInfo((Class<? extends EventListener>) clazz));
+          Class<? extends EventListener> type = (Class<? extends EventListener>) clazz;
+          deployment.addListener(new ListenerInfo(type, factory.getInstanceFactory(type)));
 
         }
 

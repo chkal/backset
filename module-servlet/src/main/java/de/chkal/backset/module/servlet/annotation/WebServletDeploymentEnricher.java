@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 import de.chkal.backset.module.api.ModuleContext;
 import de.chkal.backset.module.servlet.ServletEnricherContext;
 
@@ -37,7 +38,7 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
 
   @Override
   @SuppressWarnings("unchecked")
-  public void enrich(DeploymentInfo deployment) {
+  public void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory) {
 
     if (!enricherContext.isMetadataComplete()) {
 
@@ -48,7 +49,7 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
           WebServlet annotation = clazz.getAnnotation(WebServlet.class);
           if (annotation != null) {
             log.debug("Registering servlet: {}", clazz.getName());
-            deployment.addServlet(createServletInfo((Class<? extends Servlet>) clazz, annotation));
+            deployment.addServlet(createServletInfo((Class<? extends Servlet>) clazz, annotation, factory));
           }
 
         }
@@ -59,14 +60,15 @@ public class WebServletDeploymentEnricher implements DeploymentEnricher {
 
   }
 
-  private ServletInfo createServletInfo(Class<? extends Servlet> clazz, WebServlet annotation) {
+  private ServletInfo createServletInfo(Class<? extends Servlet> clazz, WebServlet annotation,
+      InstanceFactoryFactory factory) {
 
     String name = annotation.name();
     if (name.trim().length() == 0) {
       name = UUID.randomUUID().toString();
     }
 
-    ServletInfo info = new ServletInfo(name, clazz);
+    ServletInfo info = new ServletInfo(name, clazz, factory.getInstanceFactory(clazz));
     info.addMappings(annotation.urlPatterns());
     info.addMappings(annotation.value());
 

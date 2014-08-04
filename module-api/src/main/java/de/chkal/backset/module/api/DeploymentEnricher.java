@@ -4,6 +4,6 @@ import io.undertow.servlet.api.DeploymentInfo;
 
 public interface DeploymentEnricher extends Ordered {
 
-  void enrich(DeploymentInfo deployment);
+  void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory);
 
 }

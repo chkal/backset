@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import de.chkal.backset.module.api.AnnotationDatabase;
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 import de.chkal.backset.module.api.ModuleContext;
 import de.chkal.backset.module.servlet.ServletEnricherContext;
 
@@ -38,7 +39,7 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
 
   @Override
   @SuppressWarnings("unchecked")
-  public void enrich(DeploymentInfo deployment) {
+  public void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory) {
 
     if (!enricherContext.isMetadataComplete()) {
 
@@ -50,7 +51,7 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
           if (annotation != null) {
 
             log.debug("Registering filter: {}", clazz.getName());
-            FilterInfo filterInfo = createFilterInfo((Class<? extends Filter>) clazz, annotation);
+            FilterInfo filterInfo = createFilterInfo((Class<? extends Filter>) clazz, annotation, factory);
 
             deployment.addFilter(filterInfo);
 
@@ -82,14 +83,15 @@ public class WebFilterDeploymentEnricher implements DeploymentEnricher {
 
   }
 
-  private FilterInfo createFilterInfo(Class<? extends Filter> clazz, WebFilter annotation) {
+  private FilterInfo createFilterInfo(Class<? extends Filter> clazz, WebFilter annotation,
+      InstanceFactoryFactory factory) {
 
     String name = annotation.filterName();
     if (name.trim().length() == 0) {
       name = UUID.randomUUID().toString();
     }
 
-    FilterInfo filterInfo = new FilterInfo(name, clazz);
+    FilterInfo filterInfo = new FilterInfo(name, clazz, factory.getInstanceFactory(clazz));
     filterInfo.setAsyncSupported(annotation.asyncSupported());
 
     for (WebInitParam param : annotation.initParams()) {

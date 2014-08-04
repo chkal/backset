@@ -6,6 +6,7 @@ import io.undertow.servlet.api.DeploymentInfo;
 import org.jboss.weld.servlet.WeldInitialListener;
 
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 
 public class WeldDeploymentEnricher implements DeploymentEnricher {
 
@@ -15,7 +16,7 @@ public class WeldDeploymentEnricher implements DeploymentEnricher {
   }
   
   @Override
-  public void enrich(DeploymentInfo deployment) {
+  public void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory) {
 
     deployment
 

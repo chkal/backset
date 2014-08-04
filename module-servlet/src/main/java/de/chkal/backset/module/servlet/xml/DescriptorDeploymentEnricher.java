@@ -31,6 +31,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 import de.chkal.backset.module.servlet.ServletEnricherContext;
 import de.chkal.backset.module.servlet.xml.types.DispatcherType;
 import de.chkal.backset.module.servlet.xml.types.FilterMappingType;
@@ -73,7 +74,7 @@ public class DescriptorDeploymentEnricher implements DeploymentEnricher {
   }
 
   @Override
-  public void enrich(DeploymentInfo deployment) {
+  public void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory) {
 
     /*
      * web.xml

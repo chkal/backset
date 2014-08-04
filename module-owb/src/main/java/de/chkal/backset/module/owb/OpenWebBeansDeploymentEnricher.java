@@ -6,6 +6,7 @@ import io.undertow.servlet.api.DeploymentInfo;
 import org.apache.webbeans.servlet.WebBeansConfigurationListener;
 
 import de.chkal.backset.module.api.DeploymentEnricher;
+import de.chkal.backset.module.api.InstanceFactoryFactory;
 
 public class OpenWebBeansDeploymentEnricher implements DeploymentEnricher {
 
@@ -15,7 +16,7 @@ public class OpenWebBeansDeploymentEnricher implements DeploymentEnricher {
   }
   
   @Override
-  public void enrich(DeploymentInfo deployment) {
+  public void enrich(DeploymentInfo deployment, InstanceFactoryFactory factory) {
     deployment
         .addListener(
             Servlets.listener(WebBeansConfigurationListener.class));
