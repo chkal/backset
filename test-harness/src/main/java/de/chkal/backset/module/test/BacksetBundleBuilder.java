@@ -79,6 +79,27 @@ public class BacksetBundleBuilder {
 
   }
 
+  public BacksetBundleBuilder withJSPModule() {
+
+    backset.addPackages(true, "de.chkal.backset.module.jsp");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module",
+        "de.chkal.backset.module.jsp.JSPModule");
+
+    dependencies.addAll(Arrays.asList(
+        "io.undertow.jastow:jastow",
+        "javax.servlet:jstl",
+        "javax.servlet.jsp:javax.servlet.jsp-api",
+        "org.eclipse.jdt.core.compiler:ecj",
+        "de.odysseus.juel:juel-api",
+        "de.odysseus.juel:juel-impl",
+        "de.odysseus.juel:juel-spi"
+        ));
+
+    return this;
+
+  }
+
   public BacksetBundleBuilder withMyFacesModule() {
 
     backset.addPackages(true, "de.chkal.backset.module.myfaces");

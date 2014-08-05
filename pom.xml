@@ -45,6 +45,7 @@
     <vraptor.version>4.1.0-RC2-SNAPSHOT</vraptor.version>
     <hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
     <guava.version>15.0</guava.version>
+    <ecj.version>4.3.1</ecj.version>
   </properties>
 
   <build>
@@ -95,6 +96,7 @@
     <module>test-harness</module>
     <module>server</module>
     <module>module-api</module>
+    <module>module-jsp</module>
     <module>module-jndi</module>
     <module>module-bonecp</module>
     <module>module-servlet</module>
@@ -147,6 +149,11 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-myfaces</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-jsp</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -425,6 +432,12 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jdt.core.compiler</groupId>
+        <artifactId>ecj</artifactId>
+        <version>${ecj.version}</version>
       </dependency>
 
     </dependencies>
