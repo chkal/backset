@@ -20,6 +20,11 @@
     </dependency>
 
     <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-module-jsp</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
@@ -27,16 +32,6 @@
     <dependency>
       <groupId>br.com.caelum</groupId>
       <artifactId>vraptor</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.undertow.jastow</groupId>
-      <artifactId>jastow</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
     </dependency>
 
     <dependency>

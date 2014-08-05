@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  Got this from the controler: #{foo}
+  Got this from the controler: ${foo}
 
 </body>
 </html>
