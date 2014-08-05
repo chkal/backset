@@ -24,7 +24,6 @@
     <slf4j.version>1.7.7</slf4j.version>
     <myfaces.version>2.2.4</myfaces.version>
     <jstl.version>1.2</jstl.version>
-    <juel.version>2.2.7</juel.version>
     <reflections.version>0.9.9-RC1</reflections.version>
     <junit.version>4.11</junit.version>
     <assertj.version>1.6.1</assertj.version>
@@ -46,6 +45,8 @@
     <hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
     <guava.version>15.0</guava.version>
     <ecj.version>4.3.1</ecj.version>
+    <el-api.version>3.0.1-b04</el-api.version>
+    <el-impl.version>3.0.1-b05</el-impl.version>
   </properties>
 
   <build>
@@ -96,6 +97,7 @@
     <module>test-harness</module>
     <module>server</module>
     <module>module-api</module>
+    <module>module-el</module>
     <module>module-jsp</module>
     <module>module-jndi</module>
     <module>module-bonecp</module>
@@ -168,6 +170,11 @@
       </dependency>
       <dependency>
         <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-module-el</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-vraptor</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -216,19 +223,14 @@
       </dependency>
 
       <dependency>
-        <groupId>de.odysseus.juel</groupId>
-        <artifactId>juel-api</artifactId>
-        <version>${juel.version}</version>
+        <groupId>javax.el</groupId>
+        <artifactId>javax.el-api</artifactId>
+        <version>${el-api.version}</version>
       </dependency>
       <dependency>
-        <groupId>de.odysseus.juel</groupId>
-        <artifactId>juel-impl</artifactId>
-        <version>${juel.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>de.odysseus.juel</groupId>
-        <artifactId>juel-spi</artifactId>
-        <version>${juel.version}</version>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.el</artifactId>
+        <version>${el-impl.version}</version>
       </dependency>
 
       <dependency>

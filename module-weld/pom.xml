@@ -20,6 +20,11 @@
     </dependency>
 
     <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-module-el</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
@@ -49,19 +54,6 @@
     <dependency>
       <groupId>io.undertow.jastow</groupId>
       <artifactId>jastow</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>de.odysseus.juel</groupId>
-      <artifactId>juel-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>de.odysseus.juel</groupId>
-      <artifactId>juel-impl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>de.odysseus.juel</groupId>
-      <artifactId>juel-spi</artifactId>
     </dependency>
 
     <dependency>

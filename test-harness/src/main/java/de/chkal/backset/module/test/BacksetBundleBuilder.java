@@ -49,6 +49,9 @@ public class BacksetBundleBuilder {
         "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
         "commons-daemon:commons-daemon"
         ));
+    
+    // always add this one
+    withELModule();
 
   }
 
@@ -90,10 +93,18 @@ public class BacksetBundleBuilder {
         "io.undertow.jastow:jastow",
         "javax.servlet:jstl",
         "javax.servlet.jsp:javax.servlet.jsp-api",
-        "org.eclipse.jdt.core.compiler:ecj",
-        "de.odysseus.juel:juel-api",
-        "de.odysseus.juel:juel-impl",
-        "de.odysseus.juel:juel-spi"
+        "org.eclipse.jdt.core.compiler:ecj"
+        ));
+
+    return this;
+
+  }
+
+  private BacksetBundleBuilder withELModule() {
+
+    dependencies.addAll(Arrays.asList(
+        "javax.el:javax.el-api",
+        "org.glassfish:javax.el"
         ));
 
     return this;
@@ -112,10 +123,7 @@ public class BacksetBundleBuilder {
         "de.chkal.backset.module.myfaces.BacksetFacesConfigResourceProvider");
 
     dependencies.addAll(Arrays.asList(
-        "org.apache.myfaces.core:myfaces-impl",
-        "de.odysseus.juel:juel-api",
-        "de.odysseus.juel:juel-impl",
-        "de.odysseus.juel:juel-spi"
+        "org.apache.myfaces.core:myfaces-impl"
         ));
 
     return this;
@@ -134,10 +142,7 @@ public class BacksetBundleBuilder {
         "org.apache.openwebbeans:openwebbeans-spi",
         "org.apache.openwebbeans:openwebbeans-impl",
         "org.apache.openwebbeans:openwebbeans-web",
-        "org.apache.openwebbeans:openwebbeans-el22",
-        "de.odysseus.juel:juel-api",
-        "de.odysseus.juel:juel-impl",
-        "de.odysseus.juel:juel-spi"
+        "org.apache.openwebbeans:openwebbeans-el22"
         ));
 
     return this;
@@ -161,10 +166,7 @@ public class BacksetBundleBuilder {
         "org.jboss.weld:weld-core-jsf",
         "org.jboss.weld.servlet:weld-servlet-core",
         "javax.servlet.jsp:javax.servlet.jsp-api",
-        "io.undertow.jastow:jastow",
-        "de.odysseus.juel:juel-api",
-        "de.odysseus.juel:juel-impl",
-        "de.odysseus.juel:juel-spi"
+        "io.undertow.jastow:jastow"
         ));
 
     return this;
