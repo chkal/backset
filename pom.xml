@@ -42,8 +42,9 @@
     <glassfishnaming.version>4.0</glassfishnaming.version>
     <hibernate.version>4.2.15.Final</hibernate.version>
     <daemon.version>1.0.15</daemon.version>
-    <vraptor.version>4.1.0-RC1</vraptor.version>
+    <vraptor.version>4.1.0-RC2-SNAPSHOT</vraptor.version>
     <hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
+    <guava.version>15.0</guava.version>
   </properties>
 
   <build>
@@ -418,6 +419,12 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
         <version>${hibernate-validator.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
       </dependency>
 
     </dependencies>
