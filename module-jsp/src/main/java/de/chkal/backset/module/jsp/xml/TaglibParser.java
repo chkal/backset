@@ -8,7 +8,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.sax.SAXSource;
 
+import org.apache.jasper.deploy.FunctionInfo;
 import org.apache.jasper.deploy.TagAttributeInfo;
+import org.apache.jasper.deploy.TagFileInfo;
 import org.apache.jasper.deploy.TagInfo;
 import org.apache.jasper.deploy.TagLibraryInfo;
 import org.apache.jasper.deploy.TagLibraryValidatorInfo;
@@ -20,7 +22,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import de.chkal.backset.module.jsp.xml.types.FunctionType;
 import de.chkal.backset.module.jsp.xml.types.ListenerType;
+import de.chkal.backset.module.jsp.xml.types.TagFileType;
 import de.chkal.backset.module.jsp.xml.types.TagType;
 import de.chkal.backset.module.jsp.xml.types.TldAttributeType;
 import de.chkal.backset.module.jsp.xml.types.TldTaglibType;
@@ -104,7 +108,17 @@ public class TaglibParser {
       }
     }
 
-    // TODO: functions
+    if (taglibType.getTagFile() != null) {
+      for (TagFileType tagFileType : taglibType.getTagFile()) {
+        libraryInfo.addTagFileInfo(createTagFileInfo(tagFileType));
+      }
+    }
+
+    if (taglibType.getFunction() != null) {
+      for (FunctionType functionType : taglibType.getFunction()) {
+        libraryInfo.addFunctionInfo(createFunctionInfo(functionType));
+      }
+    }
 
     if (taglibType.getTlibVersion() != null) {
       libraryInfo.setTlibversion(taglibType.getTlibVersion());
@@ -123,6 +137,42 @@ public class TaglibParser {
     }
 
     return libraryInfo;
+  }
+
+  private TagFileInfo createTagFileInfo(TagFileType tagFileType) {
+
+    TagFileInfo tagFileInfo = new TagFileInfo();
+
+    if (tagFileType.getName() != null) {
+      tagFileInfo.setName(tagFileType.getName().getValue());
+    }
+
+    if (tagFileType.getPath() != null) {
+      tagFileInfo.setPath(tagFileType.getPath().getValue());
+    }
+
+    return tagFileInfo;
+
+  }
+
+  private FunctionInfo createFunctionInfo(FunctionType functionType) {
+
+    FunctionInfo functionInfo = new FunctionInfo();
+
+    if (functionType.getName() != null) {
+      functionInfo.setName(functionType.getName().getValue());
+    }
+
+    if (functionType.getFunctionClass() != null) {
+      functionInfo.setFunctionClass(functionType.getFunctionClass().getValue());
+    }
+
+    if (functionType.getFunctionSignature() != null) {
+      functionInfo.setFunctionSignature(functionType.getFunctionSignature().getValue());
+    }
+
+    return functionInfo;
+
   }
 
   private TagInfo createTagInfo(TagType tagType) {
