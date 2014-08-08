@@ -13,6 +13,8 @@ public class JSPModule implements Module {
   @Override
   public void init(ModuleContext context) {
 
+    JSPDeploymentEnricher.configManager = context.getConfigManager();
+    
     context.register(new JSPDeploymentEnricher());
 
   }

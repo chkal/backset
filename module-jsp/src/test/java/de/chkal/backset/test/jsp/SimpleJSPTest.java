@@ -24,6 +24,7 @@ public class SimpleJSPTest {
   public static JavaArchive createDeployment() {
 
     JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "backset-test.jar")
+        .addAsResource("backset.yml")
         .addAsResource("test.jsp", "/webapp/test.jsp");
 
     return BacksetBundleBuilder.create(archive)
@@ -42,6 +43,26 @@ public class SimpleJSPTest {
 
     assertThat(response.getStatusCode()).isEqualTo(200);
     assertThat(response.getContent()).contains("1 + 2 = 3");
+
+  }
+
+  @Test
+  public void shouldNotRenderConditionalContent() throws IOException {
+
+    Response response = Request.get(baseUrl, "/test.jsp?render=false").execute();
+
+    assertThat(response.getStatusCode()).isEqualTo(200);
+    assertThat(response.getContent()).doesNotContain("Conditional content rendered");
+
+  }
+
+  @Test
+  public void shouldRenderConditionalContentIfRequested() throws IOException {
+
+    Response response = Request.get(baseUrl, "/test.jsp?render=true").execute();
+
+    assertThat(response.getStatusCode()).isEqualTo(200);
+    assertThat(response.getContent()).contains("Conditional content rendered");
 
   }
 
