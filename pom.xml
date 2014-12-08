@@ -41,7 +41,6 @@
     <glassfishnaming.version>4.0</glassfishnaming.version>
     <hibernate.version>4.2.15.Final</hibernate.version>
     <daemon.version>1.0.15</daemon.version>
-    <vraptor.version>4.1.0-RC2-SNAPSHOT</vraptor.version>
     <hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
     <guava.version>15.0</guava.version>
     <ecj.version>4.3.1</ecj.version>
@@ -105,7 +104,6 @@
     <module>module-myfaces</module>
     <module>module-weld</module>
     <module>module-owb</module>
-    <module>module-vraptor</module>
     <module>showcase</module>
   </modules>
 
@@ -171,11 +169,6 @@
       <dependency>
         <groupId>de.chkal.backset</groupId>
         <artifactId>backset-module-el</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>de.chkal.backset</groupId>
-        <artifactId>backset-module-vraptor</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -416,12 +409,6 @@
         <groupId>commons-daemon</groupId>
         <artifactId>commons-daemon</artifactId>
         <version>${daemon.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>br.com.caelum</groupId>
-        <artifactId>vraptor</artifactId>
-        <version>${vraptor.version}</version>
       </dependency>
 
       <dependency>
