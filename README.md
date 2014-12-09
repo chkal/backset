@@ -114,13 +114,23 @@ myapp
                     `-- web.xml
 ```
 
-### Configuration
-
-TODO
 
 ### Developing in your IDE
 
-TODO
+Running a Backset application in your IDE is very easy. The nice thing about Backset is that
+the server is part of your application. So you just have to point your IDE to the Backset
+main class which contains an ordinary `main()` method.
+
+In case of Eclipse simply import the project into your workspace and create a new
+*Run Configuration* like this:
+
+![Eclipse Run Configuration](http://i.imgur.com/xRfakSj.png)
+
+Just make sure to select the correct *Main class*:
+
+    de.chkal.backset.server.Bootstrap
+
+Now just click the *Run* button and your application will start up.
 
 ### Building executable JARs
 
@@ -176,7 +186,8 @@ You can then run your application using a simple `java -jar` command:
 java -jar target/myapp.jar
 ```
 
-Easy, isn't it. :)
+Easy, isn't it? :)
 
+### Configuration
 
-
+TODO
