@@ -118,7 +118,7 @@ myapp
 ### Developing in your IDE
 
 Running a Backset application in your IDE is very easy. The nice thing about Backset is that
-the server is part of your application. So you just have to point your IDE to the Backset
+your application ships with the server. So you just have to point your IDE to the Backset
 main class which contains an ordinary `main()` method.
 
 In case of Eclipse simply import the project into your workspace and create a new
@@ -130,7 +130,7 @@ Just make sure to select the correct *Main class*:
 
     de.chkal.backset.server.Bootstrap
 
-Now just click the *Run* button and your application will start up.
+Now click the *Run* button and your application will start up.
 
 ### Building executable JARs
 
@@ -190,4 +190,38 @@ Easy, isn't it? :)
 
 ### Configuration
 
-TODO
+Backset uses [YAML](http://www.yaml.org/) files for configuration. A typically configuration
+file looks like this.
+
+```yaml
+undertow:
+  connectors:
+    - type: http
+      port: 8080
+logging:
+  level: INFO
+  loggers:
+    de.chkal.backset: DEBUG
+```
+
+The top-level elements in the configuration files are called *sections*
+(`undertow` and `logging` in this case). Typically each component and module defines
+its own section.
+
+There are basically two ways to provide configuration parameters:
+
+1. Backset will looks for a file called `backset.yml` on your classpath.
+2. You can provide a YAML configuration file when starting Backset by specifiyng it
+   as the first command line argument (example: `java -jar myapp.jar config.yml`).
+
+When a component or module tries to access a section from the configuration, Backset performs
+the following steps:
+
+1. If a config file has been specified on the command line and it contains
+   the relevant section, use this section.
+2. If there is a `backset.yml` on the classpath and it contains the relevant
+   section, use this section.
+3. Use the fallbacks as specified by the module or component.
+
+This allows you to specify a fallback configuration using a `backset.yml` on your classpath
+which can be overwritten by a custom configuration specified on the commandline.
