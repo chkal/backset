@@ -5,9 +5,20 @@ import org.jboss.arquillian.container.spi.client.container.ContainerConfiguratio
 
 public class BacksetContainerConfiguration implements ContainerConfiguration {
 
-  @Override
-  public void validate() throws ConfigurationException {
+  private int port = 48123;
 
+  @Override public void validate() throws ConfigurationException {
+    if (port <= 0) {
+      throw new ConfigurationException("Invalid port: " + port);
+    }
+  }
+
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
   }
 
 }

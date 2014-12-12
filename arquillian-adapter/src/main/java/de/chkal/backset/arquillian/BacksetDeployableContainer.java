@@ -1,8 +1,6 @@
 package de.chkal.backset.arquillian;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
   private BacksetContainerConfiguration configuration;
 
   private File archiveFile;
+  private File configFile;
 
   private Process process;
 
@@ -59,6 +58,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
   public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
 
     archiveFile = createUniqueTempFile();
+    configFile = createConfigFile(configuration);
 
     archive.as(ZipExporter.class).exportTo(archiveFile);
     log.info("Archive exported to: {}", archiveFile.getAbsolutePath());
@@ -68,6 +68,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
     cmd.add("-cp");
     cmd.add(archiveFile.getAbsolutePath());
     cmd.add("de.chkal.backset.server.Bootstrap");
+    cmd.add(configFile.getAbsolutePath());
     log.info("Executing: " + cmd.toString());
 
     try {
@@ -107,12 +108,29 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
       }
 
       ProtocolMetaData metaData = new ProtocolMetaData();
-      metaData.addContext(new HTTPContext("foobar", "localhost", 8080));
+      metaData.addContext(new HTTPContext("foobar", "localhost", configuration.getPort()));
       return metaData;
 
     } catch (IOException e) {
       throw new DeploymentException(e.getMessage(), e);
     }
+
+  }
+
+  private static File createConfigFile(BacksetContainerConfiguration configuration) {
+
+    File file = createUniqueTempFile();
+
+    try (FileWriter writer = new FileWriter(file)) {
+      writer.append("undertow:\n");
+      writer.append("  connectors:\n");
+      writer.append("    - type: http\n");
+      writer.append("      port: " + configuration.getPort());
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to create config file", e);
+    }
+
+    return file;
 
   }
 
@@ -122,7 +140,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
     try {
 
       client = HttpClientBuilder.create().build();
-      HttpGet get = new HttpGet("http://localhost:8080/");
+      HttpGet get = new HttpGet("http://localhost:" + configuration.getPort() + "/");
       CloseableHttpResponse response = client.execute(get);
       log.info("Got response code: " + response.getStatusLine().getStatusCode());
       return true;
@@ -134,7 +152,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
 
   }
 
-  private File createUniqueTempFile() {
+  private static File createUniqueTempFile() {
     String tmpDir = System.getProperty("java.io.tmpdir");
     String jarFile = UUID.randomUUID().toString() + ".jar";
     return Paths.get(tmpDir, jarFile).toFile();
@@ -158,6 +176,9 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
 
     if (archiveFile != null && archiveFile.exists()) {
       archiveFile.delete();
+    }
+    if (configFile != null && configFile.exists()) {
+      configFile.delete();
     }
 
   }
