@@ -4,6 +4,18 @@ The aim of Backset is to provide
 [Spring Boot](http://projects.spring.io/spring-boot/)/[Dropwizard](http://dropwizard.io/)
 like developer experience for Java EE.
 
+## Index
+
+* [Overview](#overview)
+* [Getting started](#getting-started)
+* [Core concepts](#core-concepts)
+  * [Project structure](#project-structure)
+  * [Developing in your IDE](#developing-in-your-ide)
+  * [Building executable JARs](#building-executable-jars)
+  * [Configuration](#configuration)
+
+## Overview
+
 The idea is that you create your web application based on the technologies
 you are familiar with: CDI, JAX-RS, JSF, JPA and so on. But instead of deploying a WAR
 to some application server, you simply run the Maven build which will produce a executable
@@ -13,8 +25,6 @@ uberjar. Now you can start you application like this:
 
 You application will include **everything** required for running it. This makes
 deploying and setting up a dev environment VERY easy and straight forward.
-
-## Features
 
 Currently Backset supports the following Java EE technologies:
 
@@ -211,7 +221,7 @@ its own section.
 There are basically two ways to provide configuration parameters:
 
 1. Backset will looks for a file called `backset.yml` on your classpath.
-2. You can provide a YAML configuration file when starting Backset by specifiyng it
+2. You can provide a YAML configuration file when starting Backset by specifying it
    as the first command line argument (example: `java -jar myapp.jar config.yml`).
 
 When a component or module tries to access a section from the configuration, Backset performs
