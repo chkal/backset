@@ -81,7 +81,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
 
       Runtime.getRuntime().addShutdownHook(new Thread(new ContainerShutdown()));
 
-      long timeLeft = 30 * 1000;
+      long timeLeft = 60 * 1000;
       boolean serverStarted = false;
       while (timeLeft > 0 && !serverStarted) {
 
