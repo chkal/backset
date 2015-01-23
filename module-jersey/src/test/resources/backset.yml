@@ -2,3 +2,6 @@ logging:
   level: INFO
   loggers:
     de.chkal.backset: DEBUG
+weld:
+  packages:
+    - de.chkal.backset.jersey

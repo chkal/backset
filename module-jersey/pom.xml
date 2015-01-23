@@ -40,6 +40,12 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-module-weld</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
 </project>
