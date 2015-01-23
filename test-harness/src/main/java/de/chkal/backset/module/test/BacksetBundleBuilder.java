@@ -168,8 +168,6 @@ public class BacksetBundleBuilder {
 
     serviceProviders.put("de.chkal.backset.module.api.Module",
         "de.chkal.backset.module.weld.WeldModule");
-    serviceProviders.put("org.jboss.weld.environment.Container",
-        "de.chkal.backset.module.weld.BacksetContainer");
     serviceProviders.put("javax.faces.application.ApplicationFactory",
         "org.jboss.weld.environment.servlet.jsf.WeldApplicationFactory");
 
