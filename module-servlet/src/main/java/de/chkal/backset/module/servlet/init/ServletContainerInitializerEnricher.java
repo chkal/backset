@@ -47,9 +47,12 @@ public class ServletContainerInitializerEnricher implements DeploymentEnricher {
 
     Set<Class<?>> types = new HashSet<>();
 
-    for (Class<?> type : clazz.getAnnotation(HandlesTypes.class).value()) {
-      if (type.isAnnotation()) {
-        types.addAll(annotationDatabase.getTypes((Class<? extends Annotation>) type));
+    HandlesTypes handlesTypes = clazz.getAnnotation(HandlesTypes.class);
+    if (handlesTypes != null) {
+      for (Class<?> type : handlesTypes.value()) {
+        if (type.isAnnotation()) {
+          types.addAll(annotationDatabase.getTypes((Class<? extends Annotation>) type));
+        }
       }
     }
 
