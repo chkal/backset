@@ -130,6 +130,19 @@ public class BacksetBundleBuilder {
 
   }
 
+
+  public BacksetBundleBuilder withJerseyModule() {
+
+    backset.addPackages(true, "de.chkal.backset.module.jersey");
+
+    dependencies.addAll(Arrays.asList(
+        "org.glassfish.jersey.containers:jersey-container-servlet"
+    ));
+
+    return this;
+
+  }
+
   public BacksetBundleBuilder withOpenWebBeansModule() {
 
     backset.addPackages(true, "de.chkal.backset.module.owb");

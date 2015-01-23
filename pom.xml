@@ -46,6 +46,8 @@
     <ecj.version>4.3.1</ecj.version>
     <el-api.version>3.0.1-b04</el-api.version>
     <el-impl.version>3.0.1-b05</el-impl.version>
+    <jersey.version>2.15</jersey.version>
+    <jaxrs-api.version>2.0.1</jaxrs-api.version>
   </properties>
 
   <build>
@@ -101,6 +103,7 @@
     <module>module-jndi</module>
     <module>module-bonecp</module>
     <module>module-servlet</module>
+    <module>module-jersey</module>
     <module>module-myfaces</module>
     <module>module-weld</module>
     <module>module-owb</module>
@@ -427,6 +430,18 @@
         <groupId>org.eclipse.jdt.core.compiler</groupId>
         <artifactId>ecj</artifactId>
         <version>${ecj.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish.jersey.containers</groupId>
+        <artifactId>jersey-container-servlet</artifactId>
+        <version>${jersey.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>javax.ws.rs-api</artifactId>
+        <version>${jaxrs-api.version}</version>
       </dependency>
 
     </dependencies>
