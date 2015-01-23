@@ -5,6 +5,7 @@ import de.chkal.backset.module.api.ModuleContext;
 import de.chkal.backset.module.servlet.annotation.WebFilterDeploymentEnricher;
 import de.chkal.backset.module.servlet.annotation.WebListenerDeploymentEnricher;
 import de.chkal.backset.module.servlet.annotation.WebServletDeploymentEnricher;
+import de.chkal.backset.module.servlet.init.ServletContainerInitializerEnricher;
 import de.chkal.backset.module.servlet.xml.DescriptorDeploymentEnricher;
 
 public class ServletModule implements Module {
@@ -18,6 +19,8 @@ public class ServletModule implements Module {
   public void init(ModuleContext moduleContext) {
 
     ServletEnricherContext enricherContext = new ServletEnricherContext();
+
+    moduleContext.register(new ServletContainerInitializerEnricher(moduleContext.getAnnotationDatabase()));
 
     moduleContext.register(new DescriptorDeploymentEnricher(enricherContext));
 
