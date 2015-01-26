@@ -79,6 +79,9 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
 
       new Thread(new ConsoleConsumer()).start();
 
+      ProcessMonitor processMonitor = new ProcessMonitor(process);
+      new Thread(processMonitor).start();
+
       Runtime.getRuntime().addShutdownHook(new Thread(new ContainerShutdown()));
 
       long timeLeft = 60 * 1000;
@@ -86,6 +89,10 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
       while (timeLeft > 0 && !serverStarted) {
 
         long start = System.currentTimeMillis();
+
+        if(processMonitor.isFinished()) {
+          break;
+        }
 
         if (isServerStarted()) {
           serverStarted = true;
@@ -104,7 +111,7 @@ public class BacksetDeployableContainer implements DeployableContainer<BacksetCo
 
       if (!serverStarted) {
         // TODO: kill server
-        throw new IllegalStateException("Cound not start server in timeout interval");
+        throw new DeploymentException("Could not start server");
       }
 
       ProtocolMetaData metaData = new ProtocolMetaData();
