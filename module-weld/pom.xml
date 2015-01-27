@@ -43,17 +43,18 @@
       <artifactId>weld-core-jsf</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.weld.servlet</groupId>
-      <artifactId>weld-servlet-core</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>javax.servlet.jsp-api</artifactId>
     </dependency>
     <dependency>
       <groupId>io.undertow.jastow</groupId>
       <artifactId>jastow</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.myfaces.core</groupId>
+      <artifactId>myfaces-api</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>

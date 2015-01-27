@@ -166,16 +166,17 @@ public class BacksetBundleBuilder {
 
     backset.addPackages(true, "de.chkal.backset.module.weld");
 
+    backset.addAsManifestResource("META-INF/faces-config.xml", "faces-config.xml");
+
     serviceProviders.put("de.chkal.backset.module.api.Module",
         "de.chkal.backset.module.weld.WeldModule");
-    serviceProviders.put("javax.faces.application.ApplicationFactory",
-        "org.jboss.weld.environment.servlet.jsf.WeldApplicationFactory");
+    serviceProviders.put("javax.enterprise.inject.spi.CDIProvider",
+        "de.chkal.backset.module.weld.BacksetCDIProvider");
 
     dependencies.addAll(Arrays.asList(
         "javax.enterprise:cdi-api",
         "org.jboss.weld:weld-core-impl",
         "org.jboss.weld:weld-core-jsf",
-        "org.jboss.weld.servlet:weld-servlet-core",
         "javax.servlet.jsp:javax.servlet.jsp-api",
         "io.undertow.jastow:jastow"
         ));

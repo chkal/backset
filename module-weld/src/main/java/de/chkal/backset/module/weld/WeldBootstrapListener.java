@@ -1,19 +1,18 @@
 package de.chkal.backset.module.weld;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
+import de.chkal.backset.module.api.AnnotationDatabase;
 import org.jboss.weld.bootstrap.WeldBootstrap;
 import org.jboss.weld.bootstrap.api.Bootstrap;
 import org.jboss.weld.bootstrap.api.Environments;
-import org.jboss.weld.environment.servlet.WeldServletLifecycle;
+import org.jboss.weld.manager.api.WeldManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.chkal.backset.module.api.AnnotationDatabase;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
- * Basically something like {@link WeldServletLifecycle}
+ * Basically something like WeldServletLifecycle
  */
 public class WeldBootstrapListener implements ServletContextListener {
 
@@ -43,9 +42,13 @@ public class WeldBootstrapListener implements ServletContextListener {
     bootstrap.validateBeans();
     bootstrap.endInitialization();
 
+    WeldManager manager = bootstrap.getManager(archive);
+
     // this is required for the JSF integration
+    // see: WeldServletLifecycle.BEAN_MANAGER_ATTRIBUTE_NAME
     event.getServletContext().setAttribute(
-        WeldServletLifecycle.BEAN_MANAGER_ATTRIBUTE_NAME, bootstrap.getManager(archive));
+        "org.jboss.weld.environment.servlet.javax.enterprise.inject.spi.BeanManager",
+        manager);
 
   }
 
