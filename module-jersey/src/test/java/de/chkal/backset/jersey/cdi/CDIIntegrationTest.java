@@ -20,7 +20,6 @@ import java.net.URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Arquillian.class)
-@Ignore
 public class CDIIntegrationTest {
 
   @Deployment(testable = false)

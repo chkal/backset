@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 @Path("/cdi")
 public class CDIResource {
 
-  // @Inject
+  @Inject
   private CIDBean injected;
 
   @GET

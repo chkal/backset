@@ -136,7 +136,8 @@ public class BacksetBundleBuilder {
     backset.addPackages(true, "de.chkal.backset.module.jersey");
 
     dependencies.addAll(Arrays.asList(
-        "org.glassfish.jersey.containers:jersey-container-servlet"
+        "org.glassfish.jersey.containers:jersey-container-servlet",
+        "org.glassfish.jersey.ext.cdi:jersey-cdi1x"
     ));
 
     return this;
