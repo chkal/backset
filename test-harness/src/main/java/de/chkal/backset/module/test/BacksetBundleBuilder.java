@@ -172,6 +172,9 @@ public class BacksetBundleBuilder {
         "de.chkal.backset.module.weld.WeldModule");
     serviceProviders.put("javax.enterprise.inject.spi.CDIProvider",
         "de.chkal.backset.module.weld.BacksetCDIProvider");
+    serviceProviders.put("javax.servlet.ServletContainerInitializer",
+        "de.chkal.backset.module.weld.WeldBootstrapInitializer");
+
 
     dependencies.addAll(Arrays.asList(
         "javax.enterprise:cdi-api",

@@ -15,8 +15,8 @@ public class WeldModule implements Module {
   @Override
   public void init(ModuleContext context) {
 
-    WeldBootstrapListener.annotationDatabase = context.getAnnotationDatabase();
-    WeldBootstrapListener.weldConfig =
+    WeldBootstrapInitializer.annotationDatabase = context.getAnnotationDatabase();
+    WeldBootstrapInitializer.weldConfig =
         context.getConfigManager().getConfig(WeldConfig.class);
 
     context.register(new WeldDeploymentEnricher());

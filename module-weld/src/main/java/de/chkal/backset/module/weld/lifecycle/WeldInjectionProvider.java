@@ -1,12 +1,13 @@
 package de.chkal.backset.module.weld.lifecycle;
 
+import de.chkal.backset.module.api.InjectionProvider;
+import de.chkal.backset.module.weld.WeldBootstrapInitializer;
+
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionTarget;
-
-import de.chkal.backset.module.api.InjectionProvider;
 
 public class WeldInjectionProvider implements InjectionProvider {
 
@@ -19,13 +20,17 @@ public class WeldInjectionProvider implements InjectionProvider {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public void inject(Object o) {
 
-    BeanManager beanManager = CDI.current().getBeanManager();
+    if (WeldBootstrapInitializer.isInitialized()) {
 
-    CreationalContext creationalContext = beanManager.createCreationalContext(null);
-    AnnotatedType annotatedType = beanManager.createAnnotatedType(o.getClass());
-    InjectionTarget injectionTarget = beanManager.createInjectionTarget(annotatedType);
+      BeanManager beanManager = CDI.current().getBeanManager();
 
-    injectionTarget.inject(o, creationalContext);
+      CreationalContext creationalContext = beanManager.createCreationalContext(null);
+      AnnotatedType annotatedType = beanManager.createAnnotatedType(o.getClass());
+      InjectionTarget injectionTarget = beanManager.createInjectionTarget(annotatedType);
+
+      injectionTarget.inject(o, creationalContext);
+
+    }
 
   }
 

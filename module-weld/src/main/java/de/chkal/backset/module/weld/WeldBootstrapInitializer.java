@@ -8,24 +8,28 @@ import org.jboss.weld.manager.api.WeldManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import java.util.Set;
 
 /**
  * Basically something like WeldServletLifecycle
  */
-public class WeldBootstrapListener implements ServletContextListener {
+public class WeldBootstrapInitializer implements ServletContainerInitializer {
 
-  private final Logger log = LoggerFactory.getLogger(WeldBootstrapListener.class);
+  private final Logger log = LoggerFactory.getLogger(WeldBootstrapInitializer.class);
 
   public static AnnotationDatabase annotationDatabase = null;
 
   public static WeldConfig weldConfig = null;
 
+  private static boolean initialized = false;
+
   private Bootstrap bootstrap;
 
   @Override
-  public void contextInitialized(ServletContextEvent event) {
+  public void onStartup(Set<Class<?>> c, ServletContext servletContext) throws ServletException {
 
     log.info("Starting up Weld...");
 
@@ -46,16 +50,16 @@ public class WeldBootstrapListener implements ServletContextListener {
 
     // this is required for the JSF integration
     // see: WeldServletLifecycle.BEAN_MANAGER_ATTRIBUTE_NAME
-    event.getServletContext().setAttribute(
+    servletContext.setAttribute(
         "org.jboss.weld.environment.servlet.javax.enterprise.inject.spi.BeanManager",
         manager);
 
+    initialized = true;
+
   }
 
-  @Override
-  public void contextDestroyed(ServletContextEvent event) {
-    bootstrap.shutdown();
-    log.info("Weld shutdown complete!");
+  public static boolean isInitialized() {
+    return initialized;
   }
 
 }

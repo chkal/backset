@@ -1,13 +1,13 @@
 package de.chkal.backset.module.weld.lifecycle;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import de.chkal.backset.module.api.LifecycleProvider;
+import de.chkal.backset.module.weld.WeldBootstrapInitializer;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-
-import de.chkal.backset.module.api.LifecycleProvider;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class WeldLifecycleProvider implements LifecycleProvider {
 
@@ -28,24 +28,23 @@ public class WeldLifecycleProvider implements LifecycleProvider {
 
   private void invokeLifecycleMethod(Object obj, Class<? extends Annotation> annotationType) {
 
-    for (Method method : obj.getClass().getMethods()) {
+    if (WeldBootstrapInitializer.isInitialized()) {
 
-      if (method.getAnnotation(annotationType) != null) {
+      for (Method method : obj.getClass().getMethods()) {
 
-        try {
+        if (method.getAnnotation(annotationType) != null) {
 
-          method.invoke(obj);
+          try {
 
-        } catch (IllegalAccessException e) {
-          throw new IllegalStateException(e);
-        } catch (IllegalArgumentException e) {
-          throw new IllegalStateException(e);
-        } catch (InvocationTargetException e) {
-          throw new IllegalStateException(e);
+            method.invoke(obj);
+
+          } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new IllegalStateException(e);
+          }
+
         }
 
       }
-
     }
 
   }
