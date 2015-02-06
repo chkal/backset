@@ -31,6 +31,7 @@ Currently Backset supports the following Java EE technologies:
   * Servlet 3.1
   * JSP 2.3
   * EL 3.0
+  * JAX-RS 2.0
   * JSF 2.2
   * CDI 1.2
   * JPA 2.1
@@ -38,7 +39,6 @@ Currently Backset supports the following Java EE technologies:
 
 The following technologies are currently on the roadmap:
 
-  * JAX-RS
   * JTA
   * EJB
 
