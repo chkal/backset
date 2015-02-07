@@ -25,6 +25,11 @@
     </dependency>
 
     <dependency>
+      <groupId>de.chkal.backset</groupId>
+      <artifactId>backset-module-weld</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
     </dependency>

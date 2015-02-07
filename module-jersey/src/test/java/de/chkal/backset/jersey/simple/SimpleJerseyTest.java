@@ -29,6 +29,7 @@ public class SimpleJerseyTest {
 
     return BacksetBundleBuilder.create(archive)
         .withServletModule()
+        .withWeldModule()
         .withJerseyModule()
         .build();
 
