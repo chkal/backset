@@ -19,16 +19,21 @@ public class TodoListBean {
   private List<Item> items = null;
 
   @PostConstruct
-  public void init() {
+  public void fetchItemList() {
     items = todoService.getItems();
   }
 
   public void toggleDone(Item item) {
     todoService.toggleDone(item.getId());
+    fetchItemList();
+  }
+
+  public void delete(Long id) {
+    todoService.delete(id);
+    fetchItemList();
   }
 
   public List<Item> getItems() {
     return items;
   }
-
 }

@@ -4,12 +4,17 @@
   margin-top: 20px;
 }
 
-.todo-item-table th.status {
+.todo-item-table th.status, .todo-item-table td.status {
   width: 6em;
   text-align: center;
 }
 
-.todo-item-table td.status {
+.todo-item-table th.title, .todo-item-table td.title{
+  text-align: left;
+}
+
+.todo-item-table th.actions, .todo-item-table td.actions{
+  width: 10em;
   text-align: center;
 }
 

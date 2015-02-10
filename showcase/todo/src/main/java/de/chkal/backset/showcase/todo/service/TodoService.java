@@ -2,8 +2,6 @@ package de.chkal.backset.showcase.todo.service;
 
 import de.chkal.backset.showcase.todo.model.Item;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,6 +31,13 @@ public class TodoService {
       return item;
     }
     return null;
+  }
+
+  public void delete(Long id) {
+    Item item = entityManager.find(Item.class, id);
+    if (item != null) {
+      entityManager.remove(item);
+    }
   }
 
 }
