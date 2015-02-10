@@ -21,7 +21,7 @@
 
           <h1>TODO List</h1>
 
-          <h:form styleClass="form-inline">
+          <h:form id="itemsForm">
 
             <h:dataTable id="items" var="item" value="#{todoListBean.items}"
                 styleClass="table table-striped todo-item-table"
@@ -44,11 +44,17 @@
 
             </h:dataTable>
 
+          </h:form>
+
+          <h:form id="addForm" styleClass="form-inline">
+
             <h:inputText value="#{todoAddBean.title}" styleClass="form-control"
-                p:placeholder="Title" />
+                p:placeholder="Add new entry..." p:autofocus=""/>
 
             <h:commandButton action="#{todoAddBean.add}" value="Add"
-                styleClass="btn btn-default" />
+                styleClass="btn btn-default">
+              <f:ajax execute="@form" render="itemsForm @form" />
+            </h:commandButton>
 
           </h:form>
 

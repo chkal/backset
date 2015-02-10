@@ -23,7 +23,8 @@ public class TodoAddBean {
 
     todoService.addItem(item);
 
-    return "/index.xhtml?faces-redirect=true";
+    title = null;
+    return null;
 
   }
 
