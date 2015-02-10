@@ -4,12 +4,15 @@
   margin-top: 20px;
 }
 
-.todo-item-table th.done {
-  width: 4em;
+.todo-item-table th.status {
+  width: 6em;
   text-align: center;
 }
 
-.todo-item-table td.done {
-  width: 4em;
+.todo-item-table td.status {
   text-align: center;
+}
+
+.todo-item-table td.title .done {
+  text-decoration: line-through;
 }

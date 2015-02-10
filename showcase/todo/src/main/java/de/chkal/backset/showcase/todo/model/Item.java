@@ -16,6 +16,9 @@ public class Item {
   private long id;
 
   @Basic
+  private boolean done;
+
+  @Basic
   private String title;
 
   public String getTitle() {
@@ -34,4 +37,11 @@ public class Item {
     this.id = id;
   }
 
+  public boolean isDone() {
+    return done;
+  }
+
+  public void setDone(boolean done) {
+    this.done = done;
+  }
 }

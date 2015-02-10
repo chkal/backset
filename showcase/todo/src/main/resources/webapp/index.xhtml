@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" 
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:p="http://xmlns.jcp.org/jsf/passthrough" lang="en">
-  
+
   <h:head>
     <meta charset="utf-8"></meta>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
@@ -18,32 +18,40 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
-  
-          <h:dataTable var="item" value="#{todoListBean.items}" 
-              styleClass="table table-striped todo-item-table" columnClasses="done, title">
 
-            <h:column headerClass="done">
-              <f:facet name="header">Done</f:facet>
-              <input type="checkbox" disabled="disabled"/>
-            </h:column>
-          
-            <h:column headerClass="title">
-              <f:facet name="header">Title</f:facet>
-              #{item.title}
-            </h:column>
-          
-          </h:dataTable>
-          
+          <h1>TODO List</h1>
+
           <h:form styleClass="form-inline">
-          
-            <h:inputText value="#{todoAddBean.title}" styleClass="form-control" 
+
+            <h:dataTable id="items" var="item" value="#{todoListBean.items}"
+                styleClass="table table-striped todo-item-table"
+                columnClasses="status, title">
+
+              <h:column headerClass="status">
+                <f:facet name="header">Done</f:facet>
+                <h:selectBooleanCheckbox value="#{item.done}">
+                  <f:ajax render="items" immediate="true"
+                          listener="#{todoListBean.toggleDone(item)}" />
+                </h:selectBooleanCheckbox>
+              </h:column>
+
+              <h:column headerClass="title">
+                <f:facet name="header">Title</f:facet>
+                <span class="#{item.done ? 'done' : 'todo'}">
+                  #{item.title}
+                </span>
+              </h:column>
+
+            </h:dataTable>
+
+            <h:inputText value="#{todoAddBean.title}" styleClass="form-control"
                 p:placeholder="Title" />
-            
+
             <h:commandButton action="#{todoAddBean.add}" value="Add"
                 styleClass="btn btn-default" />
-          
+
           </h:form>
-        
+
         </div>
       </div>
     </div>
