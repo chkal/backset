@@ -160,7 +160,6 @@
     <module>module-jersey</module>
     <module>module-myfaces</module>
     <module>module-weld</module>
-    <module>module-owb</module>
     <module>showcase</module>
   </modules>
 
