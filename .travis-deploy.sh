@@ -6,7 +6,8 @@ if [ "$TRAVIS_REPO_SLUG" == "chkal/backset" ] &&
     [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ]; then
 
   echo "Starting snapshot deployment..."
-  mvn -s .travis-settings.xml -DperformRelease -DskipTests -Dgpg.skip=true deploy
+  # use 'clean' to work around MSHADE-126
+  mvn -s .travis-settings.xml -DperformRelease -DskipTests -Dgpg.skip=true clean deploy
   echo "Snapshots deployed!"
 
 else
