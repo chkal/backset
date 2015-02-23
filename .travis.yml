@@ -6,4 +6,9 @@ cache:
 jdk:
   - oraclejdk8
   - oraclejdk7
-
+after_success:
+  - "bash ./.travis-deploy.sh"
+env:
+  global:
+    - secure: "hH7uCsRL8ve28F8zTpkxT5AyzGC39ocn1FDBLkYMM3c6QYtHskspM3LXxF+Z6XavVH8++o4JJP3iR7fKmJmyy5nigLj/Cp5ImUdKdWOEyRyQ0J6ceOQmi64y2iBas1jAlkOVQMVsHtI+LhPkvDLdlgN9xnILDABUaStfQJJDMmU="
+    - secure: "OmziB3KqN8wjdwUj1zFSxAOqoD4AROwnfnkz/eV75Z9Nq7761BxFoKMft2/Je6e/JJ2fMSwxdoCtd5tvkRYBzaJOkL2bd240LxyN9jF7pN7vMuzhCK15vXjH3QXd2OKSQHZH+6YMRMKQs42LIi6VUKyGqphjIYdos7rr2XvBewQ="
