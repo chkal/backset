@@ -44,8 +44,9 @@ The following technologies are currently on the roadmap:
 
 ## Getting started
 
-Backset is currently in early development stage. So there are some manual steps for you
-to take if you want to give it a try.
+Backset is currently in early development stage. The latest version available in Maven Central
+is `1.0.0.Alpha1`. It's fine to use this version for your first experiments. If you want to give
+the bleeding edge version a try, you will have to build it yourself:
 
 First you should clone the source and build it:
 
@@ -235,3 +236,212 @@ the following steps:
 
 This allows you to specify a fallback configuration using a `backset.yml` on your classpath
 which can be overwritten by a custom configuration specified on the commandline.
+
+### Core Configuration Options
+
+The following sub sections will describe the core configuration options of Backset. Please
+note that there are many more configuration options for specific modules which are
+described in the corresponding module sections.
+
+#### Logging
+
+The first thing you will typically have to configure is the logging. Backset uses Logback for
+logging. In most cases you can use a configuration like this configure the logging:
+
+```yaml
+logging:
+  level: INFO
+  loggers:
+    de.chkal.backset: DEBUG
+    com.acme.myapp: TRACE
+```
+
+This will set the default logging level to `INFO` which is usually a good choice. Additionally you
+can change the log level for individual loggers. To do so, just type the package name under the
+`loggers` key and set the log level accordingly.
+
+Future versions may support to reference a `logback.xml` file which contains full Logback
+configuration. Any patches welcome. ;)
+
+#### Connectors
+
+Backset uses Undertow as the embedded web container. You can configure some core features of Undertow
+using the `undertow` configuration section.
+
+A full configuration example looks like this:
+
+```yaml
+undertow:
+  ioThreads: 50
+  workerThreads: 50
+  connectors:
+    - type: http
+      port: 8080
+    - type: ajp
+      host: 127.0.0.1
+      port: 8009
+  contextParams:
+    javax.faces.PROJECT_STAGE: Development
+    com.acme.myapp.SOMETHING: Some value
+```
+
+First you can control the number of IO and worker threads. If you don't specify these values, Backset
+will use Undertow's defaults.
+
+The `connectors` elements allows you to define a list of connectors. Each connector has a type, a host
+address and a port. The type is either `http` or `ajp`. The host address allows you to control which
+network interface Undertow will use for this connector. In the example above, the AJP connector is bound
+to the local interface, so that connections are only possible from the same host. If you don't specify the
+host address, Backset will use `0.0.0.0`. The third property of a connector is the port. If you don't specify
+the port, Backset will use 8080 or 8009 depending on the port type.
+
+In some situations it may be useful to set servlet context parameters depending on your runtime environment.
+This will for example allow you to put JSF into development mode while developing without having to add
+the context parameter to your main `web.xml`. You can use the `contextParams` element to specify a
+mapping from context parameter keys to their values.
+
+## Modules
+
+This sections will describe the optional Backset modules which you can add to your project to get
+support for different Java EE technologies.
+
+### Servlet
+
+Most applications should add the Backset servlet module by adding it to their
+`pom.xml` like this:
+
+```xml
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-servlet</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+This modules provides the following features:
+
+ * Discovery and parsing of `web.xml` and `web-fragment.xml` files.
+ * Discovery and registration of classes annotated with `@WebServlet`, `@WebFilter`
+   and similar annotations.
+
+### Weld
+
+Backset uses [JBoss Weld](http://weld.cdi-spec.org/) as its CDI implementation. If you want
+to use CDI in your application, add the following dependency:
+
+```xml
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-weld</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+There is currently one problem with the CDI support in Backset. Standard application servers use the
+`/META-INF/beans.xml` file to identify JAR files for which CDI should be enabled. As Backset merges
+all JAR files into a big fat JAR, this won't work very well.
+
+For this reason you currently have to tell Backset which packages should be considered to contain
+CDI beans. In a typical application this will be your root application package and the root package
+names of all CDI extension libraries your are using.
+
+See this configuration for an example:
+
+```yml
+weld:
+  packages:
+    - com.acme.myapp
+    - org.apache.deltaspike
+```
+
+I'm currently looking for other ways to fix this problem. However, specifying the packages this way
+manually seems to work fine for most applications.
+
+### BoneCP
+
+Backset uses [BoneCP](http://jolbox.com/) as the JDBC connection pool. If you want to access your
+database via JDBC, you should add this module to your `pom.xml`.
+
+```xml
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-bonecp</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+The BoneCP module allows you to define datasources in your Backset configuration. A full example
+looks like this:
+
+```yaml
+bonecp:
+  datasources:
+    - name: 'TestDataSource'
+      jndiName: 'java:/comp/env/TestDataSource'
+      driverClass: 'org.h2.Driver'
+      jdbcUrl: 'jdbc:h2:mem:simple-test'
+      username: 'sa'
+      password: ''
+```
+
+Each datasource has a `name` and a `jndiName`. Both are optional, but you should set at least one of them.
+If you set the name, you can get a reference to the `java.sql.DataSource` using Backset's `DataSources`
+class which offers static methods to lookup datasources by name. If you set the jndiName, you will
+be able lookup the datasource from JNDI. This is especially useful if you are using JPA and want
+to use `<non-jta-data-source>` in your `persistence.xml` to refer to the datasource.
+
+The other properties are straight forward. For each data source you have to define the name of the
+JDBC driver class, the JDBC URL and the credentials required to connect to the database.
+
+### Jersey
+
+Backset uses [Jersey](https://jersey.java.net/) as the JAX-RS implementation. So if you want
+to create JAX-RS services, add the Jersey module to your `pom.xml`.
+
+```xml
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-jersey</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+There is no additional configuration required for the Jersey module. Just create you application
+class and your resources classes and they will be picked up automatically.
+
+### MyFaces
+
+Backset uses [Apache MyFaces](http://myfaces.apache.org/) as the JSF implementation. To use JSF
+in your application, add this module to your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-myfaces</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+There is no additional configuration required for this module.
+
+### JSP
+
+If you want to use JSP files in your application, add this module to your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-jsp</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+This module uses Jastow under the hood. You can register custom TLD files using a configuration like
+this:
+
+```yaml
+jsp:
+  tldFiles:
+    - foobar.tld
+```
+
