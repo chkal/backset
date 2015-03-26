@@ -508,6 +508,12 @@ public class TodoService {
 }
 ```
 
+If you want to use declarative transaction management, you should consider using the
+[Apache DeltaSpike JPA Module](http://deltaspike.apache.org/documentation/jpa.html). See the `todo` showcase
+application for a detailed example.
+
+Backset may add support for `@PersistenceContext` and `@PersistenceUnit` at a later point in time.
+
 ### Jersey
 
 Backset uses [Jersey](https://jersey.java.net/) as the JAX-RS implementation. So if you want
