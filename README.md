@@ -10,6 +10,7 @@ like developer experience for Java EE.
 * [Getting started](#getting-started)
 * [Core concepts](#core-concepts)
   * [Project structure](#project-structure)
+  * [Required Dependencies](#required-dependencies)
   * [Developing in your IDE](#developing-in-your-ide)
   * [Building executable JARs](#building-executable-jars)
   * [Managing Configuration](#configuration)
@@ -20,6 +21,7 @@ like developer experience for Java EE.
   * [Servlet](#servlet)
   * [Weld](#weld)
   * [BoneCP](#bonecp)
+  * [Hibernate](#hibernate)
   * [Jersey](#jersey)
   * [MyFaces](#myfaces)
   * [JSP](#jsp)
@@ -135,6 +137,28 @@ myapp
                     `-- web.xml
 ```
 
+### Required Dependencies
+
+To use Backset in your project, you will have to add the following dependencies to your `pom.xml`
+
+```xml
+<!-- The core Backset dependency -->
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-server</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+
+<!-- All the modules are optional -->
+<dependency>
+  <groupId>de.chkal.backset</groupId>
+  <artifactId>backset-module-?????</artifactId>
+  <version>${backset.version}</version>
+</dependency>
+```
+
+So you basically need to add `backset-server` and all the modules you would like to use. Have a look at the
+[Modules section](#modules) for more details about the modules available.
 
 ### Developing in your IDE
 
@@ -402,6 +426,87 @@ to use `<non-jta-data-source>` in your `persistence.xml` to refer to the datasou
 
 The other properties are straight forward. For each data source you have to define the name of the
 JDBC driver class, the JDBC URL and the credentials required to connect to the database.
+
+### Hibernate
+
+There is currently no Hibernate module in Backset. But the reason for this is, that there is no
+integration code required to use Hibernate. So you can simply add the Hibernate dependency directly:
+
+```xml
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-entitymanager</artifactId>
+  <version>${hibernate.version}</version>
+</dependency>
+```
+
+Now you can add a `persistence.xml` file to your project like you would do with a standard application.
+An `persistence.xml` could look like this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+  <persistence-unit name="myapp" transaction-type="RESOURCE_LOCAL">
+
+    <non-jta-data-source>java:/comp/env/TestDataSource</non-jta-data-source>
+
+    <!-- Add your entities here -->
+    <class>de.chkal.backset.showcase.todo.model.Item</class>
+
+  </persistence-unit>
+
+</persistence>
+```
+
+Easy, isn't it? Please refer to the [BoneCP](#bonecp) section for details on how to create a JDBC datasource.
+
+Now you will typically just create a CDI bean which manages the lifecycle of the `EntityManager`.
+Such an class could look like this:
+
+```java
+@ApplicationScoped
+public class EntityManagerProducer {
+
+  private EntityManagerFactory entityManagerFactory;
+
+  @PostConstruct
+  public void init() {
+    entityManagerFactory = Persistence.createEntityManagerFactory("myapp");
+  }
+
+  @Produces
+  @RequestScoped
+  public EntityManager getEntityManager() {
+    return entityManagerFactory.createEntityManager();
+  }
+
+  public void disposeEntityManager(@Disposes EntityManager entityManager) {
+    entityManager.close();
+  }
+
+  @PreDestroy
+  public void shutdown() {
+    entityManagerFactory.close();
+  }
+
+}
+```
+
+This setup will create one `EntityManager` instance for each request. You can now simply inject the
+`EntityManager` into any of your CDI beans like this:
+
+```java
+@ApplicationScoped
+public class TodoService {
+
+  @Inject
+  private EntityManager entityManager;
+
+  /* more code */
+
+}
+```
 
 ### Jersey
 
