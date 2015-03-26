@@ -12,7 +12,17 @@ like developer experience for Java EE.
   * [Project structure](#project-structure)
   * [Developing in your IDE](#developing-in-your-ide)
   * [Building executable JARs](#building-executable-jars)
-  * [Configuration](#configuration)
+  * [Managing Configuration](#configuration)
+  * [Configuration Options](#configuration-options)
+    * [Logging](#logging)
+    * [Connectors](#connectors)
+* [Modules](#modules)
+  * [Servlet](#servlet)
+  * [Weld](#weld)
+  * [BoneCP](#bonecp)
+  * [Jersey](#jersey)
+  * [MyFaces](#myfaces)
+  * [JSP](#jsp)
 
 ## Overview
 
@@ -237,7 +247,7 @@ the following steps:
 This allows you to specify a fallback configuration using a `backset.yml` on your classpath
 which can be overwritten by a custom configuration specified on the commandline.
 
-### Core Configuration Options
+### Configuration Options
 
 The following sub sections will describe the core configuration options of Backset. Please
 note that there are many more configuration options for specific modules which are
