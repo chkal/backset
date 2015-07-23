@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+
+  <f:metadata>
+    <f:viewParam name="q" value="#{helloWorldBean.param}"></f:viewParam>
+  </f:metadata>
+
+  <h:body>
+
+
+    <p>
+    1 + 1 = #{1+1}
+    </p>
+
+    <p>
+      Current date:
+      <h:outputText value="${helloWorldBean.date}">
+        <f:convertDateTime />
+      </h:outputText>
+    </p>
+
+    <p>
+      Query parameter: #{helloWorldBean.param}
+    </p>
+
+  </h:body>
+
+</html>

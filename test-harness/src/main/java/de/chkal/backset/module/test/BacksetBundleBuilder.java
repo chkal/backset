@@ -6,15 +6,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
+import de.chkal.backset.module.test.merge.ShadePluginArchiveMerger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-
-import de.chkal.backset.module.test.merge.ShadePluginArchiveMerger;
 
 public class BacksetBundleBuilder {
 
@@ -49,7 +47,7 @@ public class BacksetBundleBuilder {
         "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
         "commons-daemon:commons-daemon"
         ));
-    
+
     // always add this one
     withELModule();
 
@@ -130,6 +128,24 @@ public class BacksetBundleBuilder {
 
   }
 
+  public BacksetBundleBuilder withJsfMojarraModule() {
+
+    backset.addPackages(true, "de.chkal.backset.module.jsf.mojarra");
+
+    serviceProviders.put("de.chkal.backset.module.api.Module", "de.chkal.backset.module.jsf.mojarra.JsfMojarraModule");
+    // serviceProviders.put("org.apache.myfaces.spi.AnnotationProvider", "de.chkal.backset.module.myfaces.BacksetAnnotationProvider");
+    // serviceProviders.put("org.apache.myfaces.spi.FacesConfigResourceProvider", "de.chkal.backset.module.myfaces.BacksetFacesConfigResourceProvider");
+
+    dependencies.addAll(Arrays.asList(
+        "com.sun.faces:jsf-impl",
+        "com.sun.faces:jsf-api"
+        ));
+
+    withJSPModule();
+
+    return this;
+
+  }
 
   public BacksetBundleBuilder withJerseyModule() {
 

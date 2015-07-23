@@ -1,0 +1,4 @@
+logging:
+  level: DEBUG
+  loggers:
+    foo: DEBUG
