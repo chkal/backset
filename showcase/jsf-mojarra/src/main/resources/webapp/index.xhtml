@@ -8,6 +8,8 @@
 
   <h:body>
 
+    <p>InitParam Projectstage: #{initParam['javax.faces.PROJECT_STAGE']}</p>
+    <p>Effective Projectstage: #{facesContext.application.projectStage}</p>
 
     <p>
     1 + 1 = #{1+1}
@@ -15,7 +17,7 @@
 
     <p>
       Current date:
-      <h:outputText value="${helloWorldBean.date}">
+      <h:outputText value="#{helloWorldBean.date}">
         <f:convertDateTime />
       </h:outputText>
     </p>
