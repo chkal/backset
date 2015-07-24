@@ -1,3 +1,0 @@
-JSF Logging:
-API: javax.faces.level = ALL
-Impl: com.sun.faces.level = ALL
