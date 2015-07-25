@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 
-  <f:metadata>
-    <f:viewParam name="q" value="#{helloWorldBean.param}"></f:viewParam>
-  </f:metadata>
+    <f:metadata>
+        <f:viewParam name="q" value="#{helloWorldBean.param}" required="true"></f:viewParam>
+    </f:metadata>
 
-  <h:body>
-    <ui:debug />
-    <h:messages />
+    <h:body>
+        <ui:debug id="ui_debug" />
+        <h:messages />
 
-    <p>InitParam Projectstage: #{initParam['javax.faces.PROJECT_STAGE']}</p>
-    <p>Effective Projectstage: #{facesContext.application.projectStage}</p>
+        <ul>
+            <li>Simple EL Expression "1 + 1": #{1+1}</li>
+        </ul>
 
-    <p>
-    1 + 1 = #{1+1}
-    </p>
+        <ul>
+            <li>Bean doesNotExistBean: #{doesNotExistBean}</li>
+            <li>Bean helloWorldBean: #{helloWorldBean}</li>
+            <li>Bean function helloWorldBean.getDate: <h:outputText value="#{helloWorldBean.date}"><f:convertDateTime /></h:outputText></li>
+            <li>Bean attribute helloWorldBean.param from QueryParam "?q=": #{helloWorldBean.param}</li>
+        </ul>
+        <ul>
+            <li>Variable application.contextPath: #{application.contextPath}</li>
+            <li>Variable facesContext.attributes: #{facesContext.attributes}</li>
+            <li>Variable header: #{header}</li>
+            <li>Variable initParam: #{initParam}</li>
+        </ul>
 
-    <p>
-      Current date:
-      <h:outputText value="#{helloWorldBean.date}">
-        <f:convertDateTime />
-      </h:outputText>
-    </p>
-
-    <p>
-      Query parameter: #{helloWorldBean.param}
-    </p>
-
-  </h:body>
+    </h:body>
 
 </html>
