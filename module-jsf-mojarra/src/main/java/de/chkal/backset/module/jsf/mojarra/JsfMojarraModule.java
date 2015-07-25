@@ -16,8 +16,9 @@ public class JsfMojarraModule implements Module {
 
     @Override
     public void init(ModuleContext context) {
-        log.info("initializing Mojarra JSF implementation");
+        log.info("initialize backset module for Mojarra JSF");
         context.register(new JsfMojarraDeploymentEnricher());
+        BacksetMojarraAnnotationProvider.init(context.getAnnotationDatabase());
     }
 
     @Override
