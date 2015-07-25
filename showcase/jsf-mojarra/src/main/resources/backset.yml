@@ -1,5 +1,16 @@
 logging:
   level: DEBUG
   loggers:
-    javax.faces: DEBUG
-    com.sun.faces: DEBUG
+    javax.faces: INFO
+    com.sun.faces: INFO
+    javax.management: INFO
+    javax.enterprise.resource.webcontainer.jsf.application: INFO
+    javax.enterprise.resource.webcontainer.jsf.config: INFO
+    javax.enterprise.resource.webcontainer.jsf.context: INFO
+    javax.enterprise.resource.webcontainer.jsf.facelets: INFO
+    javax.enterprise.resource.webcontainer.jsf.lifecycle: INFO
+    javax.enterprise.resource.webcontainer.jsf.managedbean: INFO
+    javax.enterprise.resource.webcontainer.jsf.renderkit: INFO
+    javax.enterprise.resource.webcontainer.jsf.resource: INFO
+    javax.enterprise.resource.webcontainer.jsf.taglib: INFO
+    javax.enterprise.resource.webcontainer.jsf.timing: INFO
