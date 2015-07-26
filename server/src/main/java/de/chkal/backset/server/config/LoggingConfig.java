@@ -10,6 +10,8 @@ public class LoggingConfig {
 
   private String level = "INFO";
 
+  private String pattern = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n";
+
   private Map<String, String> loggers = new HashMap<>();;
 
   public String getLevel() {
@@ -18,6 +20,14 @@ public class LoggingConfig {
 
   public void setLevel(String level) {
     this.level = level;
+  }
+
+  public String getPattern() {
+    return pattern;
+  }
+
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
   }
 
   public Map<String, String> getLoggers() {
