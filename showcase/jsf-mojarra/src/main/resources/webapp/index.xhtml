@@ -1,31 +1,119 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <f:metadata>
-        <f:viewParam name="q" value="#{helloWorldBean.param}" required="true"></f:viewParam>
-    </f:metadata>
+    <h:head>
+        <f:metadata>
+            <f:viewParam name="q" value="#{helloWorldBean.param}" required="true" requiredMessage="q_required"></f:viewParam>
+        </f:metadata>
+        <style>
+            table,th,td { border: 1px solid black; border-collapse: collapse; }
+        </style>
+    </h:head>
 
     <h:body>
         <ui:debug id="ui_debug" />
         <h:messages />
 
-        <ul>
-            <li>Simple EL Expression "1 + 1": #{1+1}</li>
-        </ul>
+        <table>
+            <tr>
+                <th colspan="2"><h:outputText value="Localized messages" /></th>
+            </tr>
+            <tr>
+                <td>Default locale:</td>
+                <td>#{facesContext.application.defaultLocale}</td>
+            </tr>
+            <tr>
+                <td>Localized message:</td>
+                <td>#{msg['hello_world']}</td>
+            </tr>
+            <tr>
+                <th colspan="2"><h:outputText value="EL Expressions" /></th>
+            </tr>
+            <tr>
+                <td>Simple EL Expression "1 + 1":</td>
+                <td>#{1+1}</td>
+            </tr>
+            <tr>
+                <th colspan="2"><h:outputText value="JSF Beans" /></th>
+            </tr>
+            <tr>
+                <td>Bean doesNotExistBean:</td>
+                <td>#{doesNotExistBean}</td>
+            </tr>
+            <tr>
+                <td>Bean helloWorldBean:</td>
+                <td>#{helloWorldBean}</td>
+            </tr>
+            <tr>
+                <td>Bean function helloWorldBean.getDate:</td>
+                <td><h:outputText value="#{helloWorldBean.date}"><f:convertDateTime /></h:outputText></td>
+            </tr>
+            <tr>
+                <td>Bean attribute helloWorldBean.param from QueryParam "?q=":</td>
+                <td>#{helloWorldBean.param}</td>
+            </tr>
 
-        <ul>
-            <li>Bean doesNotExistBean: #{doesNotExistBean}</li>
-            <li>Bean helloWorldBean: #{helloWorldBean}</li>
-            <li>Bean function helloWorldBean.getDate: <h:outputText value="#{helloWorldBean.date}"><f:convertDateTime /></h:outputText></li>
-            <li>Bean attribute helloWorldBean.param from QueryParam "?q=": #{helloWorldBean.param}</li>
-        </ul>
-        <ul>
-            <li>Variable application.contextPath: #{application.contextPath}</li>
-            <li>Variable facesContext.attributes: #{facesContext.attributes}</li>
-            <li>Variable header: #{header}</li>
-            <li>Variable initParam: #{initParam}</li>
-        </ul>
+            <tr>
+                <th colspan="2"><h:outputText value="JSF builtin variables" /></th>
+            </tr>
+            <tr>
+                <td>application.contextPath:</td>
+                <td>#{application.contextPath}</td>
+            </tr>
+            <tr>
+                <td>facesContext.externalContext.requestServletPath</td>
+                <td>#{facesContext.externalContext.requestServletPath}</td>
+            </tr>
+            <tr>
+                <td>facesContext.class.package.implementationTitle/Version</td>
+                <td>#{facesContext.class.package.implementationTitle} #{facesContext.class.package.implementationVersion}</td>
+            </tr>
+            <tr>
+                <td>facesContext.externalContext.context.getServerInfo()</td>
+                <td>#{facesContext.externalContext.context.getServerInfo()}</td>
+            </tr>
+            <tr>
+                <td>initParam:</td>
+                <td>
+                    <table border="0">
+                        <c:forEach var="a" items="#{initParam}">
+                            <tr>
+                                <td>#{a.key}</td>
+                                <td>#{a.value}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>facesContext.attributes:</td>
+                <td>
+                    <table border="0">
+                        <c:forEach var="a" items="#{facesContext.attributes}">
+                            <tr>
+                                <td>#{a.key}</td>
+                                <td>#{a.value}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>header:</td>
+                <td>
+                    <table border="0">
+                        <c:forEach var="a" items="#{header}">
+                            <tr>
+                                <td>#{a.key}</td>
+                                <td>#{a.value}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </td>
+            </tr>
+        </table>
 
     </h:body>
 

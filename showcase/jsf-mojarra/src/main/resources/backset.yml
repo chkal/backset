@@ -1,8 +1,11 @@
 logging:
   level: DEBUG
+  pattern: "%d{HH:mm:ss.SSS} [%thread] %-5level %-36logger - %msg%n"
   loggers:
     javax.faces: INFO
     com.sun.faces: INFO
+    com.sun.xml.internal.bind: INFO
+    javax.xml.bind: INFO
     javax.management: INFO
     javax.enterprise.resource.webcontainer.jsf.application: INFO
     javax.enterprise.resource.webcontainer.jsf.config: INFO

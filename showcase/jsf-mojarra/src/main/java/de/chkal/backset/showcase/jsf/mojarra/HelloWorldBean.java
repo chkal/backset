@@ -1,4 +1,4 @@
-package de.chkal.backset.showcase.jsf;
+package de.chkal.backset.showcase.jsf.mojarra;
 
 import java.util.Date;
 
