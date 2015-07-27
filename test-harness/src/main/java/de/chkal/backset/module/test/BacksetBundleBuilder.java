@@ -133,8 +133,7 @@ public class BacksetBundleBuilder {
     backset.addPackages(true, "de.chkal.backset.module.jsf.mojarra");
 
     serviceProviders.put("de.chkal.backset.module.api.Module", "de.chkal.backset.module.jsf.mojarra.JsfMojarraModule");
-    // serviceProviders.put("org.apache.myfaces.spi.AnnotationProvider", "de.chkal.backset.module.myfaces.BacksetAnnotationProvider");
-    // serviceProviders.put("org.apache.myfaces.spi.FacesConfigResourceProvider", "de.chkal.backset.module.myfaces.BacksetFacesConfigResourceProvider");
+    serviceProviders.put("com.sun.faces.spi.annotationprovider", "de.chkal.backset.module.jsf.mojarra.BacksetMojarraAnnotationProvider");
 
     dependencies.addAll(Arrays.asList(
         "com.sun.faces:jsf-impl",
