@@ -39,7 +39,7 @@ public class BacksetMojarraAnnotationProvider extends AnnotationProvider {
     public static void init(AnnotationDatabase annotationDatabase) {
         log.debug("init");
         for (Class<? extends Annotation> clazz : TYPES) {
-            log.info("init with clazz: " + annotationDatabase.getTypes(clazz));
+            log.debug("init with clazz: " + annotationDatabase.getTypes(clazz));
             typeMap.put(clazz, annotationDatabase.getTypes(clazz));
         }
     }
