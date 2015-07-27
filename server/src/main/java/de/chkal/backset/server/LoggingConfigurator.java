@@ -2,8 +2,6 @@ package de.chkal.backset.server;
 
 import java.util.Map.Entry;
 
-import org.slf4j.LoggerFactory;
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
@@ -12,10 +10,9 @@ import ch.qos.logback.classic.jul.LevelChangePropagator;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import de.chkal.backset.server.config.LoggingConfig;
+import org.slf4j.LoggerFactory;
 
 public class LoggingConfigurator {
-
-  private static final String PATTERN = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n";
 
   private LoggingConfig config = new LoggingConfig();
 
@@ -32,7 +29,9 @@ public class LoggingConfigurator {
 
     PatternLayoutEncoder layout = new PatternLayoutEncoder();
     layout.setContext(context);
-    layout.setPattern(PATTERN);
+    if (config != null && config.getPattern() != null) {
+        layout.setPattern(config.getPattern());
+    }
     layout.start();
 
     ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<ILoggingEvent>();
