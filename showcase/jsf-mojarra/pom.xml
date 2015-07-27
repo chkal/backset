@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>de.chkal.backset</groupId>
-    <artifactId>backset-showcase</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>de.chkal.backset</groupId>
+        <artifactId>backset-showcase</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-  <artifactId>backset-showcase-jsf-mojarra</artifactId>
-  <name>Backset - Showcase - JSF - Mojarra</name>
+    <artifactId>backset-showcase-jsf-mojarra</artifactId>
+    <name>Backset - Showcase - JSF - Mojarra</name>
 
-  <build>
-    <plugins>
+    <build>
+        <plugins>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <transformers>
-                <transformer implementation="de.chkal.backset.maven.shade.DefaultRelocationsTransformer" />
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>de.chkal.backset.server.Bootstrap</Main-Class>
-                  </manifestEntries>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="de.chkal.backset.maven.shade.DefaultRelocationsTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>de.chkal.backset.server.Bootstrap</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>de.chkal.backset</groupId>
+                        <artifactId>backset-maven-tools</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <!-- HTTP Server -->
             <groupId>de.chkal.backset</groupId>
-            <artifactId>backset-maven-tools</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+            <artifactId>backset-server</artifactId>
+        </dependency>
 
-    </plugins>
+        <dependency>
+            <!-- Servlet (Not necessary for JSF but to parse web.xml) -->
+            <groupId>de.chkal.backset</groupId>
+            <artifactId>backset-module-servlet</artifactId>
+        </dependency>
 
-  </build>
+        <dependency>
+            <!-- JSF (Mojarra implementation) -->
+            <groupId>de.chkal.backset</groupId>
+            <artifactId>backset-module-jsf-mojarra</artifactId>
+        </dependency>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>de.chkal.backset</groupId>
-      <artifactId>backset-server</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>de.chkal.backset</groupId>
-      <artifactId>backset-module-jsf-mojarra</artifactId>
-    </dependency>
-
-  </dependencies>
+    </dependencies>
 
 </project>
