@@ -1,0 +1,22 @@
+logging:
+  level: DEBUG
+  pattern: "%d{HH:mm:ss.SSS} [%thread] %-5level %-36logger - %msg%n"
+  loggers:
+    # You could as well set the global level to INFO (I just wanted to debug)
+    com.sun.faces: INFO
+    com.sun.xml.internal.bind: INFO
+    de.chkal.backset.module.jsp: INFO
+    javax.enterprise.resource.webcontainer.jsf.application: INFO
+    javax.enterprise.resource.webcontainer.jsf.config: INFO
+    javax.enterprise.resource.webcontainer.jsf.context: INFO
+    javax.enterprise.resource.webcontainer.jsf.facelets: INFO
+    javax.enterprise.resource.webcontainer.jsf.lifecycle: INFO
+    javax.enterprise.resource.webcontainer.jsf.managedbean: INFO
+    javax.enterprise.resource.webcontainer.jsf.renderkit: INFO
+    javax.enterprise.resource.webcontainer.jsf.resource: INFO
+    javax.enterprise.resource.webcontainer.jsf.taglib: INFO
+    javax.enterprise.resource.webcontainer.jsf.timing: INFO
+    javax.faces: INFO
+    javax.management: INFO
+    javax.xml.bind: INFO
+    org.reflections: INFO
